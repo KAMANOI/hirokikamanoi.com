@@ -627,6 +627,20 @@ dd {
   white-space: nowrap;
 }
 
+/* ===== Atelier ah Logo ===== */
+.salon-logo {
+  display: block;
+  width: 200px;
+  margin-bottom: 24px;
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+
+.salon-logo--header {
+  width: 240px;
+  margin: 0 auto 24px;
+}
+
 /* ===== Salon Gallery ===== */
 .salon-gallery {
   margin-top: 40px;
