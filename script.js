@@ -18,3 +18,12 @@ links.querySelectorAll('a').forEach(a => {
     links.classList.remove('open');
   });
 });
+
+// Accordion
+document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!expanded));
+    trigger.nextElementSibling.classList.toggle('open', !expanded);
+  });
+});
