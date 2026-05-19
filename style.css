@@ -720,6 +720,12 @@ dd {
   opacity: 0;
 }
 
+.section-preview {
+  grid-column: 1 / -1;
+  padding-left: 88px;
+  padding-bottom: clamp(28px, 4vw, 40px);
+}
+
 .accordion-body {
   grid-column: 1 / -1;
   padding-left: 88px;
@@ -833,6 +839,10 @@ dd {
   .accordion-trigger {
     grid-template-columns: 36px 1fr 20px;
     gap: 0 16px;
+  }
+
+  .section-preview {
+    padding-left: 0;
   }
 
   .accordion-body {
