@@ -24,7 +24,7 @@ document.querySelectorAll('.accordion-trigger').forEach(trigger => {
   trigger.addEventListener('click', () => {
     const expanded = trigger.getAttribute('aria-expanded') === 'true';
     trigger.setAttribute('aria-expanded', String(!expanded));
-    const body = trigger.nextElementSibling;
+    const body = trigger.closest('.section-inner').querySelector('.accordion-body');
     body.style.maxHeight = expanded ? '0' : body.scrollHeight + 'px';
   });
 });
