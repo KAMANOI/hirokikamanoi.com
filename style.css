@@ -654,27 +654,10 @@ dd {
   margin-top: 40px;
 }
 
-.salon-gallery__main {
-  overflow: hidden;
-}
-
-.salon-gallery__main img {
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.7s ease;
-}
-
-.salon-gallery__main:hover img {
-  transform: scale(1.02);
-}
-
 .salon-gallery__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3px;
-  margin-top: 3px;
 }
 
 .salon-gallery__grid div {
