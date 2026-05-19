@@ -621,6 +621,14 @@ dd {
   flex: 1;
 }
 
+.book-title--link {
+  display: block;
+  transition: opacity 0.2s;
+}
+.book-title--link:hover {
+  opacity: 0.6;
+}
+
 .book-status {
   font-size: 12px;
   color: var(--text-muted);
