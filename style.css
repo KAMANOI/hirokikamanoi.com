@@ -30,6 +30,7 @@ body {
   color: var(--text);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.9s ease;
 }
 
 a {
@@ -64,9 +65,9 @@ ul {
 }
 
 .nav-logo {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--accent);
 }
 
@@ -110,6 +111,7 @@ ul {
 
 /* ===== Hero ===== */
 #hero {
+  min-height: 100vh;
   min-height: 100svh;
   display: flex;
   align-items: center;
@@ -146,9 +148,9 @@ ul {
 }
 
 .hero-name {
-  font-size: clamp(56px, 14vw, 120px);
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-size: clamp(22px, 4vw, 48px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
   line-height: 1;
   color: var(--accent);
 }
@@ -658,86 +660,114 @@ dd {
   white-space: nowrap;
 }
 
-/* ===== Accordion ===== */
-.accordion-trigger {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 48px 1fr 20px;
-  gap: 0 40px;
-  align-items: center;
-  background: none;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  padding: clamp(28px, 4vw, 40px) 0;
-  width: 100%;
-  text-align: left;
-  transition: opacity 0.2s;
+/* ===== Chapter ===== */
+.chapter {
+  padding: var(--section-py) 24px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
 }
 
-.accordion-trigger:hover {
-  opacity: 0.6;
+.chapter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
-.accordion-title {
-  font-size: clamp(22px, 3.5vw, 36px);
+.chapter-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.chapter-header {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+
+.chapter-num {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.chapter-title {
+  font-size: clamp(32px, 5.5vw, 60px);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1;
 }
 
-.accordion-icon {
-  width: 20px;
-  height: 20px;
-  position: relative;
-  justify-self: end;
+.chapter-title-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  padding-bottom: 2px;
+  transition: border-color 0.2s;
 }
 
-.accordion-icon::before,
-.accordion-icon::after {
-  content: '';
-  position: absolute;
-  background: currentColor;
-  top: 50%;
-  left: 50%;
+.chapter-title-link::after {
+  content: ' ↗';
+  font-size: 0.55em;
+  vertical-align: super;
+  opacity: 0.5;
+  transition: opacity 0.2s;
 }
 
-.accordion-icon::before {
-  width: 100%;
-  height: 1px;
-  transform: translate(-50%, -50%);
+.chapter-title-link:hover {
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
-.accordion-icon::after {
-  width: 1px;
-  height: 100%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.35s ease, opacity 0.35s ease;
+.chapter-title-link:hover::after {
+  opacity: 1;
 }
 
-.accordion-trigger[aria-expanded="true"] .accordion-icon::after {
-  transform: translate(-50%, -50%) rotate(90deg);
+.chapter-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 600px;
+  margin-bottom: 36px;
+}
+
+/* ===== Reveal ===== */
+.reveal {
   opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.section-preview {
-  grid-column: 1 / -1;
-  padding-left: 88px;
-  padding-bottom: clamp(28px, 4vw, 40px);
+.reveal--delayed {
+  transition-delay: 0.18s;
 }
 
-.accordion-body {
-  grid-column: 1 / -1;
-  padding-left: 88px;
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.accordion-body .section-body {
-  padding-bottom: var(--section-py);
-  padding-top: 8px;
-}
+/* ===== Chapter backgrounds + color tints ===== */
+#salon { background-image: url('images/salon-bg.jpg'); }
+#salon::before { background: rgba(25, 12, 3, 0.70); }
+
+#photography { background-image: url('images/photography-bg.jpg'); }
+#photography::before { background: rgba(3, 10, 28, 0.70); }
+
+#products { background-image: url('images/products-bg.jpg'); background-position: center top; }
+#products::before { background: rgba(5, 20, 3, 0.72); }
+
+#research { background-image: url('images/research-bg.jpg'); }
+#research::before { background: rgba(18, 4, 28, 0.72); }
+
+#contact { background-image: url('images/contact-bg.jpg'); }
+#contact::before { background: rgba(5, 5, 5, 0.75); }
 
 /* ===== Atelier ah Logo ===== */
 .salon-logo {
@@ -836,17 +866,10 @@ dd {
     --section-py: 64px;
   }
 
-  .accordion-trigger {
-    grid-template-columns: 36px 1fr 20px;
-    gap: 0 16px;
-  }
-
-  .section-preview {
-    padding-left: 0;
-  }
-
-  .accordion-body {
-    padding-left: 0;
+  .chapter-header {
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 32px;
   }
 
   .nav-links {

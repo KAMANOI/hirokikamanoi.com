@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="KAMANOI — Hiroki Kamanoi. Hair Salon, Photography, Development, Research.">
-  <title>KAMANOI</title>
+  <meta name="description" content="hirokikamanoi.com — Hiroki Kamanoi. Hair Salon, Photography, Development, Research.">
+  <title>hirokikamanoi.com</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Navigation -->
   <nav id="nav">
-    <a href="#hero" class="nav-logo">KAMANOI</a>
+    <a href="#hero" class="nav-logo">hirokikamanoi.com</a>
     <button class="nav-toggle" aria-label="メニュー" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links">
-      <li><a href="hair-salon.html">Salon</a></li>
-      <li><a href="photography.html">Photography</a></li>
+      <li><a href="#salon">Salon</a></li>
+      <li><a href="#photography">Photography</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="#products">Products</a></li>
       <li><a href="#research">Research</a></li>
@@ -25,10 +24,9 @@
     </ul>
   </nav>
 
-  <!-- Hero -->
   <section id="hero">
     <div class="hero-inner">
-      <h1 class="hero-name">KAMANOI</h1>
+      <h1 class="hero-name">hirokikamanoi.com</h1>
       <p class="hero-roles">
         <span>Hair Salon</span>
         <span class="sep">·</span>
@@ -42,210 +40,177 @@
     </div>
   </section>
 
-  <!-- Salon -->
-  <section id="salon" class="section">
-    <div class="section-inner">
-      <button class="accordion-trigger" aria-expanded="false">
-        <span class="section-label">01</span>
-        <span class="accordion-title">Hair Salon</span>
-        <span class="accordion-icon"></span>
-      </button>
-      <div class="section-preview">
+  <section id="salon" class="chapter" data-bg="#1c140a">
+    <div class="chapter-inner">
+      <div class="chapter-header reveal">
+        <span class="chapter-num">01</span>
+        <h2 class="chapter-title"><a href="hair-salon.html" class="chapter-title-link">Hair Salon</a></h2>
+      </div>
+      <div class="chapter-content reveal reveal--delayed">
         <img src="images/ah-logo-full.png" alt="Atelier ah" class="salon-logo">
-        <p class="section-desc">
+        <p class="chapter-desc">
           渋谷神宮前のプライベートヘアサロン。<br>
           一対一の静かな時間の中で、髪と向き合う。
         </p>
-      </div>
-      <div class="accordion-body">
-        <div class="section-body">
-          <dl class="info-list">
-            <div class="info-row">
-              <dt>場所</dt>
-              <dd>〒150-0001 東京都渋谷区神宮前３−１８−１８ etoile神宮前１−B</dd>
-            </div>
-          </dl>
-          <div class="btn-row">
-            <a href="hair-salon.html" class="btn">サロン詳細・ご予約</a>
+        <dl class="info-list">
+          <div class="info-row">
+            <dt>場所</dt>
+            <dd>〒150-0001 東京都渋谷区神宮前３−１８−１８ etoile神宮前１−B</dd>
           </div>
-          <div class="salon-gallery">
-            <div class="salon-gallery__grid">
-              <div><img src="images/salon/salon-1.jpg" alt="Atelier ah 内観" loading="lazy"></div>
-              <div><img src="images/salon/salon-2.jpg" alt="" loading="lazy"></div>
-              <div><img src="images/salon/salon-3.jpg" alt="" loading="lazy"></div>
-              <div><img src="images/salon/salon-4.jpg" alt="" loading="lazy"></div>
-              <div><img src="images/salon/salon-5.jpg" alt="" loading="lazy"></div>
-              <div><img src="images/salon/salon-6.jpg" alt="" loading="lazy"></div>
-            </div>
+        </dl>
+        <div class="btn-row" style="margin-bottom:48px;">
+          <a href="hair-salon.html" class="btn">サロン詳細・ご予約</a>
+        </div>
+        <div class="salon-gallery">
+          <div class="salon-gallery__grid">
+            <div><img src="images/salon/salon-1.jpg" alt="Atelier ah 内観" loading="lazy"></div>
+            <div><img src="images/salon/salon-3.jpg" alt="" loading="lazy"></div>
+            <div><img src="images/salon/salon-2.jpg" alt="" loading="lazy"></div>
+            <div><img src="images/salon/salon-4.jpg" alt="" loading="lazy"></div>
+            <div><img src="images/salon/salon-5.jpg" alt="" loading="lazy"></div>
+            <div><img src="images/salon/salon-6.jpg" alt="" loading="lazy"></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Photography -->
-  <section id="photography" class="section section--dark">
-    <div class="section-inner">
-      <button class="accordion-trigger" aria-expanded="false">
-        <span class="section-label">02</span>
-        <span class="accordion-title">Photography</span>
-        <span class="accordion-icon"></span>
-      </button>
-      <div class="section-preview">
-        <p class="section-desc">
+  <section id="photography" class="chapter" data-bg="#080f1c">
+    <div class="chapter-inner">
+      <div class="chapter-header reveal">
+        <span class="chapter-num">02</span>
+        <h2 class="chapter-title"><a href="photography.html" class="chapter-title-link">Photography</a></h2>
+      </div>
+      <div class="chapter-content reveal reveal--delayed">
+        <p class="chapter-desc">
           Eros &amp; Thanatos — 生と死の狭間に宿る美を、写真という形式で問い続ける。<br>
           身体・光・余白を通じて、人間存在の深部へ。
         </p>
-      </div>
-      <div class="accordion-body">
-        <div class="section-body">
-          <div class="btn-row">
-            <a href="photography.html" class="btn">撮影サービス・ギャラリー</a>
-          </div>
+        <div class="btn-row">
+          <a href="photography.html" class="btn">撮影サービス・ギャラリー</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Products / Development -->
-  <section id="products" class="section">
-    <div class="section-inner">
-      <button class="accordion-trigger" aria-expanded="false">
-        <span class="section-label">03</span>
-        <span class="accordion-title">Products</span>
-        <span class="accordion-icon"></span>
-      </button>
-      <div class="section-preview">
-        <p class="section-desc">
-          創造と技術が交差する場所から、プロダクトを生み出す。
-        </p>
+  <section id="products" class="chapter" data-bg="#0b180a">
+    <div class="chapter-inner">
+      <div class="chapter-header reveal">
+        <span class="chapter-num">03</span>
+        <h2 class="chapter-title">Products</h2>
       </div>
-      <div class="accordion-body">
-        <div class="section-body">
-          <ul class="product-list">
-            <li class="product-item">
-              <span class="product-name">be Cam</span>
-              <span class="product-desc">LUT・フィルム表現に特化したiOSカメラアプリ</span>
-            </li>
-            <li class="product-item">
-              <span class="product-name">SEA</span>
-              <span class="product-desc">Lightroom XMPプリセットのマーケットプレイス</span>
-            </li>
-            <li class="product-item">
-              <a href="https://dia-wheat.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">DIA ↗</a>
-              <span class="product-desc">プロンプト生成ツール</span>
-            </li>
-            <li class="product-item">
-              <span class="product-name">ele</span>
-              <span class="product-desc">写真前処理・画像エンジン</span>
-            </li>
-            <li class="product-item">
-              <span class="product-name">N-Box RAW</span>
-              <span class="product-desc">N-RAW / NEF アーカイブマネージャー（macOS）</span>
-            </li>
-            <li class="product-item">
-              <span class="product-name">Telopa</span>
-              <span class="product-desc">AIによる自動テロップ生成サービス</span>
-            </li>
-            <li class="product-item">
-              <span class="product-name">A.A.R.U.</span>
-              <span class="product-desc">個人・小規模サロン向け予約管理システム</span>
-            </li>
-          </ul>
-          <h3 class="sub-heading" style="margin-top:48px;">Photo Books</h3>
-          <ul class="book-list">
-            <li class="book-item">
-              <a href="https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.1 — Kindle for USA ↗</a>
-            </li>
-            <li class="book-item">
-              <a href="https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.2 — Kindle for USA ↗</a>
-            </li>
-            <li class="book-item">
-              <a href="https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">The Epicurean Philosophy ↗</a>
-            </li>
-            <li class="book-item">
-              <a href="https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">juːtóʊpiə ↗</a>
-            </li>
-            <li class="book-item">
-              <a href="https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">椿姫のの 写真集 ↗</a>
-            </li>
-            <li class="book-item">
-              <a href="https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">かげろう ↗</a>
-            </li>
-          </ul>
-        </div>
+      <div class="chapter-content reveal reveal--delayed">
+        <p class="chapter-desc">創造と技術が交差する場所から、プロダクトを生み出す。</p>
+        <ul class="product-list">
+          <li class="product-item">
+            <span class="product-name">be Cam</span>
+            <span class="product-desc">LUT・フィルム表現に特化したiOSカメラアプリ</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">SEA</span>
+            <span class="product-desc">Lightroom XMPプリセットのマーケットプレイス</span>
+          </li>
+          <li class="product-item">
+            <a href="https://dia-wheat.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">DIA ↗</a>
+            <span class="product-desc">プロンプト生成ツール</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">ele</span>
+            <span class="product-desc">写真前処理・画像エンジン</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">N-Box RAW</span>
+            <span class="product-desc">N-RAW / NEF アーカイブマネージャー（macOS）</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">Telopa</span>
+            <span class="product-desc">AIによる自動テロップ生成サービス</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">A.A.R.U.</span>
+            <span class="product-desc">個人・小規模サロン向け予約管理システム</span>
+          </li>
+        </ul>
+        <h3 class="sub-heading" style="margin-top:48px;">Photo Books</h3>
+        <ul class="book-list">
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.1 — for Asia ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.2 — for Asia ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">The Epicurean Philosophy ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">juːtóʊpiə ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">椿姫のの 写真集 ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">かげろう ↗</a>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Research -->
-  <section id="research" class="section section--dark">
-    <div class="section-inner">
-      <button class="accordion-trigger" aria-expanded="false">
-        <span class="section-label">04</span>
-        <span class="accordion-title">Research</span>
-        <span class="accordion-icon"></span>
-      </button>
-      <div class="section-preview">
-        <p class="section-desc">
+  <section id="research" class="chapter" data-bg="#150a1c">
+    <div class="chapter-inner">
+      <div class="chapter-header reveal">
+        <span class="chapter-num">04</span>
+        <h2 class="chapter-title">Research</h2>
+      </div>
+      <div class="chapter-content reveal reveal--delayed">
+        <p class="chapter-desc">
           数学・哲学・芸術の境界を横断する思索。<br>
           コラッツ予想をはじめとする未解決問題へのアプローチと、<br>
           Eros &amp; Thanatos を軸とした人間存在の探究。
         </p>
-      </div>
-      <div class="accordion-body">
-        <div class="section-body">
-          <ul class="research-list">
-            <li><a href="https://github.com/KAMANOI?tab=repositories&q=collatz" target="_blank" rel="noopener" class="text-link">Collatz Conjecture — スペクトル解析・スケール一貫性からのアプローチ ↗</a></li>
-            <li>Eros &amp; Thanatos — 写真表現を通じた哲学的フレームワーク</li>
-          </ul>
-        </div>
+        <ul class="research-list">
+          <li><a href="https://github.com/KAMANOI?tab=repositories&q=collatz" target="_blank" rel="noopener" class="text-link">Collatz Conjecture — スペクトル解析・スケール一貫性からのアプローチ ↗</a></li>
+          <li>Eros &amp; Thanatos — 写真表現を通じた哲学的フレームワーク</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <div class="section-inner">
-      <button class="accordion-trigger" aria-expanded="false">
-        <span class="section-label">05</span>
-        <span class="accordion-title">Contact</span>
-        <span class="accordion-icon"></span>
-      </button>
-      <div class="section-preview">
-        <p class="section-desc">
+  <section id="contact" class="chapter" data-bg="#0d0d0d">
+    <div class="chapter-inner">
+      <div class="chapter-header reveal">
+        <span class="chapter-num">05</span>
+        <h2 class="chapter-title">Contact</h2>
+      </div>
+      <div class="chapter-content reveal reveal--delayed">
+        <p class="chapter-desc">
           ヘアサロンのご予約・撮影・プロダクトに関するお問い合わせはこちらから。
         </p>
-      </div>
-      <div class="accordion-body">
-        <div class="section-body">
-          <dl class="info-list">
-            <div class="info-row">
-              <dt>住所</dt>
-              <dd>
-                〒150-0001 東京都渋谷区神宮前３−１８−１８ etoile神宮前１−B<br>
-                <a href="https://maps.google.com/?q=東京都渋谷区神宮前３−１８−１８+etoile神宮前" target="_blank" rel="noopener" class="text-link">Google マップ ↗</a>
-              </dd>
-            </div>
-            <div class="info-row">
-              <dt>電話</dt>
-              <dd><a href="tel:050-8886-6900" class="text-link">050-8886-6900</a></dd>
-            </div>
-            <div class="info-row">
-              <dt>メール</dt>
-              <dd><a href="mailto:hirokikamanoi@gmail.com" class="text-link">hirokikamanoi@gmail.com</a></dd>
-            </div>
-          </dl>
-          <div class="btn-row" style="margin-top:24px;">
-            <a href="https://lin.ee/G8Odact" target="_blank" rel="noopener" class="btn">LINE で連絡する</a>
-            <a href="mailto:hirokikamanoi@gmail.com" class="btn">メールで連絡する</a>
+        <dl class="info-list">
+          <div class="info-row">
+            <dt>住所</dt>
+            <dd>
+              〒150-0001 東京都渋谷区神宮前３−１８−１８ etoile神宮前１−B<br>
+              <a href="https://maps.google.com/?q=東京都渋谷区神宮前３−１８−１８+etoile神宮前" target="_blank" rel="noopener" class="text-link">Google マップ ↗</a>
+            </dd>
           </div>
+          <div class="info-row">
+            <dt>電話</dt>
+            <dd><a href="tel:050-8886-6900" class="text-link">050-8886-6900</a></dd>
+          </div>
+          <div class="info-row">
+            <dt>メール</dt>
+            <dd><a href="mailto:hirokikamanoi@gmail.com" class="text-link">hirokikamanoi@gmail.com</a></dd>
+          </div>
+        </dl>
+        <div class="btn-row" style="margin-top:24px;">
+          <a href="https://lin.ee/G8Odact" target="_blank" rel="noopener" class="btn">LINE で連絡する</a>
+          <a href="mailto:hirokikamanoi@gmail.com" class="btn">メールで連絡する</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer id="footer">
     <nav class="footer-sns" aria-label="SNS">
       <a href="https://twitter.com/HKakaGraffito" target="_blank" rel="noopener">X</a>
