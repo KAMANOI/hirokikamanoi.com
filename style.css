@@ -597,34 +597,6 @@ dd {
   color: var(--text-muted);
 }
 
-/* ===== ele promo ===== */
-.ele-promo {
-  border: 1px solid var(--border);
-  padding: 40px;
-  max-width: 560px;
-}
-
-.ele-promo__label {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.ele-promo__title {
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  margin-bottom: 16px;
-}
-
-.ele-promo__desc {
-  font-size: 14px;
-  line-height: 1.75;
-  color: var(--text-2);
-}
-
 /* ===== Legal ===== */
 .legal-section {
   margin-bottom: 48px;
