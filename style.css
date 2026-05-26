@@ -229,7 +229,7 @@ ul {
 
 /* ===== Sections ===== */
 .section {
-  padding: 0 24px;
+  padding: var(--section-py) 24px;
   border-top: 1px solid var(--border);
 }
 
@@ -1113,7 +1113,7 @@ dd {
 /* ===== Mobile ===== */
 @media (max-width: 640px) {
   :root {
-    --section-py: 64px;
+    --section-py: 80px;
   }
 
   .chapter-header {
