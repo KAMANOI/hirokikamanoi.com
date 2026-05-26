@@ -398,6 +398,31 @@ dd {
   align-items: flex-end;
   padding: calc(var(--nav-h) + 60px) 24px 60px;
   border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.page-header--bg {
+  min-height: 60svh;
+  background-size: cover;
+  background-position: center;
+  border-bottom: none;
+}
+
+.page-header--bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
+  z-index: 0;
+}
+
+.page-header--bg .page-header-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.page-header--salon {
+  background-image: url('images/salon-bg.jpg');
 }
 
 .page-header-inner {
