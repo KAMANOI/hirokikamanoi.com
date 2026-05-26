@@ -167,6 +167,44 @@ document.querySelectorAll('.stagger-item').forEach(el => staggerObserver.observe
   render();
 })();
 
+/* ===== Lightbox ===== */
+(function initLightbox() {
+  const cells = document.querySelectorAll('.photo-category-cell[style*="background-image"]');
+  if (!cells.length) return;
+
+  const lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML = '<button class="lightbox-close" aria-label="閉じる">&times;</button><img src="" alt="">';
+  document.body.appendChild(lb);
+
+  const img = lb.querySelector('img');
+  const closeBtn = lb.querySelector('.lightbox-close');
+
+  function openLightbox(url) {
+    img.src = url;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  cells.forEach(cell => {
+    cell.style.cursor = 'pointer';
+    cell.addEventListener('click', () => {
+      const bg = cell.style.backgroundImage;
+      const match = bg.match(/url\(['"]?(.+?)['"]?\)/);
+      if (match) openLightbox(match[1]);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+})();
+
 /* ===== Custom cursor (desktop only) ===== */
 (function initCursor() {
   if ('ontouchstart' in window) return;
