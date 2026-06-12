@@ -1386,32 +1386,44 @@ html.journey-on #photography .chapter-inner {
   overflow: hidden;
 }
 
+/* ===== 統一レイアウト：大見出し＝左上固定（4セクション共通） ===== */
 html.journey-on #salon .chapter-header,
-html.journey-on #photography .chapter-header {
+html.journey-on #photography .chapter-header,
+html.journey-on #products .chapter-header,
+html.journey-on #research .chapter-header {
   position: absolute;
   top: calc(var(--nav-h) + 28px);
   left: clamp(24px, 6vw, 80px);
-  z-index: 120;
+  z-index: 300;
   margin: 0;
 }
 
-/* 情報パネル：写真の流れの左に常駐（ガラスパネルで可読性を確保） */
+/* ===== 統一情報パネル：見出し直下に同幅・同濃度のガラスカード（4セクション共通）
+   ウィンドウ（z最大234）より上＝ボタン・文章が常に読める／押せる ===== */
 html.journey-on #salon .chapter-content,
-html.journey-on #photography .chapter-content {
+html.journey-on #photography .chapter-content,
+html.journey-on #products .chapter-content,
+html.journey-on #research .chapter-content {
   position: absolute;
   left: clamp(24px, 6vw, 80px);
-  top: 50%;
-  transform: translateY(-50%);
+  top: calc(var(--nav-h) + 146px);
+  transform: none;
   opacity: 1;
-  /* 写真ウィンドウ（最大234）より上：予約・詳細ボタンを常にクリック可能に */
   z-index: 300;
-  max-width: min(380px, 40vw);
+  width: min(380px, 40vw);
+  max-width: none;
+  margin: 0;
   padding: 26px 28px;
   background: rgba(10, 14, 18, 0.38);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
+}
+
+/* journey中は写真集見出しを隠す（写真集はウィンドウとして流れる） */
+html.journey-on #products .sub-heading {
+  display: none;
 }
 
 /* 写真の上に乗る文字の可読性（うっすら影） */
@@ -1453,10 +1465,12 @@ html.journey-on .photo-flow-item img {
 
 @media (max-width: 760px) {
   html.journey-on #salon .chapter-content,
-  html.journey-on #photography .chapter-content {
+  html.journey-on #photography .chapter-content,
+  html.journey-on #products .chapter-content,
+  html.journey-on #research .chapter-content {
     top: auto;
     bottom: calc(24px + env(safe-area-inset-bottom));
-    transform: none;
+    width: auto;
     max-width: 86vw;
   }
 }
@@ -1487,29 +1501,6 @@ html.journey-on #products .chapter-inner {
   height: 100svh;
   max-width: none;
   overflow: hidden;
-}
-
-html.journey-on #products .chapter-header {
-  position: absolute;
-  top: calc(var(--nav-h) + 28px);
-  left: clamp(24px, 6vw, 80px);
-  z-index: 3;
-  margin: 0;
-}
-
-html.journey-on #products .chapter-desc {
-  position: absolute;
-  top: calc(var(--nav-h) + 96px);
-  left: clamp(24px, 6vw, 80px);
-  z-index: 3;
-  margin: 0;
-}
-
-/* reveal の transform が absolute 配置の基準を奪わないようにする */
-html.journey-on #products .chapter-content {
-  position: static;
-  transform: none;
-  opacity: 1;
 }
 
 html.journey-on .product-list {
@@ -1568,29 +1559,6 @@ html.journey-on #research .chapter-inner {
   height: 100svh;
   max-width: none;
   overflow: hidden;
-}
-
-html.journey-on #research .chapter-header {
-  position: absolute;
-  top: calc(var(--nav-h) + 28px);
-  left: clamp(24px, 6vw, 80px);
-  z-index: 3;
-  margin: 0;
-}
-
-html.journey-on #research .chapter-desc {
-  position: absolute;
-  top: calc(var(--nav-h) + 96px);
-  left: clamp(24px, 6vw, 80px);
-  z-index: 3;
-  margin: 0;
-  max-width: min(560px, 70vw);
-}
-
-html.journey-on #research .chapter-content {
-  position: static;
-  transform: none;
-  opacity: 1;
 }
 
 html.journey-on .research-list {
