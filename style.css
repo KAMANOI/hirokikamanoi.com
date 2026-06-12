@@ -1085,16 +1085,6 @@ dd {
   transform: translateX(10px);
 }
 
-/* ===== Hero canvas ===== */
-#hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;   /* ::before=1 < canvas=2 < hero-inner=3 */
-}
-
 /* ===== SNS links (contact section) ===== */
 .sns-row {
   display: flex;
@@ -1286,4 +1276,401 @@ dd {
     grid-template-columns: 1fr;
     gap: 4px;
   }
+}
+
+/* ===== Journey background（スクロールで宇宙→空→木（螺旋）→水面→水中） ===== */
+#journey-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 旅の現在地レール（右端） */
+#journey-rail {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.journey-rail-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.journey-rail-dot.active {
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.journey-rail-dot::after {
+  content: attr(data-label);
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.journey-rail-dot:hover::after,
+.journey-rail-dot.active::after {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  #journey-rail { right: 12px; }
+}
+
+/* 元のセクション背景写真：粒子の奥でクロスフェード */
+#journey-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg);
+  pointer-events: none;
+}
+
+.journey-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.journey-bg-layer.on {
+  opacity: 1;
+}
+
+/* 空（Salon）と木（Photography）：写真ウィンドウが流れるピン留めギャラリー */
+html.journey-on #salon {
+  height: 480vh;
+  padding: 0;
+}
+
+html.journey-on #photography {
+  height: 640vh;
+  padding: 0;
+}
+
+html.journey-on #salon .chapter-inner,
+html.journey-on #photography .chapter-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  max-width: none;
+  overflow: hidden;
+}
+
+html.journey-on #salon .chapter-header,
+html.journey-on #photography .chapter-header {
+  position: absolute;
+  top: calc(var(--nav-h) + 28px);
+  left: clamp(24px, 6vw, 80px);
+  z-index: 120;
+  margin: 0;
+}
+
+/* 情報パネル：写真の流れの左に常駐（ガラスパネルで可読性を確保） */
+html.journey-on #salon .chapter-content,
+html.journey-on #photography .chapter-content {
+  position: absolute;
+  left: clamp(24px, 6vw, 80px);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  /* 写真ウィンドウ（最大234）より上：予約・詳細ボタンを常にクリック可能に */
+  z-index: 300;
+  max-width: min(380px, 40vw);
+  padding: 26px 28px;
+  background: rgba(10, 14, 18, 0.38);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+/* 写真の上に乗る文字の可読性（うっすら影） */
+html.journey-on .chapter-title,
+html.journey-on .chapter-num,
+html.journey-on .chapter-desc,
+html.journey-on .hero-name,
+html.journey-on .hero-roles {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+}
+
+html.journey-on .photo-flow {
+  position: absolute;
+  inset: 0;
+  perspective: 1100px;
+}
+
+html.journey-on .photo-flow-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(500px, 76vw);
+  margin-left: calc(min(500px, 76vw) / -2);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(12, 18, 24, 0.45);   /* 読み込み中の下地 */
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+}
+
+html.journey-on .photo-flow-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 760px) {
+  html.journey-on #salon .chapter-content,
+  html.journey-on #photography .chapter-content {
+    top: auto;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    transform: none;
+    max-width: 86vw;
+  }
+}
+
+/* WebGL有効時：背景は粒子世界がすべて担う。コンテンツは粒子の上に置く */
+html.journey-on #hero,
+html.journey-on .chapter,
+html.journey-on #footer {
+  position: relative;
+  z-index: 2;
+}
+
+html.journey-on .chapter-inner,
+html.journey-on .hero-inner {
+  will-change: transform, opacity;
+}
+
+/* ===== Products：螺旋を回って正面に来る大型ウィンドウギャラリー ===== */
+html.journey-on #products {
+  height: 980vh;   /* スクロール量がギャラリーの進行になる */
+  padding: 0;
+}
+
+html.journey-on #products .chapter-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  max-width: none;
+  overflow: hidden;
+}
+
+html.journey-on #products .chapter-header {
+  position: absolute;
+  top: calc(var(--nav-h) + 28px);
+  left: clamp(24px, 6vw, 80px);
+  z-index: 3;
+  margin: 0;
+}
+
+html.journey-on #products .chapter-desc {
+  position: absolute;
+  top: calc(var(--nav-h) + 96px);
+  left: clamp(24px, 6vw, 80px);
+  z-index: 3;
+  margin: 0;
+}
+
+/* reveal の transform が absolute 配置の基準を奪わないようにする */
+html.journey-on #products .chapter-content {
+  position: static;
+  transform: none;
+  opacity: 1;
+}
+
+html.journey-on .product-list {
+  position: absolute;
+  inset: 0;
+  border-top: none;
+  perspective: 1100px;
+  display: block;
+}
+
+html.journey-on .product-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(560px, 86vw);
+  margin-left: calc(min(560px, 86vw) / -2);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  background: rgba(16, 26, 36, 0.42);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+  will-change: transform, opacity;
+}
+
+html.journey-on .product-item .product-name {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 400;
+  white-space: normal;
+}
+
+html.journey-on .product-item .product-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ===== Research：細めの縦螺旋ギャラリー ===== */
+html.journey-on #research {
+  height: 380vh;
+  padding: 0;
+}
+
+html.journey-on #research .chapter-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  max-width: none;
+  overflow: hidden;
+}
+
+html.journey-on #research .chapter-header {
+  position: absolute;
+  top: calc(var(--nav-h) + 28px);
+  left: clamp(24px, 6vw, 80px);
+  z-index: 3;
+  margin: 0;
+}
+
+html.journey-on #research .chapter-desc {
+  position: absolute;
+  top: calc(var(--nav-h) + 96px);
+  left: clamp(24px, 6vw, 80px);
+  z-index: 3;
+  margin: 0;
+  max-width: min(560px, 70vw);
+}
+
+html.journey-on #research .chapter-content {
+  position: static;
+  transform: none;
+  opacity: 1;
+}
+
+html.journey-on .research-list {
+  position: absolute;
+  inset: 0;
+  border-top: none;
+  perspective: 1100px;
+  display: block;
+}
+
+html.journey-on .research-list > li {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(640px, 86vw);
+  margin-left: calc(min(640px, 86vw) / -2);
+  padding: clamp(26px, 3.5vw, 38px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(16, 26, 36, 0.42);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+  will-change: transform, opacity;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* 写真集：1冊ずつの小窓 */
+html.journey-on #products .sub-heading,
+html.journey-on #products .book-list {
+  display: none;   /* 中身は product-list へ移動済み・空の残骸を隠す */
+}
+
+html.journey-on .product-item--book {
+  width: min(440px, 78vw);
+  margin-left: calc(min(440px, 78vw) / -2);
+  padding: 24px 30px;
+}
+
+html.journey-on .product-item--book::before {
+  content: 'PHOTO BOOK';
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+html.journey-on .product-item--book .book-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 400;
+}
+
+html.journey-on #hero {
+  background-image: none;
+}
+
+html.journey-on #hero::before {
+  background: none;
+}
+
+/* 各章の背景写真も外して粒子世界を見せる */
+html.journey-on #salon,
+html.journey-on #photography,
+html.journey-on #products,
+html.journey-on #research,
+html.journey-on #contact {
+  background-image: none;
+}
+
+/* 粒子の上に乗る文字の可読性を保つ薄い暗幕 */
+html.journey-on #salon::before,
+html.journey-on #photography::before,
+html.journey-on #products::before,
+html.journey-on #research::before,
+html.journey-on #contact::before {
+  background: rgba(0, 0, 0, 0.18);
 }
