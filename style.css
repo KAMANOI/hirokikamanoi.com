@@ -1464,14 +1464,65 @@ html.journey-on .photo-flow-item img {
 }
 
 @media (max-width: 760px) {
+  /* スマホは写真が主役：ウィンドウは画面上側1/3でロックし、
+     パネルは下部でコンパクトに（ロック中の写真とパネルが重ならない構図） */
+  html.journey-on .photo-flow-item,
+  html.journey-on .product-item,
+  html.journey-on .research-list > li {
+    top: 34%;
+  }
+  /* 縦長写真でも下部パネルに届かない幅に絞る */
+  html.journey-on .photo-flow-item {
+    width: min(420px, 64vw);
+    margin-left: calc(min(420px, 64vw) / -2);
+  }
+
   html.journey-on #salon .chapter-content,
   html.journey-on #photography .chapter-content,
   html.journey-on #products .chapter-content,
   html.journey-on #research .chapter-content {
     top: auto;
-    bottom: calc(24px + env(safe-area-inset-bottom));
+    bottom: calc(20px + env(safe-area-inset-bottom));
     width: auto;
-    max-width: 86vw;
+    max-width: 88vw;
+    padding: 14px 18px 16px;
+  }
+
+  /* パネル内を圧縮（ロゴ・文字・ボタン・余白） */
+  html.journey-on .chapter-content .salon-logo {
+    width: 88px;
+    margin-bottom: 8px;
+  }
+  html.journey-on .chapter-content .chapter-desc {
+    font-size: 12px;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  html.journey-on .chapter-content .info-list {
+    margin-bottom: 10px;
+  }
+  html.journey-on .chapter-content .info-row dt,
+  html.journey-on .chapter-content .info-row dd {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  html.journey-on .chapter-content .chapter-sub-role {
+    font-size: 11px;
+  }
+  html.journey-on .chapter-content .btn-row {
+    margin-top: 4px;
+  }
+  html.journey-on .chapter-content .btn {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
+  /* 流れるウィンドウ自体もスマホでは引き締める */
+  html.journey-on .product-item {
+    padding: 18px 20px;
+  }
+  html.journey-on .research-list > li {
+    padding: 16px 18px;
   }
 }
 

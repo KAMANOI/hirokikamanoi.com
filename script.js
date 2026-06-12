@@ -851,9 +851,12 @@ void main() {
         if (q < 0) scaleLock *= (1100 - zThrough) / 1100;
         let transform;
         if (g.mode === 'branch') {
-          /* 枝葉：幹（中心の柱）から左右交互に葉が開くように展開 */
+          /* 枝葉：幹（中心の柱）から左右交互に葉が開くように展開
+             スマホは張り出しを縮めて写真が画面端で切れないようにする */
           const side = (i % 2 === 0) ? 1 : -1;
-          const x = side * (56 + open * lateral);
+          const sideBase = W < 760 ? 10 : 56;
+          const sideLat = W < 760 ? Math.min(44, W * 0.1) : lateral;
+          const x = side * (sideBase + open * sideLat);
           transform =
             'translateY(-50%)' +
             ' translate3d(' + x.toFixed(1) + 'px, ' + y.toFixed(1) + 'px, ' + zThrough.toFixed(1) + 'px)' +
