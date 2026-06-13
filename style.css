@@ -1317,7 +1317,7 @@ dd {
 }
 
 .journey-rail-dot::after {
-  content: attr(data-label);
+  content: none;   /* 場面名（Space〜Deep）の表記は非表示・ドットのナビのみ残す */
   position: absolute;
   right: 18px;
   top: 50%;
