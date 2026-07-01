@@ -33,15 +33,17 @@
       aspect-ratio: 1 / 1;
       object-fit: contain;
       border-radius: 18px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255,255,255,0.16);
       background: #0a0a0a;
       display: block;
-      transition: transform .3s ease, border-color .3s ease;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.04);
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
     }
     .tile:hover .tile-img,
     .tile:focus-visible .tile-img {
-      transform: translateY(-3px);
-      border-color: rgba(255,255,255,0.28);
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.34);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.6);
     }
     .tile-cap { display: flex; flex-direction: column; gap: 3px; padding: 13px 4px 0; }
     .tile-name { font-size: 15px; font-weight: 600; }
@@ -84,18 +86,18 @@
         <p class="section-desc">創造と技術が交差する場所から、プロダクトを生み出す。</p>
 
         <div class="tile-grid">
-          <a class="tile" href="https://ele-oq8u.onrender.com" target="_blank" rel="noopener">
-            <img class="tile-img" src="images/products/tiles/ele.jpg" alt="ele" width="720" height="720" loading="lazy">
-            <div class="tile-cap">
-              <span class="tile-name">ele ↗</span>
-              <span class="tile-desc">写真前処理・画像エンジン</span>
-            </div>
-          </a>
           <a class="tile" href="https://dia-wheat.vercel.app" target="_blank" rel="noopener">
             <img class="tile-img" src="images/products/tiles/dia.jpg" alt="DIA" width="720" height="720" loading="lazy">
             <div class="tile-cap">
               <span class="tile-name">DIA ↗</span>
               <span class="tile-desc">プロンプト生成ツール</span>
+            </div>
+          </a>
+          <a class="tile" href="https://ele-oq8u.onrender.com" target="_blank" rel="noopener">
+            <img class="tile-img" src="images/products/tiles/ele.jpg" alt="ele" width="720" height="720" loading="lazy">
+            <div class="tile-cap">
+              <span class="tile-name">ele ↗</span>
+              <span class="tile-desc">写真前処理・画像エンジン</span>
             </div>
           </a>
           <a class="tile" href="https://salon-booking-sigma-six.vercel.app" target="_blank" rel="noopener">
