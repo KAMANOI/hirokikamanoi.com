@@ -19,6 +19,21 @@
     @media (max-width: 560px) {
       .page-header-title { font-size: clamp(26px, 8.5vw, 44px); }
     }
+    /* リリース済み製品のアイコン（左ガター方式：全行で製品名の開始位置を揃える） */
+    .product-item { position: relative; padding-left: 60px; }
+    .product-icon {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      display: block;
+    }
+    @media (max-width: 560px) {
+      .product-item { padding-left: 54px; }
+      .product-icon { width: 40px; height: 40px; }
+    }
   </style>
 </head>
 <body>
@@ -62,6 +77,7 @@
             <span class="product-desc">Lightroom XMPプリセットのマーケットプレイス</span>
           </li>
           <li class="product-item">
+            <img class="product-icon" src="images/products/dia.svg" alt="DIA" width="44" height="44">
             <a href="https://dia-wheat.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">DIA ↗</a>
             <span class="product-desc">プロンプト生成ツール</span>
           </li>
@@ -70,6 +86,7 @@
             <span class="product-desc">AIによる自動テロップ生成サービス</span>
           </li>
           <li class="product-item">
+            <img class="product-icon" src="images/products/ele.svg" alt="ele" width="44" height="44">
             <a href="https://ele-oq8u.onrender.com" class="product-name product-name--link" target="_blank" rel="noopener">ele ↗</a>
             <span class="product-desc">写真前処理・画像エンジン</span>
           </li>
@@ -78,10 +95,12 @@
             <span class="product-desc">N-RAW / NEF アーカイブマネージャー（macOS）</span>
           </li>
           <li class="product-item">
+            <img class="product-icon" src="images/products/aaru.svg" alt="A.A.R.U." width="44" height="44">
             <a href="https://salon-booking-sigma-six.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">A.A.R.U. ↗</a>
             <span class="product-desc">個人・小規模サロン向け予約管理システム</span>
           </li>
           <li class="product-item">
+            <img class="product-icon" src="images/products/zee.svg" alt="Zee" width="44" height="44">
             <a href="https://github.com/KAMANOI/zee" class="product-name product-name--link" target="_blank" rel="noopener">Zee ↗</a>
             <span class="product-desc">AIエージェント脅威検知・囮トリップワイヤ（オープンソース）</span>
           </li>

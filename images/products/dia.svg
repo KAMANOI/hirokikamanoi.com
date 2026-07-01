@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="DIA">
+  <defs>
+    <linearGradient id="dia-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8385F2"/>
+      <stop offset="1" stop-color="#5D5FE6"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#dia-g)"/>
+  <path d="M60 28 L67 53 L92 60 L67 67 L60 92 L53 67 L28 60 L53 53 Z" fill="#ffffff"/>
+  <path d="M92 30 l2.6 9 l9 2.6 l-9 2.6 l-2.6 9 l-2.6 -9 l-9 -2.6 l9 -2.6 z" fill="#ffffff" opacity="0.85"/>
+</svg>

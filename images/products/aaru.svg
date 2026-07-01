@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="A.A.R.U.">
+  <defs>
+    <linearGradient id="aaru-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#83A281"/>
+      <stop offset="1" stop-color="#5F7E5D"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#aaru-g)"/>
+  <rect x="33" y="40" width="62" height="55" rx="9" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <line x1="33" y1="55" x2="95" y2="55" stroke="#ffffff" stroke-width="5"/>
+  <line x1="48" y1="34" x2="48" y2="46" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+  <line x1="80" y1="34" x2="80" y2="46" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="64" cy="76" r="7" fill="#ffffff"/>
+</svg>
