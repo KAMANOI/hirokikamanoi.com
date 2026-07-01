@@ -19,20 +19,35 @@
     @media (max-width: 560px) {
       .page-header-title { font-size: clamp(26px, 8.5vw, 44px); }
     }
-    /* リリース済み製品のアイコン（左ガター方式：全行で製品名の開始位置を揃える） */
-    .product-item { position: relative; padding-left: 60px; }
-    .product-icon {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px; height: 44px;
-      border-radius: 11px;
-      display: block;
+    /* リリース済み製品：タイルギャラリー */
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 8px;
     }
+    .tile { display: block; text-decoration: none; color: inherit; }
+    .tile-img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: #0a0a0a;
+      display: block;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .tile:hover .tile-img,
+    .tile:focus-visible .tile-img {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.28);
+    }
+    .tile-cap { display: flex; flex-direction: column; gap: 3px; padding: 13px 4px 0; }
+    .tile-name { font-size: 15px; font-weight: 600; }
+    .tile-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
     @media (max-width: 560px) {
-      .product-item { padding-left: 54px; }
-      .product-icon { width: 40px; height: 40px; }
+      .tile-grid { grid-template-columns: 1fr; gap: 20px; }
     }
   </style>
 </head>
@@ -67,6 +82,39 @@
       <div class="section-label">Products</div>
       <div class="section-body">
         <p class="section-desc">創造と技術が交差する場所から、プロダクトを生み出す。</p>
+
+        <div class="tile-grid">
+          <a class="tile" href="https://ele-oq8u.onrender.com" target="_blank" rel="noopener">
+            <img class="tile-img" src="images/products/tiles/ele.jpg" alt="ele" width="720" height="720" loading="lazy">
+            <div class="tile-cap">
+              <span class="tile-name">ele ↗</span>
+              <span class="tile-desc">写真前処理・画像エンジン</span>
+            </div>
+          </a>
+          <a class="tile" href="https://dia-wheat.vercel.app" target="_blank" rel="noopener">
+            <img class="tile-img" src="images/products/tiles/dia.jpg" alt="DIA" width="720" height="720" loading="lazy">
+            <div class="tile-cap">
+              <span class="tile-name">DIA ↗</span>
+              <span class="tile-desc">プロンプト生成ツール</span>
+            </div>
+          </a>
+          <a class="tile" href="https://salon-booking-sigma-six.vercel.app" target="_blank" rel="noopener">
+            <img class="tile-img" src="images/products/tiles/aaru.svg" alt="A.A.R.U." width="720" height="720" loading="lazy">
+            <div class="tile-cap">
+              <span class="tile-name">A.A.R.U. ↗</span>
+              <span class="tile-desc">個人・小規模サロン向け予約管理システム</span>
+            </div>
+          </a>
+          <a class="tile" href="https://github.com/KAMANOI/zee" target="_blank" rel="noopener">
+            <img class="tile-img" src="images/products/tiles/zee.svg" alt="Zee" width="720" height="720" loading="lazy">
+            <div class="tile-cap">
+              <span class="tile-name">Zee ↗</span>
+              <span class="tile-desc">AIエージェント脅威検知・囮トリップワイヤ（オープンソース）</span>
+            </div>
+          </a>
+        </div>
+
+        <h3 class="sub-heading" style="margin-top:56px;">開発中</h3>
         <ul class="product-list">
           <li class="product-item">
             <span class="product-name">be Cam</span>
@@ -77,32 +125,12 @@
             <span class="product-desc">Lightroom XMPプリセットのマーケットプレイス</span>
           </li>
           <li class="product-item">
-            <img class="product-icon" src="images/products/dia.svg" alt="DIA" width="44" height="44">
-            <a href="https://dia-wheat.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">DIA ↗</a>
-            <span class="product-desc">プロンプト生成ツール</span>
-          </li>
-          <li class="product-item">
             <span class="product-name">GEE</span>
             <span class="product-desc">AIによる自動テロップ生成サービス</span>
           </li>
           <li class="product-item">
-            <img class="product-icon" src="images/products/ele.svg" alt="ele" width="44" height="44">
-            <a href="https://ele-oq8u.onrender.com" class="product-name product-name--link" target="_blank" rel="noopener">ele ↗</a>
-            <span class="product-desc">写真前処理・画像エンジン</span>
-          </li>
-          <li class="product-item">
             <span class="product-name">N-Box RAW</span>
             <span class="product-desc">N-RAW / NEF アーカイブマネージャー（macOS）</span>
-          </li>
-          <li class="product-item">
-            <img class="product-icon" src="images/products/aaru.svg" alt="A.A.R.U." width="44" height="44">
-            <a href="https://salon-booking-sigma-six.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">A.A.R.U. ↗</a>
-            <span class="product-desc">個人・小規模サロン向け予約管理システム</span>
-          </li>
-          <li class="product-item">
-            <img class="product-icon" src="images/products/zee.svg" alt="Zee" width="44" height="44">
-            <a href="https://github.com/KAMANOI/zee" class="product-name product-name--link" target="_blank" rel="noopener">Zee ↗</a>
-            <span class="product-desc">AIエージェント脅威検知・囮トリップワイヤ（オープンソース）</span>
           </li>
         </ul>
       </div>

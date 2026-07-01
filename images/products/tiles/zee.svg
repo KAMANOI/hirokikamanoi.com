@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Zee">
+  <defs>
+    <radialGradient id="zg" cx="0.74" cy="0.66" r="0.34">
+      <stop offset="0" stop-color="#F0B84A" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#0A0A0A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="#0A0A0A"/>
+  <text x="80" y="168" font-family="'Helvetica Neue',Arial,sans-serif" font-size="78" font-weight="700" fill="#F5F5F5" letter-spacing="1">Zee</text>
+  <text x="945" y="150" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="30" font-weight="500" fill="#E5A83B" opacity="0.85">無料・OSS</text>
+
+  <text x="80" y="410" font-family="'Hiragino Kaku Gothic ProN','Helvetica Neue',sans-serif" font-size="76" font-weight="700" fill="#FFFFFF">囮に触れた瞬間、</text>
+  <text x="80" y="500" font-family="'Hiragino Kaku Gothic ProN','Helvetica Neue',sans-serif" font-size="76" font-weight="700" fill="#FFFFFF">即アラート。</text>
+  <text x="82" y="576" font-family="'Hiragino Kaku Gothic ProN','Helvetica Neue',sans-serif" font-size="32" font-weight="400" fill="#9A9A9A">囮（おとり）に誰かが触れた瞬間、高確度で通知。</text>
+
+  <circle cx="760" cy="720" r="150" fill="url(#zg)"/>
+  <line x1="60" y1="720" x2="964" y2="720" stroke="#E5A83B" stroke-width="4"/>
+  <circle cx="760" cy="720" r="26" fill="#F0B84A"/>
+  <circle cx="760" cy="720" r="44" fill="none" stroke="#F0B84A" stroke-width="4" opacity="0.45"/>
+
+  <text x="80" y="936" font-family="'Hiragino Kaku Gothic ProN','Helvetica Neue',sans-serif" font-size="30" font-weight="500" fill="#E5A83B" opacity="0.9">Zee — AIエージェント脅威検知・囮トリップワイヤ</text>
+</svg>
