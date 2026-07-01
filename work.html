@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Products & Research — Hiroki Kamanoi. 開発したプロダクトと研究の一覧。">
+  <title>Products & Research — KAMANOI</title>
+  <meta property="og:title" content="Products & Research — Hiroki Kamanoi">
+  <meta property="og:description" content="開発したプロダクトと研究の一覧。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hirokikamanoi.com/work.html">
+  <meta property="og:image" content="https://hirokikamanoi.com/images/products-bg.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d0d0d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23f0f0f0'%3Eh%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* work.html 専用：長いタイトルがスマホで切れないように */
+    .page-header-title { overflow-wrap: anywhere; }
+    @media (max-width: 560px) {
+      .page-header-title { font-size: clamp(26px, 8.5vw, 44px); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">hirokikamanoi.com</a>
+    <button class="nav-toggle" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="hair-salon.html">Salon</a></li>
+      <li><a href="photography.html">Photography</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="work.html" class="nav-active">Products</a></li>
+      <li><a href="work.html#research-section">Research</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <p class="page-header-sub">Products &amp; Research</p>
+      <h1 class="page-header-title">Products &amp; Research</h1>
+      <p class="page-header-desc">開発したプロダクトと、思索の記録。</p>
+    </div>
+  </header>
+
+  <!-- Products -->
+  <section class="section" id="products-section">
+    <div class="section-inner">
+      <div class="section-label">Products</div>
+      <div class="section-body">
+        <p class="section-desc">創造と技術が交差する場所から、プロダクトを生み出す。</p>
+        <ul class="product-list">
+          <li class="product-item">
+            <span class="product-name">be Cam</span>
+            <span class="product-desc">LUT・フィルム表現に特化したiOSカメラアプリ</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">SEA</span>
+            <span class="product-desc">Lightroom XMPプリセットのマーケットプレイス</span>
+          </li>
+          <li class="product-item">
+            <a href="https://dia-wheat.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">DIA ↗</a>
+            <span class="product-desc">プロンプト生成ツール</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">GEE</span>
+            <span class="product-desc">AIによる自動テロップ生成サービス</span>
+          </li>
+          <li class="product-item">
+            <a href="https://ele-oq8u.onrender.com" class="product-name product-name--link" target="_blank" rel="noopener">ele ↗</a>
+            <span class="product-desc">写真前処理・画像エンジン</span>
+          </li>
+          <li class="product-item">
+            <span class="product-name">N-Box RAW</span>
+            <span class="product-desc">N-RAW / NEF アーカイブマネージャー（macOS）</span>
+          </li>
+          <li class="product-item">
+            <a href="https://salon-booking-sigma-six.vercel.app" class="product-name product-name--link" target="_blank" rel="noopener">A.A.R.U. ↗</a>
+            <span class="product-desc">個人・小規模サロン向け予約管理システム</span>
+          </li>
+          <li class="product-item">
+            <a href="https://github.com/KAMANOI/zee" class="product-name product-name--link" target="_blank" rel="noopener">Zee ↗</a>
+            <span class="product-desc">AIエージェント脅威検知・囮トリップワイヤ（オープンソース）</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo Books -->
+  <section class="section section--dark">
+    <div class="section-inner">
+      <div class="section-label">Photo Books</div>
+      <div class="section-body">
+        <ul class="book-list">
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.2 — for Asia ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.1 — for Asia ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">The Epicurean Philosophy ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">juːtóʊpiə ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">椿姫のの 写真集 ↗</a>
+          </li>
+          <li class="book-item">
+            <a href="https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">かげろう ↗</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section class="section" id="research-section">
+    <div class="section-inner">
+      <div class="section-label">Research</div>
+      <div class="section-body">
+        <p class="section-desc">
+          数学・哲学・芸術の境界を横断する思索。<br>
+          コラッツ予想をはじめとする未解決問題へのアプローチと、<br>
+          Eros &amp; Thanatos を軸とした人間存在の探究。
+        </p>
+        <ul class="research-list">
+          <li><a href="https://github.com/KAMANOI?tab=repositories&amp;q=collatz" target="_blank" rel="noopener" class="text-link">Collatz Conjecture — スペクトル解析・スケール一貫性からのアプローチ ↗</a></li>
+          <li><a href="https://github.com/KAMANOI/radiation-resistance-remediation" target="_blank" rel="noopener" class="text-link">放射線耐性生物を起点とした事故後環境修復とARS治療への統合的アプローチ ↗</a></li>
+          <li><a href="https://github.com/KAMANOI/zee" target="_blank" rel="noopener" class="text-link">Zee — AIエージェントを標的とした囮トリップワイヤと自動封じ込め手法の研究 ↗</a></li>
+          <li>Eros &amp; Thanatos — 写真表現を通じた哲学的フレームワーク</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <nav class="footer-sns" aria-label="SNS">
+      <a href="https://twitter.com/HKakaGraffito" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X
+      </a>
+      <a href="https://www.instagram.com/kamanoi_ah/" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Instagram
+      </a>
+    </nav>
+    <p><a href="index.html" class="text-link">← hirokikamanoi.com トップへ</a></p>
+    <p>&copy; 2026 Hiroki Kamanoi</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
