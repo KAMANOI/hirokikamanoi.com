@@ -102,7 +102,7 @@
     .hdr-logo-img {
       display: block;
       margin: 0 auto;
-      width: clamp(270px, 29vw, 404px);
+      width: clamp(240px, 26vw, 356px);
       height: auto;
       filter: drop-shadow(0 16px 44px rgba(0,0,0,0.5));
     }
@@ -120,8 +120,8 @@
     .hdr-collage {
       position: absolute;
       left: 3.5vw; right: 3.5vw;
-      top: clamp(224px, 35vh, 322px);
-      bottom: clamp(48px, 6.5vh, 72px);
+      top: clamp(240px, 37vh, 344px);
+      bottom: clamp(44px, 6vh, 68px);
       z-index: 3;
       opacity: 0;
       transition: opacity 0.9s ease;
@@ -193,6 +193,21 @@
     }
     .hdr-face--photo img { aspect-ratio: 4 / 5; }
     .hdr-face--wide img { aspect-ratio: 3 / 2; }   /* 横長カード */
+    /* 黒面積が多く暗背景で沈むタイルは白ベースの額装カードにして視認性を上げる */
+    .hdr-card.light .hdr-face--img {
+      background: #f4f1ea;
+      padding: 8px 8px 0;
+      box-shadow: 0 20px 46px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(0,0,0,0.06);
+    }
+    .hdr-card.light .hdr-face--img img { border-radius: 6px; }
+    .hdr-card.light .hdr-cap {
+      position: static;
+      background: none;
+      padding: 8px 4px 9px;
+    }
+    .hdr-card.light .hdr-cap b { color: #17171a; }
+    .hdr-card.light .hdr-cap span { color: #6a6a70; }
+    .hdr-card.light .hdr-arrow { color: #17171a; }
     /* 写真集は実表紙（縦長）を本のまま見せる。表紙にタイトルがあるためPCではキャプション非表示 */
     .hdr-face--book img { aspect-ratio: 5 / 7; }
     @media (min-width: 861px) { .cat-book .hdr-cap { display: none; } }
@@ -469,21 +484,21 @@
       // --- リサーチ（ビジュアルタイル）＝中間リング ---
       { cat:"research", name:"Collatz Conjecture",      href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:16, y:43, w:150, r:-13, z:34 },
       { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/ai/r-radiation.jpg", x:80, y:58, w:148, r:11, z:32 },
-      { cat:"research", name:"Zee — Tripwire", wide:true, href:"https://github.com/KAMANOI/zee",                                   img:"images/products/tiles/ai/r-zee.jpg",       x:67, y:73, w:176, r:6,  z:31 },
-      { cat:"research", name:"Eros & Thanatos",         href:"photography.html",                                                    img:"images/products/tiles/ai/r-eros.jpg",      x:48, y:76, w:148, r:-4, z:30 },
+      { cat:"research", name:"Zee — Tripwire", wide:true, light:true, href:"https://github.com/KAMANOI/zee",                       img:"images/products/tiles/ai/r-zee.jpg",       x:66, y:74, w:178, r:5,  z:31 },
+      { cat:"research", name:"Eros & Thanatos",         href:"photography.html",                                                    img:"images/products/tiles/ai/r-eros.jpg",      x:48, y:77, w:146, r:-6, z:30, light:true },
 
       // --- 開発中（リンク無し・トーン抑えめ）＝最背面。横長も混ぜる ---
-      { cat:"soon", name:"be Cam",    sub:"開発中",             img:"images/products/tiles/ai/d-becam.jpg", x:13, y:61, w:118, r:-14, z:12 },
+      { cat:"soon", name:"be Cam",    sub:"開発中", light:true, img:"images/products/tiles/ai/d-becam.jpg", x:13, y:60, w:120, r:-13, z:12 },
       { cat:"soon", name:"SEA",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-sea.jpg",   x:89, y:42, w:160, r:9,  z:12 },
       { cat:"soon", name:"GEE",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-gee.jpg",   x:19, y:78, w:166, r:-8, z:12 },
-      { cat:"soon", name:"N-Box RAW", sub:"開発中",             img:"images/products/tiles/ai/d-nbox.jpg",  x:92, y:74, w:124, r:6,  z:12 },
+      { cat:"soon", name:"N-Box RAW", sub:"開発中", light:true, img:"images/products/tiles/ai/d-nbox.jpg",  x:92, y:73, w:126, r:8,  z:12 },
 
       // --- 写真集（Amazon・実表紙）＝上部の帯に横一列で散らす ---
-      { cat:"book", name:"LOCA vol.2",             href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:18, y:15, w:104, r:-9, z:20 },
-      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:32, y:12, w:98,  r:6,  z:16 },
-      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:50, y:13, w:106, r:-4, z:20 },
-      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:67, y:12, w:102, r:8,  z:18 },
-      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:84, y:15, w:96,  r:12, z:16 },
+      { cat:"book", name:"LOCA vol.2",             href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:19, y:17, w:108, r:-12, z:20 },
+      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:33, y:9,  w:94,  r:7,  z:16 },
+      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:49, y:16, w:110, r:-5, z:20 },
+      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:66, y:9,  w:98,  r:11, z:18 },
+      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:85, y:18, w:100, r:14, z:16 },
       { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:60, y:82, w:104, r:-8, z:17 }
     ];
 
@@ -510,7 +525,7 @@
 
     CARDS.forEach(function (c, i) {
       var isLink = !!c.href;
-      var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat);
+      var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat + (c.light ? " light" : ""));
       if (isLink) {
         card.href = c.href;
         var external = /^https?:/.test(c.href);
