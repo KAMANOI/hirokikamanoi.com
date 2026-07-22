@@ -102,7 +102,7 @@
     .hdr-logo-img {
       display: block;
       margin: 0 auto;
-      width: clamp(228px, 24vw, 336px);
+      width: clamp(212px, 22vw, 312px);
       height: auto;
       filter: drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 26px rgba(184,202,235,0.18));
     }
@@ -115,13 +115,22 @@
       margin: clamp(6px, 1.2vh, 14px) 0 0;
       letter-spacing: 0.01em;
     }
+    .hdr-tagline {
+      font-family: var(--font);
+      font-size: clamp(12.5px, 1.4vw, 14.5px);
+      letter-spacing: 0.04em;
+      color: #9aa0a8;
+      margin: clamp(12px, 1.8vh, 19px) 0 0;
+      line-height: 1.5;
+    }
+    .hdr-tagline span { color: var(--hdr-faint); }
 
     /* ---------- コラージュ ---------- */
     .hdr-collage {
       position: absolute;
       left: 3.5vw; right: 3.5vw;
-      top: clamp(252px, 38.5vh, 358px);
-      bottom: clamp(42px, 5.8vh, 72px);
+      top: clamp(268px, 40.5vh, 374px);
+      bottom: clamp(40px, 5.4vh, 68px);
       z-index: 3;
       opacity: 0;
       transition: opacity 0.9s ease;
@@ -132,7 +141,7 @@
     /* HDRロゴとカード群を仕切る白のヘアライン（端はフェード） */
     .hdr-divider {
       position: absolute;
-      top: clamp(198px, 30vh, 286px);
+      top: clamp(222px, 33.5vh, 312px);
       left: 50%;
       transform: translateX(-50%);
       width: min(88vw, 1120px);
@@ -181,11 +190,19 @@
     /* ホバー中：対象は最前面・拡大・明るく。物理挙動は JS が兄弟に付与 */
     .hdr-card.is-active { z-index: 90 !important; }
     .hdr-card.is-active .hdr-face {
-      transform: rotate(0deg) scale(1.075);
-      filter: saturate(1.06) brightness(1.05);
+      transform: rotate(0deg) scale(1.06);
+      filter: saturate(1.08) brightness(1.06);
     }
-    .hdr-collage.is-dimmed .hdr-card:not(.is-active) { opacity: 0.58; }
-    .hdr-collage.is-dimmed .hdr-card:not(.is-active) .hdr-face { filter: brightness(0.86) saturate(0.9); }
+    /* 散る側はさらに沈めて主役を際立たせる */
+    .hdr-collage.is-dimmed .hdr-card:not(.is-active) { opacity: 0.5; }
+    .hdr-collage.is-dimmed .hdr-card:not(.is-active) .hdr-face { filter: brightness(0.78) saturate(0.85) blur(1px); }
+
+    /* 緑(ティール)タイルを暖色・低彩度に寄せて全体の統制に合わせる */
+    .hdr-card.warm .hdr-face--img { filter: saturate(0.42) brightness(0.72) sepia(0.28); }
+    .hdr-card.warm.is-active .hdr-face--img { filter: saturate(0.7) brightness(0.9) sepia(0.12); }
+    /* ヒーロー真上のカードは後退（主役を勝たせる） */
+    .hdr-card.recede .hdr-face--img { filter: brightness(0.6) saturate(0.85); }
+    .hdr-card.recede .hdr-face { transform: rotate(var(--r,0deg)) scale(0.9); }
 
     /* --- 写真・プロダクト画像カード --- */
     .hdr-face--img {
@@ -204,7 +221,7 @@
     }
     .hdr-card.is-active .hdr-face--img {
       filter: none;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.66), 0 0 0 1.5px rgba(245,158,11,0.6);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.66), 0 0 0 2.5px #f59e0b, 0 0 34px rgba(245,158,11,0.5);
     }
     .hdr-face--img img {
       display: block;
@@ -369,7 +386,7 @@
       .hdr-wordmark { font-size: clamp(80px, 14.5vw, 188px); }
       .hdr-logo-img { width: clamp(210px, 22vw, 286px); }
       .hdr-collage { top: clamp(232px, 35vh, 272px); bottom: 36px; }
-      .hdr-divider { display: none; }   /* 短い画面は余白確保のためライン非表示 */
+      .hdr-divider, .hdr-tagline { display: none; }   /* 短い画面は余白確保のため非表示 */
       .hdr-foot { padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
     }
 
@@ -429,8 +446,17 @@
       .hdr-float { animation: none; transform: none !important; }
       .hdr-face { transform: none !important; }
       .hdr-face--img { display: flex; align-items: stretch; }
-      .hdr-face--img img { width: 92px; height: 92px; aspect-ratio: 1/1; flex: 0 0 auto; }
+      .hdr-face--img img { width: 96px; height: 96px; aspect-ratio: 1/1; flex: 0 0 auto; }
       .hdr-face--photo img { aspect-ratio: 1/1; }
+      /* モバイル：リリース済み製品を大きく、A.A.R.U.はヒーロー・フィーチャーカードに */
+      .cat-product .hdr-face--img img { width: 112px; height: 112px; }
+      .hdr-card.hero .hdr-face--img {
+        border-left: 3px solid #f59e0b;
+        background: rgba(245,158,11,0.06);
+      }
+      .hdr-card.hero .hdr-face--img img { width: 138px; height: 138px; }
+      .hdr-card.hero .hdr-cap b { font-size: 18px; }
+      .hdr-card.recede .hdr-face { transform: none; }   /* モバイルでは後退演出は無効 */
       .hdr-cap {
         position: static;
         flex: 1;
@@ -484,6 +510,7 @@
     <header class="hdr-head">
       <p class="hdr-kicker">Hiroki Kamanoi · Development &amp; Research</p>
       <h1 class="hdr-wordmark"><img src="images/hdr-logo.png" alt="HDR" class="hdr-logo-img"></h1>
+      <p class="hdr-tagline">個人がつくる、プロダクトと研究。<span>カードに触れて確かめてください。</span></p>
     </header>
 
     <div class="hdr-divider" aria-hidden="true"></div>
@@ -542,17 +569,17 @@
 
       // === RESEARCH（AIアート）＝中間リング。特に暗い2枚は白額装（ギャラリープリント）===
       { cat:"research", section:"Research", name:"Collatz Conjecture", href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:15, y:44, w:148, r:-8, z:34 },
-      { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/ai/r-radiation.jpg", x:82, y:58, w:146, r:8,  z:32 },
-      { cat:"research", name:"Zee — Tripwire", wide:true, light:true, href:"https://github.com/KAMANOI/zee",                       img:"images/products/tiles/ai/r-zee.jpg",       x:71, y:71, w:176, r:4,  z:31 },
-      { cat:"research", name:"Eros & Thanatos", light:true, href:"photography.html",                                              img:"images/products/tiles/ai/r-eros.jpg",      x:49, y:74, w:146, r:-4, z:30 },
+      { cat:"research", name:"Radiation × Remediation", warm:true, href:"https://github.com/KAMANOI/radiation-resistance-remediation", img:"images/products/tiles/ai/r-radiation.jpg", x:82, y:57, w:146, r:8,  z:32 },
+      { cat:"research", name:"Zee — Tripwire", wide:true, light:true, href:"https://github.com/KAMANOI/zee",                       img:"images/products/tiles/ai/r-zee.jpg",       x:71, y:68, w:176, r:4,  z:31 },
+      { cat:"research", name:"Eros & Thanatos", light:true, href:"photography.html",                                              img:"images/products/tiles/ai/r-eros.jpg",      x:49, y:71, w:144, r:-4, z:30 },
 
       // === PHOTOBOOKS（Amazon・実表紙）＝上部の帯にジグザグで散らす ===
       { cat:"book", section:"Photobooks", name:"LOCA vol.2",       href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:18, y:16, w:108, r:-8, z:20 },
       { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:33, y:9,  w:94,  r:8,  z:16 },
-      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:49, y:15, w:110, r:-4, z:20 },
+      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", recede:true, img:"images/products/tiles/cover-b-loca1.jpg",     x:39, y:13, w:108, r:-6, z:20 },
       { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:66, y:10, w:98,  r:8,  z:18 },
       { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:85, y:17, w:100, r:8,  z:16 },
-      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:59, y:77, w:104, r:-8, z:17 },
+      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:59, y:73, w:104, r:-8, z:17 },
 
       // === IN DEVELOPMENT（未リリース）＝グレー減光で背面へ沈める。末尾＝モバイル最下部 ===
       { cat:"soon", section:"In Development", name:"be Cam", sub:"Soon", img:"images/products/tiles/ai/d-becam.jpg", x:13, y:61, w:110, r:-8, z:12 },
@@ -589,7 +616,7 @@
         collage.appendChild(sh);
       }
       var isLink = !!c.href;
-      var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat + (c.light ? " light" : "") + (c.hero ? " hero" : ""));
+      var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat + (c.light ? " light" : "") + (c.hero ? " hero" : "") + (c.warm ? " warm" : "") + (c.recede ? " recede" : ""));
       if (isLink) {
         card.href = c.href;
         var external = /^https?:/.test(c.href);
