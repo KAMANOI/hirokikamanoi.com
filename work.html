@@ -197,12 +197,11 @@
     .hdr-collage.is-dimmed .hdr-card:not(.is-active) { opacity: 0.5; }
     .hdr-collage.is-dimmed .hdr-card:not(.is-active) .hdr-face { filter: brightness(0.78) saturate(0.85) blur(1px); }
 
-    /* 緑(ティール)タイルを暖色・低彩度に寄せて全体の統制に合わせる */
-    .hdr-card.warm .hdr-face--img { filter: saturate(0.42) brightness(0.72) sepia(0.28); }
-    .hdr-card.warm.is-active .hdr-face--img { filter: saturate(0.7) brightness(0.9) sepia(0.12); }
-    /* ヒーロー真上のカードは後退（主役を勝たせる） */
-    .hdr-card.recede .hdr-face--img { filter: brightness(0.6) saturate(0.85); }
-    .hdr-card.recede .hdr-face { transform: rotate(var(--r,0deg)) scale(0.9); }
+    /* 緑(ティール)タイルの蛍光感だけ少し抑える（暗くはしない） */
+    .hdr-card.warm .hdr-face--img { filter: saturate(0.72) sepia(0.1); }
+    .hdr-card.warm.is-active .hdr-face--img { filter: none; }
+    /* ヒーロー真上のカードは少しだけ小さく（暗くはしない） */
+    .hdr-card.recede .hdr-face { transform: rotate(var(--r,0deg)) scale(0.94); }
 
     /* --- 写真・プロダクト画像カード --- */
     .hdr-face--img {
@@ -211,8 +210,6 @@
       background: #111114;
       /* 光源を上に固定した統一シャドウ */
       box-shadow: 0 24px 48px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.06);
-      /* 脇役はわずかに後退（明度差＝奥行き）。ヒーロー/ホバー時は 100% に戻す */
-      filter: brightness(0.84);
       transition: filter 0.45s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
     }
     .hdr-card.hero .hdr-face--img {
@@ -251,8 +248,8 @@
     .hdr-face--book img { aspect-ratio: 5 / 7; }
     @media (min-width: 861px) { .cat-book .hdr-cap { display: none; } }
     /* 開発中は「準備中」を視覚言語化：グレースケール＋減光＋半透明で背面へ沈める（ホバーで復帰） */
-    .cat-soon { opacity: 0.72; }
-    .cat-soon .hdr-face--img { filter: grayscale(0.9) brightness(0.72); }
+    .cat-soon { opacity: 0.92; }
+    .cat-soon .hdr-face--img { filter: grayscale(0.28) brightness(0.94); }
     .cat-soon .hdr-cap b { color: rgba(255,255,255,0.8); font-weight: 500; }
     .cat-soon .hdr-cap span { color: rgba(255,255,255,0.4); letter-spacing: 0.14em; text-transform: uppercase; font-size: 9px; }
     .cat-soon.is-active { opacity: 1; }
