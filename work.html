@@ -104,7 +104,7 @@
       margin: 0 auto;
       width: clamp(240px, 26vw, 356px);
       height: auto;
-      filter: drop-shadow(0 16px 44px rgba(0,0,0,0.5));
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 26px rgba(184,202,235,0.18));
     }
     .hdr-sub {
       font-family: var(--font-display);
@@ -127,6 +127,7 @@
       transition: opacity 0.9s ease;
     }
     .hdr-collage.ready { opacity: 1; }
+    .hdr-msection { display: none; }   /* PC は非表示・モバイルでセクション見出しに */
 
     .hdr-card {
       position: absolute;
@@ -175,14 +176,14 @@
 
     /* --- 写真・プロダクト画像カード --- */
     .hdr-face--img {
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       background: #111114;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.4),
-                  inset 0 0 0 1px rgba(255,255,255,0.07);
+      /* 光源を上に固定した統一シャドウ */
+      box-shadow: 0 24px 48px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.06);
     }
     .hdr-card.is-active .hdr-face--img {
-      box-shadow: 0 34px 70px rgba(0,0,0,0.62), 0 0 0 1px rgba(255,255,255,0.18);
+      box-shadow: 0 36px 72px rgba(0,0,0,0.62), 0 0 0 1.5px rgba(224,163,74,0.55);
     }
     .hdr-face--img img {
       display: block;
@@ -207,14 +208,17 @@
     }
     .hdr-card.light .hdr-cap b { color: #17171a; }
     .hdr-card.light .hdr-cap span { color: #6a6a70; }
-    .hdr-card.light .hdr-arrow { color: #17171a; }
+    .hdr-card.light .hdr-arrow { color: #c98a2e; }   /* 白カード上の琥珀（濃いめ） */
     /* 写真集は実表紙（縦長）を本のまま見せる。表紙にタイトルがあるためPCではキャプション非表示 */
     .hdr-face--book img { aspect-ratio: 5 / 7; }
     @media (min-width: 861px) { .cat-book .hdr-cap { display: none; } }
-    /* 開発中タイルは背面感を出すため少し沈める（ホバーで復帰） */
-    .cat-soon .hdr-face--img { filter: saturate(0.82) brightness(0.8); }
+    /* 開発中は「準備中」を視覚言語化：グレースケール＋減光＋半透明で背面へ沈める（ホバーで復帰） */
+    .cat-soon { opacity: 0.74; }
+    .cat-soon .hdr-face--img { filter: grayscale(0.85) brightness(0.82); }
+    .cat-soon .hdr-cap b { color: rgba(255,255,255,0.8); font-weight: 500; }
+    .cat-soon .hdr-cap span { color: rgba(255,255,255,0.4); letter-spacing: 0.14em; text-transform: uppercase; font-size: 9px; }
+    .cat-soon.is-active { opacity: 1; }
     .cat-soon.is-active .hdr-face--img { filter: none; }
-    .cat-soon .hdr-cap b { color: rgba(255,255,255,0.82); }
     .hdr-cap {
       position: absolute;
       left: 0; right: 0; bottom: 0;
@@ -228,7 +232,7 @@
     }
     .hdr-cap b { font-weight: 600; font-size: 13px; letter-spacing: 0.01em; line-height: 1.2; }
     .hdr-cap span { font-size: 10.5px; color: rgba(255,255,255,0.66); line-height: 1.3; }
-    .hdr-arrow { font-size: 10.5px; color: rgba(255,255,255,0.78); margin-left: 3px; }
+    .hdr-arrow { font-size: 10.5px; color: #e0a34a; margin-left: 3px; }   /* アクセント：琥珀 */
 
     /* --- テキストカード共通 --- */
     .hdr-face--card {
@@ -319,7 +323,24 @@
     .hdr-foot a:hover { color: var(--hdr-ink); }
     .hdr-foot .hdr-foot-mark { letter-spacing: 0.02em; }
     .hdr-foot .hdr-foot-links { display: flex; align-items: center; gap: 18px; }
-    .hdr-foot svg { width: 13px; height: 13px; vertical-align: -1px; }
+    .hdr-foot svg { width: 13px; height: 13px; vertical-align: -1px; opacity: 0.55; transition: opacity .25s ease; }
+    .hdr-foot a:hover svg { opacity: 1; }
+
+    /* ナビ：現在地(HDR)に琥珀ドット・Contactをゴーストボタン化（PCのみ） */
+    @media (min-width: 861px) {
+      body.hdr-page #nav .nav-links a.nav-active { color: var(--hdr-ink); position: relative; }
+      body.hdr-page #nav .nav-links a.nav-active::after {
+        content: ""; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%);
+        width: 5px; height: 5px; border-radius: 50%; background: #e0a34a;
+      }
+      body.hdr-page #nav .nav-links li:last-child a {
+        border: 1px solid rgba(244,242,238,0.26); border-radius: 999px;
+        padding: 6px 16px; transition: background .25s ease, border-color .25s ease, color .25s ease;
+      }
+      body.hdr-page #nav .nav-links li:last-child a:hover {
+        background: #e0a34a; border-color: #e0a34a; color: #14100a;
+      }
+    }
 
     /* 背の低いデスクトップ（ノートPC 1366×768 等・実効高さが低い場合）の見切れ防止 */
     @media (min-width: 861px) and (max-height: 730px) {
@@ -358,10 +379,23 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
-        padding: 44px 20px 40px;
+        padding: 40px 20px 40px;
         max-width: 440px;
         margin: 0 auto;
       }
+      .hdr-msection {
+        display: block;
+        width: 100%;
+        font-family: var(--font);
+        font-size: 11px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--hdr-faint);
+        padding: 22px 2px 4px;
+        margin-top: 10px;
+        border-top: 1px solid var(--hdr-line);
+      }
+      .hdr-collage > .hdr-msection:first-child { border-top: none; margin-top: 0; padding-top: 4px; }
       .hdr-card {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -472,34 +506,34 @@
     /* ---------------- カード定義 ----------------
        x,y = コラージュ内の中心座標(%) / w = 幅(px) / r = 回転(deg) / z = 重なり順 */
     var CARDS = [
-      // --- プロダクト（リリース済み）＝大きく・最前面（z最上位）・クリックで各LP ---
-      { cat:"product", name:"DIA",      sub:"プロンプト生成ツール",     href:"https://dia-wheat.vercel.app",   img:"images/products/tiles/dia.jpg",  x:43, y:50, w:158, r:-6, z:66 },
-      { cat:"product", name:"ele",      sub:"写真前処理・画像エンジン", href:"https://ele-oq8u.onrender.com",  img:"images/products/tiles/ele.jpg",  x:62, y:52, w:156, r:8,  z:64 },
-      { cat:"product", name:"A.A.R.U.", sub:"サロン予約管理",           href:"https://getaaru.app",            img:"images/products/tiles/aaru.jpg", x:32, y:64, w:150, r:-10, z:62 },
-      { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:64, y:32, w:146, r:4,  z:60 },
+      // === PRODUCTS（リリース済み）＝主役。大きく・低回転・最前面。A.A.R.U.をヒーローに ===
+      { cat:"product", section:"Products", name:"A.A.R.U.", sub:"サロン予約管理 SaaS",  href:"https://getaaru.app",            img:"images/products/tiles/aaru.jpg", x:47, y:50, w:190, r:0,  z:70 },
+      { cat:"product", name:"ele",      sub:"写真前処理・画像エンジン", href:"https://ele-oq8u.onrender.com",  img:"images/products/tiles/ele.jpg",  x:65, y:53, w:162, r:4,  z:66 },
+      { cat:"product", name:"DIA",      sub:"プロンプト生成ツール",     href:"https://dia-wheat.vercel.app",   img:"images/products/tiles/dia.jpg",  x:29, y:55, w:158, r:-4, z:64 },
+      { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:67, y:33, w:150, r:4,  z:60 },
 
-      // --- 写真（→ Photography） ---
-      { cat:"photo", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:30, y:29, w:118, r:-7, z:46 },
+      // === 写真（→ Photography） ===
+      { cat:"photo", section:"Photography", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:30, y:29, w:124, r:-8, z:46 },
 
-      // --- リサーチ（ビジュアルタイル）＝中間リング ---
-      { cat:"research", name:"Collatz Conjecture",      href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:16, y:43, w:150, r:-13, z:34 },
-      { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/ai/r-radiation.jpg", x:80, y:58, w:148, r:11, z:32 },
-      { cat:"research", name:"Zee — Tripwire", wide:true, light:true, href:"https://github.com/KAMANOI/zee",                       img:"images/products/tiles/ai/r-zee.jpg",       x:66, y:74, w:178, r:5,  z:31 },
-      { cat:"research", name:"Eros & Thanatos",         href:"photography.html",                                                    img:"images/products/tiles/ai/r-eros.jpg",      x:48, y:77, w:146, r:-6, z:30, light:true },
+      // === RESEARCH（AIアート）＝中間リング。特に暗い2枚は白額装（ギャラリープリント）===
+      { cat:"research", section:"Research", name:"Collatz Conjecture", href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:15, y:44, w:148, r:-8, z:34 },
+      { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/ai/r-radiation.jpg", x:82, y:58, w:146, r:8,  z:32 },
+      { cat:"research", name:"Zee — Tripwire", wide:true, light:true, href:"https://github.com/KAMANOI/zee",                       img:"images/products/tiles/ai/r-zee.jpg",       x:71, y:75, w:176, r:4,  z:31 },
+      { cat:"research", name:"Eros & Thanatos", light:true, href:"photography.html",                                              img:"images/products/tiles/ai/r-eros.jpg",      x:49, y:78, w:146, r:-4, z:30 },
 
-      // --- 開発中（リンク無し・トーン抑えめ）＝最背面。横長も混ぜる ---
-      { cat:"soon", name:"be Cam",    sub:"開発中", light:true, img:"images/products/tiles/ai/d-becam.jpg", x:13, y:60, w:120, r:-13, z:12 },
-      { cat:"soon", name:"SEA",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-sea.jpg",   x:89, y:42, w:160, r:9,  z:12 },
-      { cat:"soon", name:"GEE",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-gee.jpg",   x:19, y:78, w:166, r:-8, z:12 },
-      { cat:"soon", name:"N-Box RAW", sub:"開発中", light:true, img:"images/products/tiles/ai/d-nbox.jpg",  x:92, y:73, w:126, r:8,  z:12 },
+      // === PHOTOBOOKS（Amazon・実表紙）＝上部の帯にジグザグで散らす ===
+      { cat:"book", section:"Photobooks", name:"LOCA vol.2",       href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:18, y:16, w:108, r:-8, z:20 },
+      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:33, y:9,  w:94,  r:8,  z:16 },
+      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:49, y:15, w:110, r:-4, z:20 },
+      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:66, y:10, w:98,  r:8,  z:18 },
+      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:85, y:17, w:100, r:8,  z:16 },
+      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:59, y:82, w:104, r:-8, z:17 },
 
-      // --- 写真集（Amazon・実表紙）＝上部の帯に横一列で散らす ---
-      { cat:"book", name:"LOCA vol.2",             href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:19, y:17, w:108, r:-12, z:20 },
-      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:33, y:9,  w:94,  r:7,  z:16 },
-      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:49, y:16, w:110, r:-5, z:20 },
-      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:66, y:9,  w:98,  r:11, z:18 },
-      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:85, y:18, w:100, r:14, z:16 },
-      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:60, y:82, w:104, r:-8, z:17 }
+      // === IN DEVELOPMENT（未リリース）＝グレー減光で背面へ沈める。末尾＝モバイル最下部 ===
+      { cat:"soon", section:"In Development", name:"be Cam", sub:"Soon", img:"images/products/tiles/ai/d-becam.jpg", x:13, y:61, w:110, r:-8, z:12 },
+      { cat:"soon", name:"SEA",       sub:"Soon", wide:true, img:"images/products/tiles/ai/d-sea.jpg",   x:89, y:42, w:150, r:8,  z:12 },
+      { cat:"soon", name:"GEE",       sub:"Soon", wide:true, img:"images/products/tiles/ai/d-gee.jpg",   x:18, y:79, w:150, r:-8, z:12 },
+      { cat:"soon", name:"N-Box RAW", sub:"Soon",            img:"images/products/tiles/ai/d-nbox.jpg",  x:92, y:73, w:112, r:4,  z:12 }
     ];
 
     var DECOR = [
@@ -524,6 +558,11 @@
     var cardEls = [];
 
     CARDS.forEach(function (c, i) {
+      if (c.section) {   // モバイルのセクション見出し（PC では display:none）
+        var sh = el("div", "hdr-msection");
+        sh.textContent = c.section;
+        collage.appendChild(sh);
+      }
       var isLink = !!c.href;
       var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat + (c.light ? " light" : ""));
       if (isLink) {
