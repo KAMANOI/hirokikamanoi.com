@@ -102,7 +102,7 @@
     .hdr-logo-img {
       display: block;
       margin: 0 auto;
-      width: clamp(300px, 33vw, 452px);
+      width: clamp(270px, 29vw, 404px);
       height: auto;
       filter: drop-shadow(0 16px 44px rgba(0,0,0,0.5));
     }
@@ -120,8 +120,8 @@
     .hdr-collage {
       position: absolute;
       left: 3.5vw; right: 3.5vw;
-      top: clamp(214px, 33vh, 300px);
-      bottom: clamp(54px, 7.5vh, 78px);
+      top: clamp(224px, 35vh, 322px);
+      bottom: clamp(48px, 6.5vh, 72px);
       z-index: 3;
       opacity: 0;
       transition: opacity 0.9s ease;
@@ -458,33 +458,33 @@
        x,y = コラージュ内の中心座標(%) / w = 幅(px) / r = 回転(deg) / z = 重なり順 */
     var CARDS = [
       // --- プロダクト（リリース済み）＝大きく・最前面（z最上位）・クリックで各LP ---
-      { cat:"product", name:"DIA",      sub:"プロンプト生成ツール",     href:"https://dia-wheat.vercel.app",   img:"images/products/tiles/dia.jpg",  x:41, y:47, w:160, r:-6, z:66 },
-      { cat:"product", name:"ele",      sub:"写真前処理・画像エンジン", href:"https://ele-oq8u.onrender.com",  img:"images/products/tiles/ele.jpg",  x:60, y:50, w:158, r:8,  z:64 },
-      { cat:"product", name:"A.A.R.U.", sub:"サロン予約管理",           href:"https://getaaru.app",            img:"images/products/tiles/aaru.jpg", x:31, y:62, w:152, r:-10, z:62 },
-      { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:69, y:38, w:146, r:4,  z:60 },
+      { cat:"product", name:"DIA",      sub:"プロンプト生成ツール",     href:"https://dia-wheat.vercel.app",   img:"images/products/tiles/dia.jpg",  x:43, y:50, w:158, r:-6, z:66 },
+      { cat:"product", name:"ele",      sub:"写真前処理・画像エンジン", href:"https://ele-oq8u.onrender.com",  img:"images/products/tiles/ele.jpg",  x:62, y:52, w:156, r:8,  z:64 },
+      { cat:"product", name:"A.A.R.U.", sub:"サロン予約管理",           href:"https://getaaru.app",            img:"images/products/tiles/aaru.jpg", x:32, y:64, w:150, r:-10, z:62 },
+      { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:64, y:32, w:146, r:4,  z:60 },
 
       // --- 写真（→ Photography） ---
-      { cat:"photo", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:49, y:25, w:126, r:-7, z:46 },
+      { cat:"photo", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:30, y:29, w:118, r:-7, z:46 },
 
-      // --- リサーチ（ビジュアルタイル・クリックで各所へ）＝中間リング ---
-      { cat:"research", name:"Collatz Conjecture",      href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:23, y:39, w:156, r:-13, z:34 },
-      { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/ai/r-radiation.jpg", x:78, y:51, w:150, r:11, z:32 },
-      { cat:"research", name:"Zee — Tripwire", wide:true, href:"https://github.com/KAMANOI/zee",                                   img:"images/products/tiles/ai/r-zee.jpg",       x:71, y:72, w:176, r:6,  z:31 },
-      { cat:"research", name:"Eros & Thanatos",         href:"photography.html",                                                    img:"images/products/tiles/ai/r-eros.jpg",      x:45, y:78, w:150, r:-4, z:30 },
+      // --- リサーチ（ビジュアルタイル）＝中間リング ---
+      { cat:"research", name:"Collatz Conjecture",      href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:16, y:43, w:150, r:-13, z:34 },
+      { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/ai/r-radiation.jpg", x:80, y:58, w:148, r:11, z:32 },
+      { cat:"research", name:"Zee — Tripwire", wide:true, href:"https://github.com/KAMANOI/zee",                                   img:"images/products/tiles/ai/r-zee.jpg",       x:67, y:73, w:176, r:6,  z:31 },
+      { cat:"research", name:"Eros & Thanatos",         href:"photography.html",                                                    img:"images/products/tiles/ai/r-eros.jpg",      x:48, y:76, w:148, r:-4, z:30 },
 
       // --- 開発中（リンク無し・トーン抑えめ）＝最背面。横長も混ぜる ---
-      { cat:"soon", name:"be Cam",    sub:"開発中",             img:"images/products/tiles/ai/d-becam.jpg", x:13, y:52, w:120, r:-14, z:12 },
-      { cat:"soon", name:"SEA",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-sea.jpg",   x:85, y:34, w:170, r:9,  z:12 },
-      { cat:"soon", name:"GEE",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-gee.jpg",   x:15, y:75, w:168, r:-8, z:12 },
-      { cat:"soon", name:"N-Box RAW", sub:"開発中",             img:"images/products/tiles/ai/d-nbox.jpg",  x:89, y:67, w:128, r:6,  z:12 },
+      { cat:"soon", name:"be Cam",    sub:"開発中",             img:"images/products/tiles/ai/d-becam.jpg", x:13, y:61, w:118, r:-14, z:12 },
+      { cat:"soon", name:"SEA",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-sea.jpg",   x:89, y:42, w:160, r:9,  z:12 },
+      { cat:"soon", name:"GEE",       sub:"開発中", wide:true,  img:"images/products/tiles/ai/d-gee.jpg",   x:19, y:78, w:166, r:-8, z:12 },
+      { cat:"soon", name:"N-Box RAW", sub:"開発中",             img:"images/products/tiles/ai/d-nbox.jpg",  x:92, y:74, w:124, r:6,  z:12 },
 
-      // --- 写真集（Amazon・実表紙） ---
-      { cat:"book", name:"LOCA vol.2",             href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:33, y:23, w:106, r:-9, z:20 },
-      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:48, y:18, w:104, r:5,  z:20 },
-      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:62, y:22, w:102, r:10, z:18 },
-      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:10, y:36, w:98,  r:-7, z:16 },
-      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:90, y:20, w:96,  r:12, z:16 },
-      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:64, y:82, w:106, r:-8, z:17 }
+      // --- 写真集（Amazon・実表紙）＝上部の帯に横一列で散らす ---
+      { cat:"book", name:"LOCA vol.2",             href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:18, y:15, w:104, r:-9, z:20 },
+      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:32, y:12, w:98,  r:6,  z:16 },
+      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca1.jpg",     x:50, y:13, w:106, r:-4, z:20 },
+      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:67, y:12, w:102, r:8,  z:18 },
+      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:84, y:15, w:96,  r:12, z:16 },
+      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:60, y:82, w:104, r:-8, z:17 }
     ];
 
     var DECOR = [
