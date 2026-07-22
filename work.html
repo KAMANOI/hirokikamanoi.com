@@ -227,7 +227,26 @@
       object-fit: cover;
       background: #0c0c0e;
     }
-    .hdr-face--photo img { aspect-ratio: 4 / 5; }
+    /* 写真は白フレームのポラロイド（参考画像の物理的な写真の束） */
+    .hdr-face--photo {
+      background: #f7f5ef;
+      padding: 7px 7px 7px;
+      border-radius: 4px;
+      box-shadow: 0 22px 46px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.06);
+    }
+    .hdr-face--photo img { aspect-ratio: 4 / 5; border-radius: 2px; }
+    .hdr-face--photo .hdr-cap {
+      position: static;
+      background: none;
+      padding: 7px 3px 1px;
+    }
+    .hdr-face--photo .hdr-cap b { color: #1c1a17; }
+    .hdr-face--photo .hdr-cap span { color: #7a756c; }
+    .hdr-face--photo .hdr-arrow { color: #c98a2e; }
+    /* 丸い顔写真（参考画像の丸プロフィール） */
+    .hdr-face--circle { box-shadow: 0 20px 44px rgba(0,0,0,0.5); border-radius: 50%; }
+    .hdr-face--circle img { aspect-ratio: 1 / 1; border-radius: 50%; box-shadow: inset 0 0 0 3px rgba(255,255,255,0.9); }
+    .hdr-face--circle .hdr-cap { display: none; }
     .hdr-face--wide img { aspect-ratio: 3 / 2; }   /* 横長カード */
     /* 黒面積が多く暗背景で沈むタイルは白ベースの額装カードにして視認性を上げる */
     .hdr-card.light .hdr-face--img {
@@ -562,7 +581,10 @@
       { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:67, y:33, w:150, r:4,  z:60 },
 
       // === 写真（→ Photography） ===
-      { cat:"photo", section:"Photography", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:30, y:29, w:124, r:-8, z:46 },
+      { cat:"photo", section:"Photography", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/street-snap.jpg", x:30, y:31, w:122, r:-7, z:46 },
+      { cat:"photo", circle:true, href:"photography.html", img:"images/gallery/portrait.jpg", x:21, y:20, w:88, r:0, z:45 },
+      { cat:"photo", href:"photography.html", img:"images/journey/photo-3.jpg", x:43, y:23, w:76, r:7, z:44 },
+      { cat:"photo", href:"photography.html", img:"images/journey/photo-2.jpg", x:55, y:87, w:80, r:-9, z:43 },
 
       // === RESEARCH（AIアート）＝中間リング。特に暗い2枚は白額装（ギャラリープリント）===
       { cat:"research", section:"Research", name:"Collatz Conjecture", href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:15, y:44, w:148, r:-8, z:34 },
@@ -586,8 +608,15 @@
     ];
 
     var DECOR = [
-      { kind:"sparkle", x:50, y:9,  s:24, r:0 },
-      { kind:"scribble",x:50, y:92, s:56, r:0 }
+      { kind:"sparkle", x:52, y:6,  s:30, r:0,  c:"#fff" },
+      { kind:"sparkle", x:11, y:66, s:18, r:0,  c:"#f5e6c8" },
+      { kind:"heart",   x:19, y:33, s:26, r:-12 },
+      { kind:"cat",     x:44, y:93, s:50, r:0,  c:"#e9e6df" },
+      { kind:"burst",   x:88, y:30, s:24, r:0,  c:"#f59e0b" },
+      { kind:"squiggle",x:64, y:9,  s:52, r:8,  c:"#f59e0b" },
+      { kind:"scribble",x:33, y:88, s:54, r:-4, c:"#cfcbe6" },
+      { kind:"coil",    x:82, y:88, s:40, r:0,  c:"#e9e6df" },
+      { kind:"star",    x:5,  y:46, s:16, r:0,  c:"#f5e6c8" }
     ];
 
     var collage = document.getElementById("collage");
@@ -597,8 +626,16 @@
     var decorSVG = {
       sparkle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2 C12 8 13 11 22 12 C13 13 12 16 12 22 C12 16 11 13 2 12 C11 11 12 8 12 2 Z"/></svg>',
       star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 L13.5 10 L20 12 L13.5 14 L12 21 L10.5 14 L4 12 L10.5 10 Z"/></svg>',
-      heart: '<svg viewBox="0 0 24 24" fill="none" stroke="#e0596b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 3.5 14.5 3.5 8.6 C3.5 5.8 5.7 3.8 8.2 3.8 C9.9 3.8 11.3 4.8 12 6 C12.7 4.8 14.1 3.8 15.8 3.8 C18.3 3.8 20.5 5.8 20.5 8.6 C20.5 14.5 12 20 12 20 Z"/></svg>',
-      scribble: '<svg viewBox="0 0 80 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12 C10 4, 16 20, 24 12 S38 4, 46 12 S60 20, 68 12 S78 8, 78 12"/></svg>'
+      heart: '<svg viewBox="0 0 24 24" fill="none" stroke="#e0596b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 3.5 14.5 3.5 8.6 C3.5 5.8 5.7 3.8 8.2 3.8 C9.9 3.8 11.3 4.8 12 6 C12.7 4.8 14.1 3.8 15.8 3.8 C18.3 3.8 20.5 5.8 20.5 8.6 C20.5 14.5 12 20 12 20 Z"/></svg>',
+      scribble: '<svg viewBox="0 0 80 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 12 C10 4, 16 20, 24 12 S38 4, 46 12 S60 20, 68 12 S78 8, 78 12"/></svg>',
+      /* 手描きの猫の顔（参考画像の落書き） */
+      cat: '<svg viewBox="0 0 52 34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 L14 13 M25 3 L20 13"/><path d="M11 12 C10 24 24 25 23 12"/><path d="M14.5 16.5 l0 .2 M19.5 16.5 l0 .2" stroke-width="2.4"/><path d="M2 18 L9 19 M2 22 L9 20.5 M25 18 L33 19 M25 22 L33 20.5"/></svg>',
+      /* 琥珀のバースト（アスタリスク） */
+      burst: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 3 V21 M3 12 H21 M5.6 5.6 L18.4 18.4 M18.4 5.6 L5.6 18.4"/></svg>',
+      /* ぐるぐる（コイル） */
+      coil: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 20 C20 16 16 16 16 20 C16 26 24 26 24 20 C24 12 12 12 12 20 C12 30 28 30 28 20 C28 8 8 8 8 20"/></svg>',
+      /* ゆるいうねり */
+      squiggle: '<svg viewBox="0 0 64 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 14 C8 4 14 4 18 11 S30 20 34 12 S46 3 50 10 S60 16 62 9"/></svg>'
     };
 
     function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
@@ -631,18 +668,20 @@
 
       var face;
       if (c.img) {
-        face = el("span", "hdr-face hdr-face--img" + (c.cat === "photo" ? " hdr-face--photo" : "") + (c.cat === "book" ? " hdr-face--book" : "") + (c.wide ? " hdr-face--wide" : ""));
+        face = el("span", "hdr-face hdr-face--img" + (c.circle ? " hdr-face--circle" : (c.cat === "photo" ? " hdr-face--photo" : "")) + (c.cat === "book" ? " hdr-face--book" : "") + (c.wide ? " hdr-face--wide" : ""));
         var img = el("img");
         img.src = c.img;
         img.alt = c.name || c.title || "";
         img.loading = "lazy";
         img.draggable = false;
         img.onerror = function () { this.style.display = "none"; face.style.background = "#16161a"; };
-        var cap = el("span", "hdr-cap");
-        cap.innerHTML = "<b>" + esc(c.name) + (isLink ? '<span class="hdr-arrow">↗</span>' : "") + "</b>" +
-          (c.sub ? "<span>" + esc(c.sub) + "</span>" : "");
         face.appendChild(img);
-        face.appendChild(cap);
+        if (c.name) {   // 名前が無い写真は純粋なポラロイド（キャプションなし）
+          var cap = el("span", "hdr-cap");
+          cap.innerHTML = "<b>" + esc(c.name) + (isLink ? '<span class="hdr-arrow">↗</span>' : "") + "</b>" +
+            (c.sub ? "<span>" + esc(c.sub) + "</span>" : "");
+          face.appendChild(cap);
+        }
       } else {
         face = el("span", "hdr-face hdr-face--card");
         var chip = c.chip ? '<span class="hdr-chip">' + esc(c.chip) + "</span>" : "";
@@ -664,6 +703,7 @@
       s.style.setProperty("--x", d.x + "%");
       s.style.setProperty("--y", d.y + "%");
       s.style.width = d.s + "px";
+      if (d.c) s.style.color = d.c;
       s.style.transform = "translate(-50%,-50%) rotate(" + (d.r || 0) + "deg)";
       s.innerHTML = decorSVG[d.kind] || "";
       collage.appendChild(s);
