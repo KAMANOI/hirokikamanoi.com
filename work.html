@@ -185,6 +185,10 @@
       background: #0c0c0e;
     }
     .hdr-face--photo img { aspect-ratio: 4 / 5; }
+    /* 開発中タイルは背面感を出すため少し沈める（ホバーで復帰） */
+    .cat-soon .hdr-face--img { filter: saturate(0.82) brightness(0.8); }
+    .cat-soon.is-active .hdr-face--img { filter: none; }
+    .cat-soon .hdr-cap b { color: rgba(255,255,255,0.82); }
     .hdr-cap {
       position: absolute;
       left: 0; right: 0; bottom: 0;
@@ -440,43 +444,39 @@
     /* ---------------- カード定義 ----------------
        x,y = コラージュ内の中心座標(%) / w = 幅(px) / r = 回転(deg) / z = 重なり順 */
     var CARDS = [
-      // --- プロダクト（リリース済み・画像・クリックで各LP）＝中心の主役 ---
-      { cat:"product", name:"DIA",       sub:"プロンプト生成ツール",         href:"https://dia-wheat.vercel.app",              img:"images/products/tiles/dia.jpg", x:40, y:45, w:150, r:-5, z:40 },
-      { cat:"product", name:"ele",       sub:"写真前処理・画像エンジン",     href:"https://ele-oq8u.onrender.com",             img:"images/products/tiles/ele.jpg", x:59, y:51, w:150, r:5,  z:38 },
-      { cat:"product", name:"A.A.R.U.",  sub:"サロン予約管理",               href:"https://getaaru.app", img:"images/products/tiles/aaru.svg", x:33, y:60, w:138, r:-8, z:34 },
-      { cat:"product", name:"Zee",       sub:"AI脅威検知 / OSS",             href:"https://github.com/KAMANOI/zee",            img:"images/products/tiles/zee.svg", x:68, y:35, w:138, r:7,  z:33 },
+      // --- プロダクト（リリース済み）＝大きく・最前面（z最上位）・クリックで各LP ---
+      { cat:"product", name:"DIA",      sub:"プロンプト生成ツール",     href:"https://dia-wheat.vercel.app",   img:"images/products/tiles/dia.jpg",  x:41, y:46, w:158, r:-5, z:66 },
+      { cat:"product", name:"ele",      sub:"写真前処理・画像エンジン", href:"https://ele-oq8u.onrender.com",  img:"images/products/tiles/ele.jpg",  x:60, y:51, w:158, r:5,  z:64 },
+      { cat:"product", name:"A.A.R.U.", sub:"サロン予約管理",           href:"https://getaaru.app",            img:"images/products/tiles/aaru.svg", x:32, y:61, w:150, r:-7, z:62 },
+      { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:68, y:39, w:150, r:6,  z:60 },
 
       // --- 写真（→ Photography） ---
-      { cat:"photo", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:50, y:29, w:116, r:6,  z:36 },
-      { cat:"photo", name:"Eros & Thanatos", sub:"写真シリーズ", href:"photography.html", img:"images/journey/photo-3.jpg", x:28, y:74, w:120, r:-9, z:30 },
+      { cat:"photo", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:49, y:26, w:116, r:5, z:46 },
 
-      // --- リサーチ（生成り・クリックで各所へ）＝中間リング ---
-      { cat:"research", chip:"Research", title:"Collatz Conjecture", sub:"スペクトル解析・スケール一貫性", href:"https://github.com/KAMANOI?tab=repositories&q=collatz", x:22, y:37, w:156, r:-10, z:26 },
-      { cat:"research", chip:"Research", title:"放射線耐性生物 × 環境修復", sub:"事故後修復とARS治療への統合的アプローチ", href:"https://github.com/KAMANOI/radiation-resistance-remediation", x:74, y:49, w:156, r:8, z:24 },
-      { cat:"research", chip:"Research", title:"Zee — 囮トリップワイヤ", sub:"AIエージェントの自動封じ込め", href:"https://github.com/KAMANOI/zee", x:71, y:71, w:148, r:9, z:23 },
-      { cat:"research", chip:"Research", title:"Eros & Thanatos", sub:"写真表現を通じた哲学的フレームワーク", href:"photography.html", x:46, y:78, w:156, r:-3, z:25 },
+      // --- リサーチ（ビジュアルタイル・クリックで各所へ）＝中間リング ---
+      { cat:"research", name:"Collatz Conjecture",      href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/r-collatz.svg",   x:24, y:41, w:148, r:-9, z:34 },
+      { cat:"research", name:"Radiation × Remediation", href:"https://github.com/KAMANOI/radiation-resistance-remediation",        img:"images/products/tiles/r-radiation.svg", x:76, y:50, w:150, r:8,  z:32 },
+      { cat:"research", name:"Zee — Tripwire",          href:"https://github.com/KAMANOI/zee",                                     img:"images/products/tiles/r-zee.svg",       x:73, y:70, w:140, r:9,  z:31 },
+      { cat:"research", name:"Eros & Thanatos",         href:"photography.html",                                                    img:"images/products/tiles/r-eros.svg",      x:46, y:76, w:146, r:-3, z:30 },
 
-      // --- 開発中（リンク無し）＝外周 ---
-      { cat:"soon", chip:"In Dev", title:"be Cam",    sub:"LUT・フィルムのiOSカメラ", x:12, y:53, w:114, r:-12, z:15 },
-      { cat:"soon", chip:"In Dev", title:"SEA",       sub:"Lightroom XMPマーケット", x:87, y:35, w:112, r:10, z:16 },
-      { cat:"soon", chip:"In Dev", title:"GEE",       sub:"AI自動テロップ生成", x:13, y:77, w:114, r:-6, z:15 },
-      { cat:"soon", chip:"In Dev", title:"N-Box RAW", sub:"N-RAW / NEF アーカイブ", x:88, y:67, w:122, r:7, z:16 },
+      // --- 開発中（リンク無し・トーン抑えめ）＝最背面 ---
+      { cat:"soon", name:"be Cam",    sub:"開発中", img:"images/products/tiles/d-becam.svg", x:14, y:53, w:120, r:-11, z:12 },
+      { cat:"soon", name:"SEA",       sub:"開発中", img:"images/products/tiles/d-sea.svg",   x:86, y:36, w:116, r:10, z:12 },
+      { cat:"soon", name:"GEE",       sub:"開発中", img:"images/products/tiles/d-gee.svg",   x:15, y:74, w:120, r:-6, z:12 },
+      { cat:"soon", name:"N-Box RAW", sub:"開発中", img:"images/products/tiles/d-nbox.svg",  x:87, y:66, w:126, r:7,  z:12 },
 
-      // --- 写真集（Amazon）＝上部・HDRの文字の隙間へ逃がす ---
-      { cat:"book", chip:"Book", title:"LOCA vol.2",  sub:"for Asia",  href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", x:34, y:21, w:108, r:-6, z:12 },
-      { cat:"book", chip:"Book", title:"LOCA vol.1",  sub:"for Asia",  href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", x:45, y:24, w:108, r:3, z:12 },
-      { cat:"book", chip:"Book", title:"The Epicurean Philosophy", sub:"", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", x:61, y:21, w:120, r:7, z:11 },
-      { cat:"book", chip:"Book", title:"juːtóʊpiə",   sub:"",          href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", x:10, y:36, w:100, r:-5, z:10 },
-      { cat:"book", chip:"Book", title:"椿姫のの 写真集", sub:"",       href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", x:89, y:19, w:102, r:9, z:10 },
-      { cat:"book", chip:"Book", title:"かげろう",     sub:"",          href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", x:62, y:81, w:110, r:-5, z:11 }
+      // --- 写真集（Amazon・ビジュアル表紙）＝上部の帯へ ---
+      { cat:"book", name:"LOCA vol.2",             href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/b-loca2.svg",     x:35, y:22, w:112, r:-6, z:20 },
+      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", img:"images/products/tiles/b-loca1.svg",     x:49, y:19, w:112, r:3,  z:20 },
+      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/b-epicurean.svg", x:60, y:20, w:118, r:7,  z:18 },
+      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/b-utopia.svg",    x:11, y:38, w:104, r:-5, z:16 },
+      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/b-tsubaki.svg",   x:88, y:21, w:106, r:9,  z:16 },
+      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/b-kagerou.svg",   x:63, y:80, w:112, r:-5, z:17 }
     ];
 
     var DECOR = [
-      { kind:"sparkle", x:50, y:8,  s:26, r:0 },
-      { kind:"sparkle", x:92, y:82, s:18, r:0 },
-      { kind:"heart",   x:20, y:24, s:22, r:-10 },
-      { kind:"scribble",x:50, y:92, s:60, r:0 },
-      { kind:"star",    x:8,  y:66, s:18, r:0 }
+      { kind:"sparkle", x:50, y:9,  s:24, r:0 },
+      { kind:"scribble",x:50, y:92, s:56, r:0 }
     ];
 
     var collage = document.getElementById("collage");
@@ -514,7 +514,7 @@
       floatWrap.style.setProperty("--delay", (-(i % 6) * 0.9) + "s");
 
       var face;
-      if (c.cat === "product" || c.cat === "photo") {
+      if (c.img) {
         face = el("span", "hdr-face hdr-face--img" + (c.cat === "photo" ? " hdr-face--photo" : ""));
         var img = el("img");
         img.src = c.img;

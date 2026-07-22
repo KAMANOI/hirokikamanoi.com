@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720">
+<defs>
+<radialGradient id="vig" cx="50%" cy="46%" r="72%">
+<stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+<stop offset="1" stop-color="#000" stop-opacity="0.6"/>
+</radialGradient>
+<radialGradient id="glow" cx="50%" cy="42%" r="62%">
+<stop offset="0" stop-color="#5b93ac" stop-opacity="0.42"/>
+<stop offset="0.55" stop-color="#5b93ac" stop-opacity="0.10"/>
+<stop offset="1" stop-color="#5b93ac" stop-opacity="0"/>
+</radialGradient>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+</defs>
+<rect width="720" height="720" fill="#0a1016"/>
+<rect width="720" height="720" fill="url(#glow)"/>
+<g><path d="M0 300 Q20 274, 40 300 Q60 274, 80 300 Q100 274, 120 300 Q140 274, 160 300 Q180 274, 200 300 Q220 274, 240 300 Q260 274, 280 300 Q300 274, 320 300 Q340 274, 360 300 Q380 274, 400 300 Q420 274, 440 300 Q460 274, 480 300 Q500 274, 520 300 Q540 274, 560 300 Q580 274, 600 300 Q620 274, 640 300 Q660 274, 680 300 Q700 274, 720 300 Q740 274, 760 300 L720 720 L0 720 Z" fill="#3f6f8f" fill-opacity="0.50"/><path d="M0 370 Q20 356, 40 370 Q60 356, 80 370 Q100 356, 120 370 Q140 356, 160 370 Q180 356, 200 370 Q220 356, 240 370 Q260 356, 280 370 Q300 356, 320 370 Q340 356, 360 370 Q380 356, 400 370 Q420 356, 440 370 Q460 356, 480 370 Q500 356, 520 370 Q540 356, 560 370 Q580 356, 600 370 Q620 356, 640 370 Q660 356, 680 370 Q700 356, 720 370 Q740 356, 760 370 L720 720 L0 720 Z" fill="#4d86a3" fill-opacity="0.42"/><path d="M0 440 Q20 414, 40 440 Q60 414, 80 440 Q100 414, 120 440 Q140 414, 160 440 Q180 414, 200 440 Q220 414, 240 440 Q260 414, 280 440 Q300 414, 320 440 Q340 414, 360 440 Q380 414, 400 440 Q420 414, 440 440 Q460 414, 480 440 Q500 414, 520 440 Q540 414, 560 440 Q580 414, 600 440 Q620 414, 640 440 Q660 414, 680 440 Q700 414, 720 440 Q740 414, 760 440 L720 720 L0 720 Z" fill="#356079" fill-opacity="0.34"/><path d="M0 510 Q20 496, 40 510 Q60 496, 80 510 Q100 496, 120 510 Q140 496, 160 510 Q180 496, 200 510 Q220 496, 240 510 Q260 496, 280 510 Q300 496, 320 510 Q340 496, 360 510 Q380 496, 400 510 Q420 496, 440 510 Q460 496, 480 510 Q500 496, 520 510 Q540 496, 560 510 Q580 496, 600 510 Q620 496, 640 510 Q660 496, 680 510 Q700 496, 720 510 Q740 496, 760 510 L720 720 L0 720 Z" fill="#5b93ac" fill-opacity="0.26"/></g>
+<rect width="720" height="720" fill="url(#vig)"/>
+<rect width="720" height="720" filter="url(#grain)" opacity="0.05"/>
+</svg>
