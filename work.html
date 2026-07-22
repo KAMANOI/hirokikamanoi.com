@@ -129,6 +129,19 @@
     .hdr-collage.ready { opacity: 1; }
     .hdr-msection { display: none; }   /* PC は非表示・モバイルでセクション見出しに */
 
+    /* HDRロゴとカード群を仕切る白のヘアライン（端はフェード） */
+    .hdr-divider {
+      position: absolute;
+      top: clamp(200px, 31vh, 292px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(88vw, 1120px);
+      height: 1px;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent 0%, rgba(244,242,238,0.20) 24%, rgba(244,242,238,0.30) 50%, rgba(244,242,238,0.20) 76%, transparent 100%);
+    }
+
     .hdr-card {
       position: absolute;
       left: var(--x);
@@ -356,6 +369,7 @@
       .hdr-wordmark { font-size: clamp(80px, 14.5vw, 188px); }
       .hdr-logo-img { width: clamp(300px, 34vw, 460px); }
       .hdr-collage { top: clamp(158px, 25vh, 232px); bottom: 44px; }
+      .hdr-divider { top: clamp(146px, 22vh, 208px); }
       .hdr-foot { padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
     }
 
@@ -364,6 +378,7 @@
        ============================================================ */
     @media (max-width: 860px) {
       body.hdr-page { overflow-x: hidden; overflow-y: auto; }
+      .hdr-divider { display: none; }
       .hdr-stage { height: auto; min-height: 100dvh; overflow: visible; }
       .hdr-head {
         position: relative;
@@ -470,6 +485,8 @@
       <p class="hdr-kicker">Hiroki Kamanoi · Development &amp; Research</p>
       <h1 class="hdr-wordmark"><img src="images/hdr-logo.png" alt="HDR" class="hdr-logo-img"></h1>
     </header>
+
+    <div class="hdr-divider" aria-hidden="true"></div>
 
     <div class="hdr-collage" id="collage" aria-label="プロダクトと研究のコレクション"></div>
 
