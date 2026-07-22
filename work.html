@@ -69,7 +69,7 @@
     /* ---------- タイトル帯 ---------- */
     .hdr-head {
       position: absolute;
-      top: clamp(58px, 9vh, 100px);
+      top: clamp(46px, 7vh, 84px);
       left: 0; right: 0;
       z-index: 2;
       text-align: center;
@@ -102,7 +102,7 @@
     .hdr-logo-img {
       display: block;
       margin: 0 auto;
-      width: clamp(240px, 26vw, 356px);
+      width: clamp(228px, 24vw, 336px);
       height: auto;
       filter: drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 26px rgba(184,202,235,0.18));
     }
@@ -120,8 +120,8 @@
     .hdr-collage {
       position: absolute;
       left: 3.5vw; right: 3.5vw;
-      top: clamp(228px, 35vh, 326px);
-      bottom: clamp(58px, 7.8vh, 88px);
+      top: clamp(252px, 38.5vh, 358px);
+      bottom: clamp(42px, 5.8vh, 72px);
       z-index: 3;
       opacity: 0;
       transition: opacity 0.9s ease;
@@ -132,7 +132,7 @@
     /* HDRロゴとカード群を仕切る白のヘアライン（端はフェード） */
     .hdr-divider {
       position: absolute;
-      top: clamp(200px, 31vh, 292px);
+      top: clamp(198px, 30vh, 286px);
       left: 50%;
       transform: translateX(-50%);
       width: min(88vw, 1120px);
@@ -365,11 +365,11 @@
 
     /* 背の低いデスクトップ（ノートPC 1366×768 等・実効高さが低い場合）の見切れ防止 */
     @media (min-width: 861px) and (max-height: 730px) {
-      .hdr-head { top: clamp(52px, 8vh, 82px); }
+      .hdr-head { top: clamp(34px, 5vh, 60px); }
       .hdr-wordmark { font-size: clamp(80px, 14.5vw, 188px); }
-      .hdr-logo-img { width: clamp(300px, 34vw, 460px); }
-      .hdr-collage { top: clamp(158px, 25vh, 232px); bottom: 44px; }
-      .hdr-divider { top: clamp(146px, 22vh, 208px); }
+      .hdr-logo-img { width: clamp(210px, 22vw, 286px); }
+      .hdr-collage { top: clamp(232px, 35vh, 272px); bottom: 36px; }
+      .hdr-divider { display: none; }   /* 短い画面は余白確保のためライン非表示 */
       .hdr-foot { padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
     }
 
