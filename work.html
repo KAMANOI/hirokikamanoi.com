@@ -2,11 +2,11 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Products & Research — Hiroki Kamanoi. 開発したプロダクトと研究の一覧。">
-  <title>Products & Research — KAMANOI</title>
-  <meta property="og:title" content="Products & Research — Hiroki Kamanoi">
-  <meta property="og:description" content="開発したプロダクトと研究の一覧。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="HDR — Hiroki Kamanoi Development and Research. 釜野井弘規が生み出したプロダクトと研究のコレクション。">
+  <title>HDR — Hiroki Kamanoi Development & Research</title>
+  <meta property="og:title" content="HDR — Hiroki Kamanoi Development & Research">
+  <meta property="og:description" content="釜野井弘規が生み出したプロダクトと研究のコレクション。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hirokikamanoi.com/work.html">
   <meta property="og:image" content="https://hirokikamanoi.com/images/products-bg.jpg">
@@ -14,46 +14,368 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d0d0d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23f0f0f0'%3Eh%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* work.html 専用：長いタイトルがスマホで切れないように */
-    .page-header-title { overflow-wrap: anywhere; }
-    @media (max-width: 560px) {
-      .page-header-title { font-size: clamp(26px, 8.5vw, 44px); }
+    /* ============================================================
+       HDR コラージュページ 専用スタイル（このページ限定・スコープ済み）
+       他ページには影響しない
+       ============================================================ */
+    :root {
+      --hdr-bg: #060607;
+      --hdr-ink: #f4f2ee;
+      --hdr-muted: rgba(244,242,238,0.52);
+      --hdr-faint: rgba(244,242,238,0.30);
+      --hdr-line: rgba(244,242,238,0.14);
     }
-    /* リリース済み製品：タイルギャラリー */
-    .tile-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      margin-top: 8px;
+
+    body.hdr-page {
+      background: var(--hdr-bg);
+      color: var(--hdr-ink);
+      min-height: 100dvh;
+      overflow: hidden;               /* PC = ノンスクロール */
+      -webkit-font-smoothing: antialiased;
     }
-    .tile { display: block; text-decoration: none; color: inherit; }
-    .tile-img {
+    /* 背景：ごく淡いスポットライトとフィルムグレイン風ビネット */
+    body.hdr-page::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(120% 90% at 50% 34%, rgba(60,58,70,0.30) 0%, rgba(10,10,12,0) 55%),
+        radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 60%);
+    }
+    /* フィルミックな微粒子ノイズ（質感・全体の上に薄く重ねる） */
+    body.hdr-page::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 140px 140px;
+    }
+
+    /* ---------- ステージ ---------- */
+    .hdr-stage {
+      position: relative;
+      z-index: 1;
+      height: 100dvh;
       width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      object-fit: contain;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: #0a0a0a;
+      overflow: hidden;
+    }
+
+    /* ---------- タイトル帯 ---------- */
+    .hdr-head {
+      position: absolute;
+      top: clamp(74px, 12vh, 132px);
+      left: 0; right: 0;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+      padding: 0 24px;
+    }
+    .hdr-kicker {
+      font-family: var(--font);
+      font-size: clamp(10px, 1.05vw, 12.5px);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--hdr-faint);
+      margin: 0 0 clamp(8px, 1.4vh, 18px);
+      padding-left: 0.42em;
+    }
+    .hdr-wordmark {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(92px, 19vw, 264px);
+      line-height: 0.82;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: transparent;
+      background: linear-gradient(180deg, #ffffff 0%, #f2efe8 38%, #b9b4ab 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.04);
+      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.55));
+    }
+    .hdr-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(15px, 2.1vw, 24px);
+      color: var(--hdr-muted);
+      margin: clamp(6px, 1.2vh, 14px) 0 0;
+      letter-spacing: 0.01em;
+    }
+
+    /* ---------- コラージュ ---------- */
+    .hdr-collage {
+      position: absolute;
+      left: 3.5vw; right: 3.5vw;
+      top: clamp(200px, 31vh, 312px);
+      bottom: clamp(58px, 8vh, 82px);
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+    .hdr-collage.ready { opacity: 1; }
+
+    .hdr-card {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      z-index: var(--z);
+      transform: translate(-50%, -50%) translate(var(--px, 0px), var(--py, 0px));
+      transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.45s ease, filter 0.45s ease;
+      text-decoration: none;
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
+      will-change: transform;
+      --px: 0px; --py: 0px;
+    }
+    .hdr-card[href] { cursor: pointer; }
+
+    .hdr-float {                       /* 常時の微揺れ（repel と衝突しない層） */
       display: block;
-      box-shadow: 0 6px 28px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.04);
-      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+      animation: hdrFloat var(--dur, 8s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
     }
-    .tile:hover .tile-img,
-    .tile:focus-visible .tile-img {
-      transform: translateY(-4px);
-      border-color: rgba(255,255,255,0.34);
-      box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+    @keyframes hdrFloat {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50%      { transform: translateY(-7px) translateX(2px); }
     }
-    .tile-cap { display: flex; flex-direction: column; gap: 3px; padding: 13px 4px 0; }
-    .tile-name { font-size: 15px; font-weight: 600; }
-    .tile-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-    @media (max-width: 560px) {
-      .tile-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    .hdr-face {
+      position: relative;
+      display: block;
+      transform: rotate(var(--r, 0deg)) scale(1);
+      transform-origin: center;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.5s ease, filter 0.5s ease;
+    }
+
+    /* ホバー中：対象は最前面・拡大・明るく。物理挙動は JS が兄弟に付与 */
+    .hdr-card.is-active { z-index: 90 !important; }
+    .hdr-card.is-active .hdr-face {
+      transform: rotate(0deg) scale(1.075);
+      filter: saturate(1.06) brightness(1.05);
+    }
+    .hdr-collage.is-dimmed .hdr-card:not(.is-active) { opacity: 0.58; }
+    .hdr-collage.is-dimmed .hdr-card:not(.is-active) .hdr-face { filter: brightness(0.86) saturate(0.9); }
+
+    /* --- 写真・プロダクト画像カード --- */
+    .hdr-face--img {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #111114;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.4),
+                  inset 0 0 0 1px rgba(255,255,255,0.07);
+    }
+    .hdr-card.is-active .hdr-face--img {
+      box-shadow: 0 34px 70px rgba(0,0,0,0.62), 0 0 0 1px rgba(255,255,255,0.18);
+    }
+    .hdr-face--img img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: #0c0c0e;
+    }
+    .hdr-face--photo img { aspect-ratio: 4 / 5; }
+    .hdr-cap {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+      padding: 26px 12px 10px;
+      font-family: var(--font);
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.78) 72%);
+    }
+    .hdr-cap b { font-weight: 600; font-size: 13px; letter-spacing: 0.01em; line-height: 1.2; }
+    .hdr-cap span { font-size: 10.5px; color: rgba(255,255,255,0.66); line-height: 1.3; }
+    .hdr-arrow { font-size: 10.5px; color: rgba(255,255,255,0.78); margin-left: 3px; }
+
+    /* --- テキストカード共通 --- */
+    .hdr-face--card {
+      border-radius: 12px;
+      padding: 15px 15px 16px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .hdr-chip {
+      display: inline-block;
+      font-family: var(--font);
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 11px;
+    }
+    .hdr-ctitle {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 1.12;
+      letter-spacing: -0.005em;
+    }
+    .hdr-csub {
+      font-family: var(--font);
+      font-size: 11px;
+      line-height: 1.42;
+      margin-top: 7px;
+      opacity: 0.7;
+    }
+    .hdr-ctitle .a { font-size: 11px; opacity: 0.55; margin-left: 2px; }
+
+    /* research = 生成りの紙 */
+    .cat-research .hdr-face--card {
+      background: linear-gradient(180deg, #efe9db 0%, #e4dccb 100%);
+      color: #2b2620;
+    }
+    .cat-research .hdr-chip { background: rgba(43,38,32,0.10); color: #6a5f4d; }
+    .cat-research .hdr-csub { opacity: 0.62; }
+
+    /* book = 深い暖色 */
+    .cat-book .hdr-face--card {
+      background: linear-gradient(165deg, #241c16 0%, #191411 100%);
+      color: #e9dcc6;
+    }
+    .cat-book .hdr-chip { background: rgba(214,180,120,0.14); color: #d0ad72; }
+    .cat-book .hdr-ctitle { font-size: 14.5px; }
+
+    /* soon = 開発中（リンク無し・トーン抑えめ） */
+    .cat-soon .hdr-face--card {
+      background: rgba(22,22,26,0.72);
+      color: rgba(244,242,238,0.82);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.42);
+      border: 1px dashed rgba(244,242,238,0.20);
+    }
+    .cat-soon .hdr-chip { background: rgba(244,242,238,0.08); color: rgba(244,242,238,0.5); }
+    .cat-soon .hdr-ctitle { font-size: 15px; }
+    .cat-soon .hdr-csub { opacity: 0.5; }
+
+    /* --- 装飾ステッカー（非インタラクティブ） --- */
+    .hdr-decor {
+      position: absolute;
+      left: var(--x); top: var(--y);
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      pointer-events: none;
+      color: var(--hdr-ink);
+      opacity: 0.9;
+    }
+
+    /* ---------- 下部の細いバー ---------- */
+    .hdr-foot {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px clamp(18px, 4vw, 40px) calc(14px + env(safe-area-inset-bottom));
+      font-family: var(--font);
+      font-size: 12px;
+      color: var(--hdr-muted);
+      pointer-events: none;
+    }
+    .hdr-foot a { color: var(--hdr-muted); text-decoration: none; pointer-events: auto; transition: color .25s ease; }
+    .hdr-foot a:hover { color: var(--hdr-ink); }
+    .hdr-foot .hdr-foot-mark { letter-spacing: 0.02em; }
+    .hdr-foot .hdr-foot-links { display: flex; align-items: center; gap: 18px; }
+    .hdr-foot svg { width: 13px; height: 13px; vertical-align: -1px; }
+
+    /* 背の低いデスクトップ（ノートPC 1366×768 等・実効高さが低い場合）の見切れ防止 */
+    @media (min-width: 861px) and (max-height: 730px) {
+      .hdr-head { top: clamp(52px, 8vh, 82px); }
+      .hdr-wordmark { font-size: clamp(80px, 14.5vw, 188px); }
+      .hdr-collage { top: clamp(158px, 25vh, 232px); bottom: 44px; }
+      .hdr-foot { padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+    }
+
+    /* ============================================================
+       スマートフォン：縦長に再配置（スクロール可・repel 無効）
+       ============================================================ */
+    @media (max-width: 860px) {
+      body.hdr-page { overflow-x: hidden; overflow-y: auto; }
+      .hdr-stage { height: auto; min-height: 100dvh; overflow: visible; }
+      .hdr-head {
+        position: relative;
+        top: 0;
+        padding: clamp(84px, 15vh, 124px) 22px 0;
+      }
+      .hdr-kicker {
+        font-size: 9.5px;
+        letter-spacing: 0.16em;
+        padding-left: 0.16em;
+        white-space: normal;
+        line-height: 1.6;
+      }
+      .hdr-wordmark { font-size: clamp(72px, 33vw, 150px); }
+
+      .hdr-collage {
+        position: relative;
+        left: 0; right: 0; top: 0; bottom: 0;
+        inset: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 44px 20px 40px;
+        max-width: 440px;
+        margin: 0 auto;
+      }
+      .hdr-card {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important;
+        transform: none !important;
+        z-index: auto !important;
+      }
+      .hdr-float { animation: none; transform: none !important; }
+      .hdr-face { transform: none !important; }
+      .hdr-face--img { display: flex; align-items: stretch; }
+      .hdr-face--img img { width: 92px; height: 92px; aspect-ratio: 1/1; flex: 0 0 auto; }
+      .hdr-face--photo img { aspect-ratio: 1/1; }
+      .hdr-cap {
+        position: static;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        padding: 12px 15px;
+        background: #111114;
+      }
+      .hdr-cap b { font-size: 15px; }
+      .hdr-cap span { font-size: 12px; }
+      .hdr-face--card { padding: 15px 17px; }
+      .hdr-ctitle, .cat-book .hdr-ctitle, .cat-soon .hdr-ctitle { font-size: 16px; }
+      .hdr-csub { font-size: 12px; }
+      .hdr-decor { display: none; }
+
+      .hdr-foot {
+        position: relative;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 26px 20px calc(34px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--hdr-line);
+        margin-top: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hdr-float { animation: none; }
+      .hdr-card { transition: opacity 0.3s ease; }
     }
   </style>
 </head>
-<body>
+<body class="hdr-page">
 
   <nav id="nav">
     <a href="index.html" class="nav-logo">hirokikamanoi.com</a>
@@ -64,145 +386,262 @@
       <li><a href="hair-salon.html">Salon</a></li>
       <li><a href="photography.html">Photography</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="work.html" class="nav-active">Products</a></li>
-      <li><a href="work.html#research-section">Research</a></li>
+      <li><a href="work.html" class="nav-active">HDR</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <header class="page-header">
-    <div class="page-header-inner">
-      <p class="page-header-sub">Products &amp; Research</p>
-      <h1 class="page-header-title">Products &amp; Research</h1>
-      <p class="page-header-desc">開発したプロダクトと、思索の記録。</p>
-    </div>
-  </header>
+  <main class="hdr-stage">
+    <header class="hdr-head">
+      <p class="hdr-kicker">Hiroki Kamanoi · Development &amp; Research</p>
+      <h1 class="hdr-wordmark">HDR</h1>
+    </header>
 
-  <!-- Products -->
-  <section class="section" id="products-section">
-    <div class="section-inner">
-      <div class="section-label">Products</div>
-      <div class="section-body">
-        <p class="section-desc">創造と技術が交差する場所から、プロダクトを生み出す。</p>
+    <div class="hdr-collage" id="collage" aria-label="プロダクトと研究のコレクション"></div>
 
-        <div class="tile-grid">
-          <a class="tile" href="https://dia-wheat.vercel.app" target="_blank" rel="noopener">
-            <img class="tile-img" src="images/products/tiles/dia.jpg" alt="DIA" width="720" height="720" loading="lazy">
-            <div class="tile-cap">
-              <span class="tile-name">DIA ↗</span>
-              <span class="tile-desc">プロンプト生成ツール</span>
-            </div>
-          </a>
-          <a class="tile" href="https://ele-oq8u.onrender.com" target="_blank" rel="noopener">
-            <img class="tile-img" src="images/products/tiles/ele.jpg" alt="ele" width="720" height="720" loading="lazy">
-            <div class="tile-cap">
-              <span class="tile-name">ele ↗</span>
-              <span class="tile-desc">写真前処理・画像エンジン</span>
-            </div>
-          </a>
-          <a class="tile" href="https://salon-booking-sigma-six.vercel.app" target="_blank" rel="noopener">
-            <img class="tile-img" src="images/products/tiles/aaru.svg" alt="A.A.R.U." width="720" height="720" loading="lazy">
-            <div class="tile-cap">
-              <span class="tile-name">A.A.R.U. ↗</span>
-              <span class="tile-desc">個人・小規模サロン向け予約管理システム</span>
-            </div>
-          </a>
-          <a class="tile" href="https://github.com/KAMANOI/zee" target="_blank" rel="noopener">
-            <img class="tile-img" src="images/products/tiles/zee.svg" alt="Zee" width="720" height="720" loading="lazy">
-            <div class="tile-cap">
-              <span class="tile-name">Zee ↗</span>
-              <span class="tile-desc">AIエージェント脅威検知・囮トリップワイヤ（オープンソース）</span>
-            </div>
-          </a>
-        </div>
+    <footer class="hdr-foot">
+      <span class="hdr-foot-mark">© 2026 Hiroki Kamanoi</span>
+      <span class="hdr-foot-links">
+        <a href="index.html">← hirokikamanoi.com</a>
+        <a href="https://twitter.com/HKakaGraffito" target="_blank" rel="noopener" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/kamanoi_ah/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </span>
+    </footer>
+  </main>
 
-        <h3 class="sub-heading" style="margin-top:56px;">開発中</h3>
-        <ul class="product-list">
-          <li class="product-item">
-            <span class="product-name">be Cam</span>
-            <span class="product-desc">LUT・フィルム表現に特化したiOSカメラアプリ</span>
-          </li>
-          <li class="product-item">
-            <span class="product-name">SEA</span>
-            <span class="product-desc">Lightroom XMPプリセットのマーケットプレイス</span>
-          </li>
-          <li class="product-item">
-            <span class="product-name">GEE</span>
-            <span class="product-desc">AIによる自動テロップ生成サービス</span>
-          </li>
-          <li class="product-item">
-            <span class="product-name">N-Box RAW</span>
-            <span class="product-desc">N-RAW / NEF アーカイブマネージャー（macOS）</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <script>
+  /* ナビのハンバーガー開閉（他ページの script.js と同一挙動・このページは軽量版を内蔵） */
+  (function () {
+    var toggle = document.querySelector(".nav-toggle");
+    var links = document.querySelector(".nav-links");
+    if (!toggle || !links) return;
+    toggle.addEventListener("click", function () {
+      var open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open));
+      links.classList.toggle("open", !open);
+    });
+    links.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        toggle.setAttribute("aria-expanded", "false");
+        links.classList.remove("open");
+      });
+    });
+  })();
+  </script>
 
-  <!-- Photo Books -->
-  <section class="section section--dark">
-    <div class="section-inner">
-      <div class="section-label">Photo Books</div>
-      <div class="section-body">
-        <ul class="book-list">
-          <li class="book-item">
-            <a href="https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.2 — for Asia ↗</a>
-          </li>
-          <li class="book-item">
-            <a href="https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">LOCA vol.1 — for Asia ↗</a>
-          </li>
-          <li class="book-item">
-            <a href="https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">The Epicurean Philosophy ↗</a>
-          </li>
-          <li class="book-item">
-            <a href="https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">juːtóʊpiə ↗</a>
-          </li>
-          <li class="book-item">
-            <a href="https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">椿姫のの 写真集 ↗</a>
-          </li>
-          <li class="book-item">
-            <a href="https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22" class="book-title book-title--link" target="_blank" rel="noopener">かげろう ↗</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  <script>
+  (function () {
+    "use strict";
 
-  <!-- Research -->
-  <section class="section" id="research-section">
-    <div class="section-inner">
-      <div class="section-label">Research</div>
-      <div class="section-body">
-        <p class="section-desc">
-          数学・哲学・芸術の境界を横断する思索。<br>
-          コラッツ予想をはじめとする未解決問題へのアプローチと、<br>
-          Eros &amp; Thanatos を軸とした人間存在の探究。
-        </p>
-        <ul class="research-list">
-          <li><a href="https://github.com/KAMANOI?tab=repositories&amp;q=collatz" target="_blank" rel="noopener" class="text-link">Collatz Conjecture — スペクトル解析・スケール一貫性からのアプローチ ↗</a></li>
-          <li><a href="https://github.com/KAMANOI/radiation-resistance-remediation" target="_blank" rel="noopener" class="text-link">放射線耐性生物を起点とした事故後環境修復とARS治療への統合的アプローチ ↗</a></li>
-          <li><a href="https://github.com/KAMANOI/zee" target="_blank" rel="noopener" class="text-link">Zee — AIエージェントを標的とした囮トリップワイヤと自動封じ込め手法の研究 ↗</a></li>
-          <li>Eros &amp; Thanatos — 写真表現を通じた哲学的フレームワーク</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    /* ---------------- カード定義 ----------------
+       x,y = コラージュ内の中心座標(%) / w = 幅(px) / r = 回転(deg) / z = 重なり順 */
+    var CARDS = [
+      // --- プロダクト（リリース済み・画像・クリックで各LP）＝中心の主役 ---
+      { cat:"product", name:"DIA",       sub:"プロンプト生成ツール",         href:"https://dia-wheat.vercel.app",              img:"images/products/tiles/dia.jpg", x:40, y:45, w:150, r:-5, z:40 },
+      { cat:"product", name:"ele",       sub:"写真前処理・画像エンジン",     href:"https://ele-oq8u.onrender.com",             img:"images/products/tiles/ele.jpg", x:59, y:51, w:150, r:5,  z:38 },
+      { cat:"product", name:"A.A.R.U.",  sub:"サロン予約管理",               href:"https://getaaru.app", img:"images/products/tiles/aaru.svg", x:33, y:60, w:138, r:-8, z:34 },
+      { cat:"product", name:"Zee",       sub:"AI脅威検知 / OSS",             href:"https://github.com/KAMANOI/zee",            img:"images/products/tiles/zee.svg", x:68, y:35, w:138, r:7,  z:33 },
 
-  <footer id="footer">
-    <nav class="footer-sns" aria-label="SNS">
-      <a href="https://twitter.com/HKakaGraffito" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        X
-      </a>
-      <a href="https://www.instagram.com/kamanoi_ah/" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        Instagram
-      </a>
-    </nav>
-    <p><a href="index.html" class="text-link">← hirokikamanoi.com トップへ</a></p>
-    <p>&copy; 2026 Hiroki Kamanoi</p>
-  </footer>
+      // --- 写真（→ Photography） ---
+      { cat:"photo", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/portrait.jpg", x:50, y:29, w:116, r:6,  z:36 },
+      { cat:"photo", name:"Eros & Thanatos", sub:"写真シリーズ", href:"photography.html", img:"images/journey/photo-3.jpg", x:28, y:74, w:120, r:-9, z:30 },
 
-  <script src="script.js"></script>
+      // --- リサーチ（生成り・クリックで各所へ）＝中間リング ---
+      { cat:"research", chip:"Research", title:"Collatz Conjecture", sub:"スペクトル解析・スケール一貫性", href:"https://github.com/KAMANOI?tab=repositories&q=collatz", x:22, y:37, w:156, r:-10, z:26 },
+      { cat:"research", chip:"Research", title:"放射線耐性生物 × 環境修復", sub:"事故後修復とARS治療への統合的アプローチ", href:"https://github.com/KAMANOI/radiation-resistance-remediation", x:74, y:49, w:156, r:8, z:24 },
+      { cat:"research", chip:"Research", title:"Zee — 囮トリップワイヤ", sub:"AIエージェントの自動封じ込め", href:"https://github.com/KAMANOI/zee", x:71, y:71, w:148, r:9, z:23 },
+      { cat:"research", chip:"Research", title:"Eros & Thanatos", sub:"写真表現を通じた哲学的フレームワーク", href:"photography.html", x:46, y:78, w:156, r:-3, z:25 },
+
+      // --- 開発中（リンク無し）＝外周 ---
+      { cat:"soon", chip:"In Dev", title:"be Cam",    sub:"LUT・フィルムのiOSカメラ", x:12, y:53, w:114, r:-12, z:15 },
+      { cat:"soon", chip:"In Dev", title:"SEA",       sub:"Lightroom XMPマーケット", x:87, y:35, w:112, r:10, z:16 },
+      { cat:"soon", chip:"In Dev", title:"GEE",       sub:"AI自動テロップ生成", x:13, y:77, w:114, r:-6, z:15 },
+      { cat:"soon", chip:"In Dev", title:"N-Box RAW", sub:"N-RAW / NEF アーカイブ", x:88, y:67, w:122, r:7, z:16 },
+
+      // --- 写真集（Amazon）＝上部・HDRの文字の隙間へ逃がす ---
+      { cat:"book", chip:"Book", title:"LOCA vol.2",  sub:"for Asia",  href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", x:34, y:21, w:108, r:-6, z:12 },
+      { cat:"book", chip:"Book", title:"LOCA vol.1",  sub:"for Asia",  href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", x:45, y:24, w:108, r:3, z:12 },
+      { cat:"book", chip:"Book", title:"The Epicurean Philosophy", sub:"", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", x:61, y:21, w:120, r:7, z:11 },
+      { cat:"book", chip:"Book", title:"juːtóʊpiə",   sub:"",          href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", x:10, y:36, w:100, r:-5, z:10 },
+      { cat:"book", chip:"Book", title:"椿姫のの 写真集", sub:"",       href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", x:89, y:19, w:102, r:9, z:10 },
+      { cat:"book", chip:"Book", title:"かげろう",     sub:"",          href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", x:62, y:81, w:110, r:-5, z:11 }
+    ];
+
+    var DECOR = [
+      { kind:"sparkle", x:50, y:8,  s:26, r:0 },
+      { kind:"sparkle", x:92, y:82, s:18, r:0 },
+      { kind:"heart",   x:20, y:24, s:22, r:-10 },
+      { kind:"scribble",x:50, y:92, s:60, r:0 },
+      { kind:"star",    x:8,  y:66, s:18, r:0 }
+    ];
+
+    var collage = document.getElementById("collage");
+    if (!collage) return;
+
+    var svgNS = "http://www.w3.org/2000/svg";
+    var decorSVG = {
+      sparkle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2 C12 8 13 11 22 12 C13 13 12 16 12 22 C12 16 11 13 2 12 C11 11 12 8 12 2 Z"/></svg>',
+      star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 L13.5 10 L20 12 L13.5 14 L12 21 L10.5 14 L4 12 L10.5 10 Z"/></svg>',
+      heart: '<svg viewBox="0 0 24 24" fill="none" stroke="#e0596b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 3.5 14.5 3.5 8.6 C3.5 5.8 5.7 3.8 8.2 3.8 C9.9 3.8 11.3 4.8 12 6 C12.7 4.8 14.1 3.8 15.8 3.8 C18.3 3.8 20.5 5.8 20.5 8.6 C20.5 14.5 12 20 12 20 Z"/></svg>',
+      scribble: '<svg viewBox="0 0 80 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12 C10 4, 16 20, 24 12 S38 4, 46 12 S60 20, 68 12 S78 8, 78 12"/></svg>'
+    };
+
+    function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" })[c]; }); }
+
+    var cardEls = [];
+
+    CARDS.forEach(function (c, i) {
+      var isLink = !!c.href;
+      var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat);
+      if (isLink) {
+        card.href = c.href;
+        var external = /^https?:/.test(c.href);
+        if (external) { card.target = "_blank"; card.rel = "noopener"; }
+      }
+      card.style.setProperty("--x", c.x + "%");
+      card.style.setProperty("--y", c.y + "%");
+      card.style.setProperty("--w", c.w + "px");
+      card.style.setProperty("--z", c.z);
+      card.style.setProperty("--r", (c.r || 0) + "deg");
+
+      var floatWrap = el("span", "hdr-float");
+      floatWrap.style.setProperty("--dur", (7 + (i % 5)) + "s");
+      floatWrap.style.setProperty("--delay", (-(i % 6) * 0.9) + "s");
+
+      var face;
+      if (c.cat === "product" || c.cat === "photo") {
+        face = el("span", "hdr-face hdr-face--img" + (c.cat === "photo" ? " hdr-face--photo" : ""));
+        var img = el("img");
+        img.src = c.img;
+        img.alt = c.name || c.title || "";
+        img.loading = "lazy";
+        img.draggable = false;
+        img.onerror = function () { this.style.display = "none"; face.style.background = "#16161a"; };
+        var cap = el("span", "hdr-cap");
+        cap.innerHTML = "<b>" + esc(c.name) + (isLink ? '<span class="hdr-arrow">↗</span>' : "") + "</b>" +
+          (c.sub ? "<span>" + esc(c.sub) + "</span>" : "");
+        face.appendChild(img);
+        face.appendChild(cap);
+      } else {
+        face = el("span", "hdr-face hdr-face--card");
+        var chip = c.chip ? '<span class="hdr-chip">' + esc(c.chip) + "</span>" : "";
+        var arrow = isLink ? '<span class="a">↗</span>' : "";
+        face.innerHTML = chip +
+          '<div class="hdr-ctitle">' + esc(c.title) + arrow + "</div>" +
+          (c.sub ? '<div class="hdr-csub">' + esc(c.sub) + "</div>" : "");
+      }
+
+      floatWrap.appendChild(face);
+      card.appendChild(floatWrap);
+      collage.appendChild(card);
+      cardEls.push(card);
+    });
+
+    DECOR.forEach(function (d) {
+      var s = el("div", "hdr-decor");
+      s.setAttribute("aria-hidden", "true");
+      s.style.setProperty("--x", d.x + "%");
+      s.style.setProperty("--y", d.y + "%");
+      s.style.width = d.s + "px";
+      s.style.transform = "translate(-50%,-50%) rotate(" + (d.r || 0) + "deg)";
+      s.innerHTML = decorSVG[d.kind] || "";
+      collage.appendChild(s);
+    });
+
+    /* ---------------- ホバーで他カードが外側へ散る ---------------- */
+    var mqDesktop = window.matchMedia("(min-width: 861px)");
+    var mqHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+    function motionOK() { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+
+    var centers = [];       // 各カードの基準中心(px, collage内)
+    function measure() {
+      var box = collage.getBoundingClientRect();
+      centers = cardEls.map(function (card) {
+        var r = card.getBoundingClientRect();
+        return { x: r.left - box.left + r.width / 2, y: r.top - box.top + r.height / 2 };
+      });
+    }
+
+    function clearPush() {
+      cardEls.forEach(function (card) {
+        card.style.setProperty("--px", "0px");
+        card.style.setProperty("--py", "0px");
+      });
+    }
+
+    function repel(activeIdx) {
+      var a = centers[activeIdx];
+      if (!a) return;
+      var cx = 0, cy = 0;
+      centers.forEach(function (p) { cx += p.x; cy += p.y; });
+      cx /= centers.length; cy /= centers.length;
+
+      cardEls.forEach(function (card, j) {
+        if (j === activeIdx) {
+          card.style.setProperty("--px", "0px");
+          card.style.setProperty("--py", "0px");
+          return;
+        }
+        var p = centers[j];
+        // 方向：ホバーカードから離れる向き + クラスタ中心から外へ の合成
+        var dx = p.x - a.x, dy = p.y - a.y;
+        var d = Math.sqrt(dx * dx + dy * dy) || 1;
+        var ox = p.x - cx, oy = p.y - cy;
+        var od = Math.sqrt(ox * ox + oy * oy) || 1;
+        var ux = (dx / d) * 0.68 + (ox / od) * 0.32;
+        var uy = (dy / d) * 0.68 + (oy / od) * 0.32;
+        var un = Math.sqrt(ux * ux + uy * uy) || 1;
+        // 近いカードほど大きく押し出す
+        var amt = 40 + 120 * Math.exp(-d / 210);
+        card.style.setProperty("--px", ((ux / un) * amt).toFixed(1) + "px");
+        card.style.setProperty("--py", ((uy / un) * amt).toFixed(1) + "px");
+      });
+    }
+
+    function canInteract() { return mqDesktop.matches && mqHover.matches; }
+
+    function activate(card, i) {
+      if (!canInteract()) return;
+      if (!centers.length) measure();
+      card.classList.add("is-active");
+      collage.classList.add("is-dimmed");
+      if (motionOK()) repel(i);   // reduced-motion では強調のみ・散らさない
+      else clearPush();
+    }
+    function deactivate(card) {
+      card.classList.remove("is-active");
+      collage.classList.remove("is-dimmed");
+      clearPush();
+    }
+
+    cardEls.forEach(function (card, i) {
+      card.addEventListener("pointerenter", function () { activate(card, i); });
+      card.addEventListener("pointerleave", function () { deactivate(card); });
+      // キーボードフォーカスでも同じ演出
+      card.addEventListener("focus", function () { activate(card, i); });
+      card.addEventListener("blur", function () { deactivate(card); });
+    });
+
+    var rt;
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { measure(); }, 160);
+    });
+    window.addEventListener("load", measure);
+    // フォント読込後にレイアウトが動くため再計測
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(measure); }
+    setTimeout(measure, 400);
+
+    // 読み込み時のフェードイン（repel の transform とは干渉しない opacity のみ）
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { collage.classList.add("ready"); });
+    });
+  })();
+  </script>
 </body>
 </html>
