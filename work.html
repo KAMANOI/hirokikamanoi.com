@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="style.css">
   <style>
     /* ============================================================
-       HDR コラージュページ 専用スタイル（このページ限定・スコープ済み）
-       他ページには影響しない
+       HDR 球体ギャラリー（LOCA Homepage の球体デザインを HDR に移植）
+       このページ限定・スコープ済み。他ページには影響しない。
        ============================================================ */
     :root {
       --hdr-bg: #060607;
@@ -24,6 +24,8 @@
       --hdr-muted: rgba(244,242,238,0.52);
       --hdr-faint: rgba(244,242,238,0.30);
       --hdr-line: rgba(244,242,238,0.14);
+      --hdr-accent: #f59e0b;
+      --hdr-ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body.hdr-page {
@@ -33,349 +35,120 @@
       overflow: hidden;               /* PC = ノンスクロール */
       -webkit-font-smoothing: antialiased;
     }
-    /* 背景：ごく淡いスポットライトとフィルムグレイン風ビネット */
     body.hdr-page::before {
       content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
         radial-gradient(120% 90% at 50% 34%, rgba(60,58,70,0.30) 0%, rgba(10,10,12,0) 55%),
         radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 60%);
     }
-    /* フィルミックな微粒子ノイズ（質感・全体の上に薄く重ねる） */
     body.hdr-page::after {
       content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 40;
-      pointer-events: none;
-      opacity: 0.05;
-      mix-blend-mode: overlay;
+      position: fixed; inset: 0; z-index: 40; pointer-events: none;
+      opacity: 0.05; mix-blend-mode: overlay;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 140px 140px;
     }
 
-    /* ---------- ステージ ---------- */
-    .hdr-stage {
-      position: relative;
-      z-index: 1;
-      height: 100dvh;
-      width: 100%;
-      overflow: hidden;
-    }
+    .hdr-stage { position: relative; z-index: 1; height: 100dvh; width: 100%; overflow: hidden; }
 
     /* ---------- タイトル帯 ---------- */
     .hdr-head {
-      position: absolute;
-      top: clamp(46px, 7vh, 84px);
-      left: 0; right: 0;
-      z-index: 2;
-      text-align: center;
-      pointer-events: none;
-      padding: 0 24px;
+      position: absolute; top: clamp(46px, 7vh, 84px); left: 0; right: 0; z-index: 6;
+      text-align: center; pointer-events: none; padding: 0 24px;
     }
     .hdr-kicker {
-      font-family: var(--font);
-      font-size: clamp(10px, 1.05vw, 12.5px);
-      letter-spacing: 0.42em;
-      text-transform: uppercase;
-      color: var(--hdr-faint);
-      margin: 0 0 clamp(8px, 1.4vh, 18px);
-      padding-left: 0.42em;
-    }
-    .hdr-wordmark {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(78px, 14.5vw, 196px);
-      line-height: 0.82;
-      letter-spacing: -0.02em;
-      margin: 0;
-      color: transparent;
-      background: linear-gradient(180deg, #ffffff 0%, #f2efe8 38%, #b9b4ab 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.04);
-      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.55));
+      font-family: var(--font); font-size: clamp(10px, 1.05vw, 12.5px);
+      letter-spacing: 0.42em; text-transform: uppercase; color: var(--hdr-faint);
+      margin: 0 0 clamp(8px, 1.4vh, 18px); padding-left: 0.42em;
     }
     .hdr-logo-img {
-      display: block;
-      margin: 0 auto;
-      width: clamp(212px, 22vw, 312px);
-      height: auto;
+      display: block; margin: 0 auto; width: clamp(212px, 22vw, 312px); height: auto;
       filter: drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 26px rgba(184,202,235,0.18));
     }
-    .hdr-sub {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 400;
-      font-size: clamp(15px, 2.1vw, 24px);
-      color: var(--hdr-muted);
-      margin: clamp(6px, 1.2vh, 14px) 0 0;
-      letter-spacing: 0.01em;
-    }
     .hdr-tagline {
-      font-family: var(--font);
-      font-size: clamp(12.5px, 1.4vw, 14.5px);
-      letter-spacing: 0.04em;
-      color: #9aa0a8;
-      margin: clamp(12px, 1.8vh, 19px) 0 0;
-      line-height: 1.5;
+      font-family: var(--font); font-size: clamp(12.5px, 1.4vw, 14.5px);
+      letter-spacing: 0.04em; color: #9aa0a8; margin: clamp(12px, 1.8vh, 19px) 0 0; line-height: 1.5;
     }
     .hdr-tagline span { color: var(--hdr-faint); }
 
-    /* ---------- コラージュ ---------- */
-    .hdr-collage {
-      position: absolute;
-      left: 3.5vw; right: 3.5vw;
-      top: clamp(268px, 40.5vh, 374px);
-      bottom: clamp(40px, 5.4vh, 68px);
-      z-index: 3;
-      opacity: 0;
-      transition: opacity 0.9s ease;
-    }
-    .hdr-collage.ready { opacity: 1; }
-    .hdr-msection { display: none; }   /* PC は非表示・モバイルでセクション見出しに */
-
-    /* HDRロゴとカード群を仕切る白のヘアライン（端はフェード） */
+    /* HDRロゴとギャラリーを仕切る白のヘアライン（端はフェード） */
     .hdr-divider {
-      position: absolute;
-      top: clamp(222px, 33.5vh, 312px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(88vw, 1120px);
-      height: 1px;
-      z-index: 2;
-      pointer-events: none;
+      position: absolute; top: clamp(222px, 33.5vh, 312px); left: 50%; transform: translateX(-50%);
+      width: min(88vw, 1120px); height: 1px; z-index: 5; pointer-events: none;
       background: linear-gradient(90deg, transparent 0%, rgba(244,242,238,0.20) 24%, rgba(244,242,238,0.30) 50%, rgba(244,242,238,0.20) 76%, transparent 100%);
     }
 
-    .hdr-card {
-      position: absolute;
-      left: var(--x);
-      top: var(--y);
-      width: var(--w);
-      z-index: var(--z);
-      transform: translate(-50%, -50%) translate(var(--px, 0px), var(--py, 0px));
-      transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1),
-                  opacity 0.45s ease, filter 0.45s ease;
-      text-decoration: none;
-      color: inherit;
-      -webkit-tap-highlight-color: transparent;
-      will-change: transform;
-      --px: 0px; --py: 0px;
+    /* ---------- 球体ステージ ---------- */
+    .sp-stage {
+      position: absolute; left: 0; right: 0;
+      top: clamp(250px, 37vh, 360px); bottom: clamp(52px, 8vh, 86px);
+      z-index: 3;
+      cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
     }
-    .hdr-card[href] { cursor: pointer; }
+    .sp-stage.dragging { cursor: grabbing; }
+    .sp-item {
+      position: absolute; top: 50%; left: 50%; margin: 0; padding: 6px;
+      background: #0e0e12; border: 1px solid rgba(255,255,255,0.09); border-radius: 12px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+      will-change: transform, opacity; cursor: pointer;
+      opacity: 0; transition: opacity 0.6s var(--hdr-ease);
+    }
+    .sp-stage.ready .sp-item { opacity: 1; }
+    .sp-item img {
+      height: var(--h, 110px); width: auto; display: block; border-radius: 7px;
+      filter: contrast(1.03) brightness(0.98); pointer-events: none;
+    }
+    .sp-item:focus-visible { outline: 2px solid var(--hdr-accent); outline-offset: 3px; }
+    .sp-stage.open { cursor: default; }
+    .sp-stage.open .sp-item:not(.active) { opacity: 0.07; pointer-events: none; }
+    .sp-item.active { cursor: default; z-index: 60 !important; }
+    .sp-item.active { box-shadow: 0 40px 90px rgba(0,0,0,0.72), 0 0 0 1.5px rgba(245,158,11,0.5); }
+    .sp-item.active img { filter: contrast(1.05) brightness(1); }
 
-    .hdr-float {                       /* 常時の微揺れ（repel と衝突しない層） */
-      display: block;
-      animation: hdrFloat var(--dur, 8s) ease-in-out infinite;
-      animation-delay: var(--delay, 0s);
+    .sp-caption {
+      position: absolute; left: 50%; bottom: 0.6rem; transform: translateX(-50%);
+      text-align: center; z-index: 50; opacity: 0; pointer-events: none; visibility: hidden;
+      transition: opacity 0.5s var(--hdr-ease) 0.25s, visibility 0s 0.8s; padding: 0 20px;
     }
-    @keyframes hdrFloat {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50%      { transform: translateY(-7px) translateX(2px); }
+    .sp-stage.open .sp-caption { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.5s var(--hdr-ease) 0.25s, visibility 0s; }
+    .sp-cap-idx {
+      font-family: var(--font); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase;
+      color: var(--hdr-accent); margin-bottom: 0.5rem;
     }
-
-    .hdr-face {
-      position: relative;
-      display: block;
-      transform: rotate(var(--r, 0deg)) scale(1);
-      transform-origin: center;
-      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                  box-shadow 0.5s ease, filter 0.5s ease;
+    .sp-cap-name {
+      font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 3vw, 30px);
+      letter-spacing: 0.02em; color: var(--hdr-ink); margin-bottom: 0.85rem; line-height: 1.3;
     }
-
-    /* ホバー中：対象は最前面・拡大・明るく。物理挙動は JS が兄弟に付与 */
-    .hdr-card.is-active { z-index: 90 !important; }
-    .hdr-card.is-active .hdr-face {
-      transform: rotate(0deg) scale(1.06);
-      filter: saturate(1.08) brightness(1.06);
+    .sp-cap-actions { display: flex; gap: 1.8rem; justify-content: center; align-items: baseline; }
+    .sp-cap-view {
+      font-family: var(--font); font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--hdr-ink); text-decoration: none; padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--hdr-accent); transition: color .25s ease;
     }
-    /* 散る側はさらに沈めて主役を際立たせる */
-    .hdr-collage.is-dimmed .hdr-card:not(.is-active) { opacity: 0.5; }
-    .hdr-collage.is-dimmed .hdr-card:not(.is-active) .hdr-face { filter: brightness(0.78) saturate(0.85) blur(1px); }
-
-    /* 緑(ティール)タイルの蛍光感だけ少し抑える（暗くはしない） */
-    .hdr-card.warm .hdr-face--img { filter: saturate(0.72) sepia(0.1); }
-    .hdr-card.warm.is-active .hdr-face--img { filter: none; }
-    /* ヒーロー真上のカードは少しだけ小さく（暗くはしない） */
-    .hdr-card.recede .hdr-face { transform: rotate(var(--r,0deg)) scale(0.94); }
-
-    /* --- 写真・プロダクト画像カード --- */
-    .hdr-face--img {
-      border-radius: 14px;
-      overflow: hidden;
-      background: #111114;
-      /* 光源を上に固定した統一シャドウ */
-      box-shadow: 0 24px 48px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.06);
-      transition: filter 0.45s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    .sp-cap-view:hover { color: var(--hdr-accent); }
+    .sp-cap-view.is-soon { color: var(--hdr-faint); border-bottom-color: var(--hdr-line); pointer-events: none; }
+    .sp-cap-close {
+      font-family: var(--font); font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--hdr-muted); background: none; border: none; cursor: pointer; padding: 0; transition: color .25s ease;
     }
-    .hdr-card.hero .hdr-face--img {
-      filter: none;
-      box-shadow: 0 40px 88px rgba(0,0,0,0.72), 0 8px 20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1);
+    .sp-cap-close:hover { color: var(--hdr-ink); }
+    .sp-hint {
+      position: absolute; left: 50%; bottom: 0.7rem; transform: translateX(-50%);
+      font-family: var(--font); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--hdr-faint); z-index: 5; white-space: nowrap; transition: opacity 0.4s; pointer-events: none;
     }
-    .hdr-card.is-active .hdr-face--img {
-      filter: none;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.66), 0 0 0 2.5px #f59e0b, 0 0 34px rgba(245,158,11,0.5);
-    }
-    .hdr-face--img img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      background: #0c0c0e;
-    }
-    /* 写真は白フレームのポラロイド（参考画像の物理的な写真の束） */
-    .hdr-face--photo {
-      background: #f7f5ef;
-      padding: 7px 7px 7px;
-      border-radius: 4px;
-      box-shadow: 0 22px 46px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.06);
-    }
-    .hdr-face--photo img { aspect-ratio: 4 / 5; border-radius: 2px; }
-    .hdr-face--photo .hdr-cap {
-      position: static;
-      background: none;
-      padding: 7px 3px 1px;
-    }
-    .hdr-face--photo .hdr-cap b { color: #1c1a17; }
-    .hdr-face--photo .hdr-cap span { color: #7a756c; }
-    .hdr-face--photo .hdr-arrow { color: #c98a2e; }
-    /* 丸い顔写真（参考画像の丸プロフィール） */
-    .hdr-face--circle { box-shadow: 0 20px 44px rgba(0,0,0,0.5); border-radius: 50%; }
-    .hdr-face--circle img { aspect-ratio: 1 / 1; border-radius: 50%; box-shadow: inset 0 0 0 3px rgba(255,255,255,0.9); }
-    .hdr-face--circle .hdr-cap { display: none; }
-    .hdr-face--wide img { aspect-ratio: 3 / 2; }   /* 横長カード */
-    /* 黒面積が多く暗背景で沈むタイルは白ベースの額装カードにして視認性を上げる */
-    .hdr-card.light .hdr-face--img {
-      background: #ece7df;   /* 純白でなく紙色にして「浮いた付箋」感を消す */
-      padding: 8px 8px 0;
-      box-shadow: 0 22px 48px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(0,0,0,0.10), inset 0 2px 4px rgba(0,0,0,0.10);
-    }
-    .hdr-card.light .hdr-face--img img { border-radius: 6px; }
-    .hdr-card.light .hdr-cap {
-      position: static;
-      background: none;
-      padding: 8px 4px 9px;
-    }
-    .hdr-card.light .hdr-cap b { color: #17171a; }
-    .hdr-card.light .hdr-cap span { color: #6a6a70; }
-    .hdr-card.light .hdr-arrow { color: #c98a2e; }   /* 白カード上の琥珀（濃いめ） */
-    /* 写真集は実表紙（縦長）を本のまま見せる。表紙にタイトルがあるためPCではキャプション非表示 */
-    .hdr-face--book img { aspect-ratio: 5 / 7; }
-    @media (min-width: 861px) { .cat-book .hdr-cap { display: none; } }
-    /* 開発中は「準備中」を視覚言語化：グレースケール＋減光＋半透明で背面へ沈める（ホバーで復帰） */
-    .cat-soon { opacity: 0.92; }
-    .cat-soon .hdr-face--img { filter: grayscale(0.28) brightness(0.94); }
-    .cat-soon .hdr-cap b { color: rgba(255,255,255,0.8); font-weight: 500; }
-    .cat-soon .hdr-cap span { color: rgba(255,255,255,0.4); letter-spacing: 0.14em; text-transform: uppercase; font-size: 9px; }
-    .cat-soon.is-active { opacity: 1; }
-    .cat-soon.is-active .hdr-face--img { filter: none; }
-    .hdr-cap {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1px;
-      padding: 26px 12px 10px;
-      font-family: var(--font);
-      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.78) 72%);
-    }
-    .hdr-cap b { font-weight: 600; font-size: 13px; letter-spacing: 0.01em; line-height: 1.2; }
-    .hdr-cap span { font-size: 10.5px; color: rgba(255,255,255,0.66); line-height: 1.3; }
-    .hdr-arrow { font-size: 13px; color: #f59e0b; margin-left: 4px; font-weight: 700; }   /* アクセント：琥珀（強め） */
-
-    /* --- テキストカード共通 --- */
-    .hdr-face--card {
-      border-radius: 12px;
-      padding: 15px 15px 16px;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
-    }
-    .hdr-chip {
-      display: inline-block;
-      font-family: var(--font);
-      font-size: 9px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 999px;
-      margin-bottom: 11px;
-    }
-    .hdr-ctitle {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 17px;
-      line-height: 1.12;
-      letter-spacing: -0.005em;
-    }
-    .hdr-csub {
-      font-family: var(--font);
-      font-size: 11px;
-      line-height: 1.42;
-      margin-top: 7px;
-      opacity: 0.7;
-    }
-    .hdr-ctitle .a { font-size: 11px; opacity: 0.55; margin-left: 2px; }
-
-    /* research = 生成りの紙 */
-    .cat-research .hdr-face--card {
-      background: linear-gradient(180deg, #efe9db 0%, #e4dccb 100%);
-      color: #2b2620;
-    }
-    .cat-research .hdr-chip { background: rgba(43,38,32,0.10); color: #6a5f4d; }
-    .cat-research .hdr-csub { opacity: 0.62; }
-
-    /* book = 深い暖色 */
-    .cat-book .hdr-face--card {
-      background: linear-gradient(165deg, #241c16 0%, #191411 100%);
-      color: #e9dcc6;
-    }
-    .cat-book .hdr-chip { background: rgba(214,180,120,0.14); color: #d0ad72; }
-    .cat-book .hdr-ctitle { font-size: 14.5px; }
-
-    /* soon = 開発中（リンク無し・トーン抑えめ） */
-    .cat-soon .hdr-face--card {
-      background: rgba(22,22,26,0.72);
-      color: rgba(244,242,238,0.82);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.42);
-      border: 1px dashed rgba(244,242,238,0.20);
-    }
-    .cat-soon .hdr-chip { background: rgba(244,242,238,0.08); color: rgba(244,242,238,0.5); }
-    .cat-soon .hdr-ctitle { font-size: 15px; }
-    .cat-soon .hdr-csub { opacity: 0.5; }
-
-    /* --- 装飾ステッカー（非インタラクティブ） --- */
-    .hdr-decor {
-      position: absolute;
-      left: var(--x); top: var(--y);
-      transform: translate(-50%, -50%);
-      z-index: 5;
-      pointer-events: none;
-      color: var(--hdr-ink);
-      opacity: 0.9;
-    }
+    .sp-stage.open .sp-hint { opacity: 0; }
 
     /* ---------- 下部の細いバー ---------- */
     .hdr-foot {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
       padding: 14px clamp(18px, 4vw, 40px) calc(14px + env(safe-area-inset-bottom));
-      font-family: var(--font);
-      font-size: 12px;
-      color: var(--hdr-muted);
-      pointer-events: none;
+      font-family: var(--font); font-size: 12px; color: var(--hdr-muted); pointer-events: none;
     }
     .hdr-foot a { color: var(--hdr-muted); text-decoration: none; pointer-events: auto; transition: color .25s ease; }
     .hdr-foot a:hover { color: var(--hdr-ink); }
-    .hdr-foot .hdr-foot-mark { letter-spacing: 0.02em; }
     .hdr-foot .hdr-foot-links { display: flex; align-items: center; gap: 18px; }
     .hdr-foot svg { width: 13px; height: 13px; vertical-align: -1px; opacity: 0.55; transition: opacity .25s ease; }
     .hdr-foot a:hover svg { opacity: 1; }
@@ -385,125 +158,36 @@
       body.hdr-page #nav .nav-links a.nav-active { color: var(--hdr-ink); position: relative; }
       body.hdr-page #nav .nav-links a.nav-active::after {
         content: ""; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%);
-        width: 5px; height: 5px; border-radius: 50%; background: #e0a34a;
+        width: 5px; height: 5px; border-radius: 50%; background: var(--hdr-accent);
       }
       body.hdr-page #nav .nav-links li:last-child a {
-        border: 1px solid rgba(244,242,238,0.26); border-radius: 999px;
-        padding: 6px 16px; transition: background .25s ease, border-color .25s ease, color .25s ease;
+        border: 1px solid rgba(244,242,238,0.26); border-radius: 999px; padding: 6px 16px;
+        transition: background .25s ease, border-color .25s ease, color .25s ease;
       }
-      body.hdr-page #nav .nav-links li:last-child a:hover {
-        background: #e0a34a; border-color: #e0a34a; color: #14100a;
-      }
+      body.hdr-page #nav .nav-links li:last-child a:hover { background: var(--hdr-accent); border-color: var(--hdr-accent); color: #14100a; }
     }
 
-    /* 背の低いデスクトップ（ノートPC 1366×768 等・実効高さが低い場合）の見切れ防止 */
+    /* 背の低いデスクトップ */
     @media (min-width: 861px) and (max-height: 730px) {
       .hdr-head { top: clamp(34px, 5vh, 60px); }
-      .hdr-wordmark { font-size: clamp(80px, 14.5vw, 188px); }
       .hdr-logo-img { width: clamp(210px, 22vw, 286px); }
-      .hdr-collage { top: clamp(232px, 35vh, 272px); bottom: 36px; }
-      .hdr-divider, .hdr-tagline { display: none; }   /* 短い画面は余白確保のため非表示 */
-      .hdr-foot { padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+      .hdr-divider, .hdr-tagline { display: none; }
+      .sp-stage { top: clamp(196px, 30vh, 244px); bottom: 44px; }
     }
 
-    /* ============================================================
-       スマートフォン：縦長に再配置（スクロール可・repel 無効）
-       ============================================================ */
+    /* スマートフォン */
     @media (max-width: 860px) {
-      body.hdr-page { overflow-x: hidden; overflow-y: auto; }
-      .hdr-divider { display: none; }
-      .hdr-stage { height: auto; min-height: 100dvh; overflow: visible; }
-      .hdr-head {
-        position: relative;
-        top: 0;
-        padding: clamp(84px, 15vh, 124px) 22px 0;
-      }
-      .hdr-kicker {
-        font-size: 9.5px;
-        letter-spacing: 0.16em;
-        padding-left: 0.16em;
-        white-space: normal;
-        line-height: 1.6;
-      }
-      .hdr-wordmark { font-size: clamp(72px, 33vw, 150px); }
+      .hdr-head { position: relative; top: 0; padding: clamp(84px, 15vh, 124px) 22px 0; }
+      .hdr-kicker { font-size: 9.5px; letter-spacing: 0.16em; padding-left: 0.16em; white-space: normal; line-height: 1.6; }
       .hdr-logo-img { width: clamp(230px, 60vw, 340px); }
-
-      .hdr-collage {
-        position: relative;
-        left: 0; right: 0; top: 0; bottom: 0;
-        inset: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        padding: 40px 20px 40px;
-        max-width: 440px;
-        margin: 0 auto;
-      }
-      .hdr-msection {
-        display: block;
-        width: 100%;
-        font-family: var(--font);
-        font-size: 11px;
-        letter-spacing: 0.26em;
-        text-transform: uppercase;
-        color: var(--hdr-faint);
-        padding: 22px 2px 4px;
-        margin-top: 10px;
-        border-top: 1px solid var(--hdr-line);
-      }
-      .hdr-collage > .hdr-msection:first-child { border-top: none; margin-top: 0; padding-top: 4px; }
-      .hdr-card {
-        position: relative !important;
-        left: auto !important; top: auto !important;
-        width: 100% !important;
-        transform: none !important;
-        z-index: auto !important;
-      }
-      .hdr-float { animation: none; transform: none !important; }
-      .hdr-face { transform: none !important; }
-      .hdr-face--img { display: flex; align-items: stretch; }
-      .hdr-face--img img { width: 96px; height: 96px; aspect-ratio: 1/1; flex: 0 0 auto; }
-      .hdr-face--photo img { aspect-ratio: 1/1; }
-      /* モバイル：リリース済み製品を大きく、A.A.R.U.はヒーロー・フィーチャーカードに */
-      .cat-product .hdr-face--img img { width: 112px; height: 112px; }
-      .hdr-card.hero .hdr-face--img {
-        border-left: 3px solid #f59e0b;
-        background: rgba(245,158,11,0.06);
-      }
-      .hdr-card.hero .hdr-face--img img { width: 138px; height: 138px; }
-      .hdr-card.hero .hdr-cap b { font-size: 18px; }
-      .hdr-card.recede .hdr-face { transform: none; }   /* モバイルでは後退演出は無効 */
-      .hdr-cap {
-        position: static;
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
-        gap: 3px;
-        padding: 12px 15px;
-        background: #111114;
-      }
-      .hdr-cap b { font-size: 15px; }
-      .hdr-cap span { font-size: 12px; }
-      .hdr-face--card { padding: 15px 17px; }
-      .hdr-ctitle, .cat-book .hdr-ctitle, .cat-soon .hdr-ctitle { font-size: 16px; }
-      .hdr-csub { font-size: 12px; }
-      .hdr-decor { display: none; }
-
-      .hdr-foot {
-        position: relative;
-        flex-direction: column;
-        gap: 12px;
-        text-align: center;
-        padding: 26px 20px calc(34px + env(safe-area-inset-bottom));
-        border-top: 1px solid var(--hdr-line);
-        margin-top: 10px;
-      }
+      .hdr-divider { top: clamp(214px, 32vh, 298px); }
+      body.hdr-page { overflow-x: hidden; overflow-y: hidden; }  /* スマホも球体は1画面 */
+      .hdr-stage { height: auto; min-height: 100dvh; overflow: hidden; }
+      .sp-stage { position: relative; top: 0; bottom: 0; margin-top: clamp(28px, 5vh, 48px); height: 58vh; }
+      .hdr-foot { flex-direction: column; gap: 10px; text-align: center; padding: 18px 20px calc(20px + env(safe-area-inset-bottom)); }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .hdr-float { animation: none; }
-      .hdr-card { transition: opacity 0.3s ease; }
-    }
+    @media (prefers-reduced-motion: reduce) { .sp-item { transition: none; } }
   </style>
 </head>
 <body class="hdr-page">
@@ -525,13 +209,23 @@
   <main class="hdr-stage">
     <header class="hdr-head">
       <p class="hdr-kicker">Hiroki Kamanoi · Development &amp; Research</p>
-      <h1 class="hdr-wordmark"><img src="images/hdr-logo.png" alt="HDR" class="hdr-logo-img"></h1>
-      <p class="hdr-tagline">個人がつくる、プロダクトと研究。<span>カードに触れて確かめてください。</span></p>
+      <h1 class="hdr-wordmark" style="margin:0"><img src="images/hdr-logo.png" alt="HDR" class="hdr-logo-img"></h1>
+      <p class="hdr-tagline">個人がつくる、プロダクトと研究。<span>回して、選んでください。</span></p>
     </header>
 
     <div class="hdr-divider" aria-hidden="true"></div>
 
-    <div class="hdr-collage" id="collage" aria-label="プロダクトと研究のコレクション"></div>
+    <div class="sp-stage" id="spStage" aria-label="プロダクトと研究のコレクション（ドラッグで回転・クリックで詳細）">
+      <div class="sp-caption" id="spCaption" aria-hidden="true">
+        <p class="sp-cap-idx" id="spCapIdx"></p>
+        <h3 class="sp-cap-name" id="spCapName"></h3>
+        <div class="sp-cap-actions">
+          <a class="sp-cap-view" id="spCapView" href="#">View <span aria-hidden="true">→</span></a>
+          <button class="sp-cap-close" id="spCapClose" type="button">Close</button>
+        </div>
+      </div>
+      <p class="sp-hint" id="spHint">Drag to explore — Click to view</p>
+    </div>
 
     <footer class="hdr-foot">
       <span class="hdr-foot-mark">© 2026 Hiroki Kamanoi</span>
@@ -548,7 +242,7 @@
   </main>
 
   <script>
-  /* ナビのハンバーガー開閉（他ページの script.js と同一挙動・このページは軽量版を内蔵） */
+  /* ナビのハンバーガー開閉 */
   (function () {
     var toggle = document.querySelector(".nav-toggle");
     var links = document.querySelector(".nav-links");
@@ -559,235 +253,235 @@
       links.classList.toggle("open", !open);
     });
     links.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        toggle.setAttribute("aria-expanded", "false");
-        links.classList.remove("open");
-      });
+      a.addEventListener("click", function () { toggle.setAttribute("aria-expanded", "false"); links.classList.remove("open"); });
     });
   })();
   </script>
 
   <script>
+  /* ============================================================
+     球体ギャラリー（フィボナッチ球・ドラッグで地球儀回転・クリックで拡大）
+     LOCA Homepage の実装を HDR コンテンツに移植
+     ============================================================ */
   (function () {
     "use strict";
+    var stage = document.getElementById("spStage");
+    if (!stage) return;
+    var capIdx = document.getElementById("spCapIdx");
+    var capName = document.getElementById("spCapName");
+    var capView = document.getElementById("spCapView");
+    var capClose = document.getElementById("spCapClose");
+    var caption = document.getElementById("spCaption");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    /* ---------------- カード定義 ----------------
-       x,y = コラージュ内の中心座標(%) / w = 幅(px) / r = 回転(deg) / z = 重なり順 */
-    var CARDS = [
-      // === PRODUCTS（リリース済み）＝主役。大きく・低回転・最前面。A.A.R.U.をヒーローに ===
-      { cat:"product", section:"Products", hero:true, name:"A.A.R.U.", sub:"サロン予約管理 SaaS", href:"https://getaaru.app",       img:"images/products/tiles/aaru.jpg", x:47, y:49, w:194, r:0,  z:70 },
-      { cat:"product", name:"ele",      sub:"写真前処理・画像エンジン", href:"https://ele-oq8u.onrender.com",  img:"images/products/tiles/ele.jpg",  x:65, y:53, w:162, r:4,  z:66 },
-      { cat:"product", name:"DIA",      sub:"プロンプト生成ツール",     href:"https://dia-wheat.vercel.app",   img:"images/products/tiles/dia.jpg",  x:29, y:55, w:158, r:-4, z:64 },
-      { cat:"product", name:"Zee",      sub:"AI脅威検知 / OSS",         href:"https://github.com/KAMANOI/zee", img:"images/products/tiles/zee.svg",  x:67, y:33, w:150, r:4,  z:60 },
-
-      // === 写真（→ Photography） ===
-      { cat:"photo", section:"Photography", name:"Photography", sub:"作品ギャラリー", href:"photography.html", img:"images/gallery/street-snap.jpg", x:30, y:31, w:122, r:-7, z:46 },
-      { cat:"photo", circle:true, href:"photography.html", img:"images/gallery/portrait.jpg", x:21, y:20, w:88, r:0, z:45 },
-      { cat:"photo", href:"photography.html", img:"images/journey/photo-3.jpg", x:43, y:23, w:76, r:7, z:44 },
-      { cat:"photo", href:"photography.html", img:"images/journey/photo-2.jpg", x:55, y:87, w:80, r:-9, z:43 },
-
-      // === RESEARCH（AIアート）＝中間リング。特に暗い2枚は白額装（ギャラリープリント）===
-      { cat:"research", section:"Research", name:"Collatz Conjecture", href:"https://github.com/KAMANOI?tab=repositories&q=collatz",              img:"images/products/tiles/ai/r-collatz.jpg",   x:15, y:44, w:148, r:-8, z:34 },
-      { cat:"research", name:"Radiation × Remediation", warm:true, href:"https://github.com/KAMANOI/radiation-resistance-remediation", img:"images/products/tiles/ai/r-radiation.jpg", x:82, y:57, w:146, r:8,  z:32 },
-      { cat:"research", name:"Zee — Tripwire", wide:true, light:true, href:"https://github.com/KAMANOI/zee",                       img:"images/products/tiles/ai/r-zee.jpg",       x:71, y:68, w:176, r:4,  z:31 },
-      { cat:"research", name:"Eros & Thanatos", light:true, href:"photography.html",                                              img:"images/products/tiles/ai/r-eros.jpg",      x:49, y:71, w:144, r:-4, z:30 },
-
-      // === PHOTOBOOKS（Amazon・実表紙）＝上部の帯にジグザグで散らす ===
-      { cat:"book", section:"Photobooks", name:"LOCA vol.2",       href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22", img:"images/products/tiles/cover-b-loca2.jpg",     x:18, y:16, w:108, r:-8, z:20 },
-      { cat:"book", name:"juːtóʊpiə",              href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22", img:"images/products/tiles/cover-b-utopia.jpg",    x:33, y:9,  w:94,  r:8,  z:16 },
-      { cat:"book", name:"LOCA vol.1",             href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22", recede:true, img:"images/products/tiles/cover-b-loca1.jpg",     x:39, y:13, w:108, r:-6, z:20 },
-      { cat:"book", name:"The Epicurean Philosophy", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22", img:"images/products/tiles/cover-b-epicurean.jpg", x:66, y:10, w:98,  r:8,  z:18 },
-      { cat:"book", name:"椿姫のの 写真集",         href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22", img:"images/products/tiles/cover-b-tsubaki.jpg",   x:85, y:17, w:100, r:8,  z:16 },
-      { cat:"book", name:"かげろう",               href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22", img:"images/products/tiles/cover-b-kagerou.jpg",   x:59, y:73, w:104, r:-8, z:17 },
-
-      // === IN DEVELOPMENT（未リリース）＝グレー減光で背面へ沈める。末尾＝モバイル最下部 ===
-      { cat:"soon", section:"In Development", name:"be Cam", sub:"Soon", img:"images/products/tiles/ai/d-becam.jpg", x:13, y:61, w:110, r:-8, z:12 },
-      { cat:"soon", name:"SEA",       sub:"Soon", wide:true, img:"images/products/tiles/ai/d-sea.jpg",   x:89, y:42, w:150, r:8,  z:12 },
-      { cat:"soon", name:"GEE",       sub:"Soon", wide:true, img:"images/products/tiles/ai/d-gee.jpg",   x:18, y:75, w:150, r:-8, z:12 },
-      { cat:"soon", name:"N-Box RAW", sub:"Soon",            img:"images/products/tiles/ai/d-nbox.jpg",  x:92, y:70, w:112, r:4,  z:12 }
+    /* HDR のコレクション。em=強調(大きめ表示) */
+    var DATA = [
+      // プロダクト（リリース済み）＝強調
+      { img:"images/products/tiles/aaru.jpg", name:"A.A.R.U.", role:"Product", href:"https://getaaru.app", em:1.32 },
+      { img:"images/products/tiles/ele.jpg",  name:"ele",      role:"Product", href:"https://ele-oq8u.onrender.com", em:1.22 },
+      { img:"images/products/tiles/dia.jpg",  name:"DIA",      role:"Product", href:"https://dia-wheat.vercel.app", em:1.22 },
+      { img:"images/products/tiles/zee.svg",  name:"Zee",      role:"Product", href:"https://github.com/KAMANOI/zee", em:1.18 },
+      // 研究
+      { img:"images/products/tiles/ai/r-collatz.jpg",   name:"Collatz Conjecture",      role:"Research", href:"https://github.com/KAMANOI?tab=repositories&q=collatz" },
+      { img:"images/products/tiles/ai/r-radiation.jpg", name:"Radiation × Remediation", role:"Research", href:"https://github.com/KAMANOI/radiation-resistance-remediation" },
+      { img:"images/products/tiles/ai/r-zee.jpg",       name:"Zee — Tripwire",          role:"Research", href:"https://github.com/KAMANOI/zee" },
+      { img:"images/products/tiles/ai/r-eros.jpg",      name:"Eros & Thanatos",         role:"Research", href:"photography.html" },
+      // 写真集
+      { img:"images/products/tiles/cover-b-loca2.jpg",     name:"LOCA vol.2",             role:"Photobook", href:"https://www.amazon.co.jp/dp/B0GXD98PV5?tag=soraimaginary-22" },
+      { img:"images/products/tiles/cover-b-loca1.jpg",     name:"LOCA vol.1",             role:"Photobook", href:"https://www.amazon.co.jp/dp/B0GGB192KW?tag=soraimaginary-22" },
+      { img:"images/products/tiles/cover-b-epicurean.jpg", name:"The Epicurean Philosophy", role:"Photobook", href:"https://www.amazon.co.jp/dp/B0FF58LDKM?tag=soraimaginary-22" },
+      { img:"images/products/tiles/cover-b-utopia.jpg",    name:"juːtóʊpiə",              role:"Photobook", href:"https://www.amazon.co.jp/dp/B0F5QRWBGR?tag=soraimaginary-22" },
+      { img:"images/products/tiles/cover-b-tsubaki.jpg",   name:"椿姫のの 写真集",         role:"Photobook", href:"https://www.amazon.co.jp/dp/B0DQFTRPRP?tag=soraimaginary-22" },
+      { img:"images/products/tiles/cover-b-kagerou.jpg",   name:"かげろう",               role:"Photobook", href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1?tag=soraimaginary-22" },
+      // 写真
+      { img:"images/gallery/street-snap.jpg", name:"Photography", role:"Photography", href:"photography.html" },
+      { img:"images/gallery/portrait.jpg",    name:"Portrait",    role:"Photography", href:"photography.html" },
+      { img:"images/journey/photo-3.jpg",     name:"作品",        role:"Photography", href:"photography.html" },
+      // 開発中（リンク無し）
+      { img:"images/products/tiles/ai/d-becam.jpg", name:"be Cam",    role:"In Development" },
+      { img:"images/products/tiles/ai/d-sea.jpg",   name:"SEA",       role:"In Development" },
+      { img:"images/products/tiles/ai/d-gee.jpg",   name:"GEE",       role:"In Development" },
+      { img:"images/products/tiles/ai/d-nbox.jpg",  name:"N-Box RAW", role:"In Development" }
     ];
 
-    /* 参考の借り物落書きは撤去。装飾はHIROKIさん固有のものだけに限る。 */
-    var DECOR = [];
+    var HEIGHTS = [104, 88, 98, 82, 108, 92, 86, 112, 96, 90, 100];
 
-    var collage = document.getElementById("collage");
-    if (!collage) return;
+    // figure を生成
+    var items = DATA.map(function (e, i) {
+      var fig = document.createElement("figure");
+      fig.className = "sp-item";
+      fig.tabIndex = 0;
+      var base = HEIGHTS[i % HEIGHTS.length] * (e.em || 1);
+      fig.style.setProperty("--h", Math.round(base) + "px");
+      fig.dataset.idx = e.role;
+      fig.dataset.name = e.name;
+      if (e.href) fig.dataset.href = e.href;
+      var img = document.createElement("img");
+      img.src = e.img;
+      img.alt = e.name;
+      img.loading = "lazy";
+      img.draggable = false;
+      img.onerror = function () { this.style.opacity = 0; };
+      var sizeToAspect = function () {
+        var r = (img.naturalWidth && img.naturalHeight) ? img.naturalWidth / img.naturalHeight : 1;
+        var boost = Math.min(1.55, Math.max(1, 1 / Math.sqrt(r)));   // 縦ほど高さUP
+        fig.style.setProperty("--h", Math.round(base * boost) + "px");
+      };
+      if (img.complete && img.naturalWidth) sizeToAspect();
+      else img.addEventListener("load", sizeToAspect, { once: true });
+      fig.appendChild(img);
+      stage.insertBefore(fig, caption);
+      return fig;
+    });
+    if (!items.length) return;
 
-    var svgNS = "http://www.w3.org/2000/svg";
-    var decorSVG = {
-      sparkle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2 C12 8 13 11 22 12 C13 13 12 16 12 22 C12 16 11 13 2 12 C11 11 12 8 12 2 Z"/></svg>',
-      star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 L13.5 10 L20 12 L13.5 14 L12 21 L10.5 14 L4 12 L10.5 10 Z"/></svg>',
-      heart: '<svg viewBox="0 0 24 24" fill="none" stroke="#e0596b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20 C12 20 3.5 14.5 3.5 8.6 C3.5 5.8 5.7 3.8 8.2 3.8 C9.9 3.8 11.3 4.8 12 6 C12.7 4.8 14.1 3.8 15.8 3.8 C18.3 3.8 20.5 5.8 20.5 8.6 C20.5 14.5 12 20 12 20 Z"/></svg>',
-      scribble: '<svg viewBox="0 0 80 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 12 C10 4, 16 20, 24 12 S38 4, 46 12 S60 20, 68 12 S78 8, 78 12"/></svg>',
-      /* 手描きの猫の顔（参考画像の落書き） */
-      cat: '<svg viewBox="0 0 52 34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 L14 13 M25 3 L20 13"/><path d="M11 12 C10 24 24 25 23 12"/><path d="M14.5 16.5 l0 .2 M19.5 16.5 l0 .2" stroke-width="2.4"/><path d="M2 18 L9 19 M2 22 L9 20.5 M25 18 L33 19 M25 22 L33 20.5"/></svg>',
-      /* 琥珀のバースト（アスタリスク） */
-      burst: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 3 V21 M3 12 H21 M5.6 5.6 L18.4 18.4 M18.4 5.6 L5.6 18.4"/></svg>',
-      /* ぐるぐる（コイル） */
-      coil: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 20 C20 16 16 16 16 20 C16 26 24 26 24 20 C24 12 12 12 12 20 C12 30 28 30 28 20 C28 8 8 8 8 20"/></svg>',
-      /* ゆるいうねり */
-      squiggle: '<svg viewBox="0 0 64 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 14 C8 4 14 4 18 11 S30 20 34 12 S46 3 50 10 S60 16 62 9"/></svg>'
+    // 固定シードの擬似乱数（毎回同じ「良い散らばり」）
+    var seed = 20260723;
+    var rand = function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
     };
 
-    function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
-    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" })[c]; }); }
+    // フィボナッチ球に均等配置。軸を傾けて極に居座る写真をなくす。
+    var GOLD = Math.PI * (3 - Math.sqrt(5));
+    var TILT = 0.62, cT = Math.cos(TILT), sT = Math.sin(TILT);
+    var P = items.map(function (el, i) {
+      var y0 = items.length === 1 ? 0 : 1 - (i / (items.length - 1)) * 2;
+      var r = Math.sqrt(Math.max(0, 1 - y0 * y0));
+      var th = i * GOLD;
+      var x = Math.cos(th) * r, z0 = Math.sin(th) * r;
+      return { el: el, x: x, y: y0 * cT - z0 * sT, z: y0 * sT + z0 * cT, jit: 0.9 + rand() * 0.2 };
+    });
 
-    var cardEls = [];
+    var W = 0, H = 0, RX = 0, RY = 0, mf = 1;
+    var rotX = 0.26, rotY = 0.6, vX = 0, vY = 0;
+    var MAXPITCH = 1.15, AUTO = 0.0016, DECAY = 0.94;
+    var drag = null, openEl = null, inView = false, raf = null, closing = false, openedAt = 0;
 
-    CARDS.forEach(function (c, i) {
-      if (c.section) {   // モバイルのセクション見出し（PC では display:none）
-        var sh = el("div", "hdr-msection");
-        sh.textContent = c.section;
-        collage.appendChild(sh);
+    function projectEl(p) {
+      var cosY = Math.cos(rotY), sinY = Math.sin(rotY), cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      var x1 = p.x * cosY + p.z * sinY;
+      var z1 = -p.x * sinY + p.z * cosY;
+      var y2 = p.y * cosX - z1 * sinX;
+      var z2 = p.y * sinX + z1 * cosX;
+      var persp = 0.64 + (z2 + 1) * 0.34;
+      p.el.style.transform =
+        "translate(-50%,-50%) translate3d(" + (x1 * RX * p.jit).toFixed(1) + "px," + (y2 * RY * p.jit).toFixed(1) + "px,0) scale(" + (persp * mf).toFixed(3) + ")";
+      p.el.style.zIndex = String(Math.round((z2 + 1) * 100));
+    }
+    function render() { for (var i = 0; i < P.length; i++) if (P[i].el !== openEl) projectEl(P[i]); }
+
+    function place() {
+      W = stage.clientWidth; H = stage.clientHeight;
+      if (W < 760) { mf = 0.72; RX = Math.min(W * 0.42, W / 2 - 84); RY = H * 0.33; }
+      else { mf = 1; RX = Math.min(W * 0.40, W / 2 - 130); RY = H * 0.34; }
+      render();
+    }
+    place();
+
+    function frame() {
+      if (!inView) { raf = null; return; }
+      if (!openEl) {
+        if (!drag) { rotY += vY + AUTO; rotX += vX; vY *= DECAY; vX *= DECAY; }
+        if (rotX > MAXPITCH) { rotX = MAXPITCH; vX = 0; }
+        if (rotX < -MAXPITCH) { rotX = -MAXPITCH; vX = 0; }
+        render();
       }
-      var isLink = !!c.href;
-      var card = el(isLink ? "a" : "div", "hdr-card cat-" + c.cat + (c.light ? " light" : "") + (c.hero ? " hero" : "") + (c.warm ? " warm" : "") + (c.recede ? " recede" : ""));
-      if (isLink) {
-        card.href = c.href;
-        var external = /^https?:/.test(c.href);
-        if (external) { card.target = "_blank"; card.rel = "noopener"; }
+      raf = requestAnimationFrame(frame);
+    }
+    var io = new IntersectionObserver(function (es) {
+      inView = es[0].isIntersecting;
+      if (inView && !reduced && raf === null) raf = requestAnimationFrame(frame);
+    }, { threshold: 0.02 });
+    io.observe(stage);
+    stage.classList.add("ready");
+
+    var rt = null;
+    window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { place(); if (openEl) fit(openEl); }, 150); });
+
+    // ドラッグ＆タップ
+    var SENS = 0.007;
+    stage.addEventListener("pointerdown", function (e) {
+      if (openEl || drag) return;
+      drag = { x0: e.clientX, y0: e.clientY, rx0: rotX, ry0: rotY, px: e.clientX, py: e.clientY, moved: 0, hit: e.target.closest ? e.target.closest(".sp-item") : null };
+      vX = vY = 0;
+      try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+      stage.classList.add("dragging");
+    });
+    stage.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.px, dy = e.clientY - drag.py;
+      drag.moved += Math.abs(dx) + Math.abs(dy);
+      drag.px = e.clientX; drag.py = e.clientY;
+      if (!reduced) {
+        rotY = drag.ry0 + (e.clientX - drag.x0) * SENS;
+        rotX = Math.max(-MAXPITCH, Math.min(MAXPITCH, drag.rx0 + (e.clientY - drag.y0) * SENS));
+        vY = dx * SENS; vX = dy * SENS;
+        if (!raf && inView) raf = requestAnimationFrame(frame);
       }
-      card.style.setProperty("--x", c.x + "%");
-      card.style.setProperty("--y", c.y + "%");
-      card.style.setProperty("--w", c.w + "px");
-      card.style.setProperty("--z", c.z);
-      card.style.setProperty("--r", (c.r || 0) + "deg");
+    });
+    function endDrag() {
+      if (!drag) return;
+      stage.classList.remove("dragging");
+      var wasTap = drag.moved < 8, hit = drag.hit;
+      drag = null;
+      if (wasTap && hit && !openEl) open(hit);
+    }
+    stage.addEventListener("pointerup", endDrag);
+    stage.addEventListener("pointercancel", function () { if (drag) { stage.classList.remove("dragging"); drag = null; } });
+    items.forEach(function (el) { el.addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && !openEl) { e.preventDefault(); open(el); } }); });
 
-      var floatWrap = el("span", "hdr-float");
-      floatWrap.style.setProperty("--dur", (7 + (i % 5)) + "s");
-      floatWrap.style.setProperty("--delay", (-(i % 6) * 0.9) + "s");
-
-      var face;
-      if (c.img) {
-        face = el("span", "hdr-face hdr-face--img" + (c.circle ? " hdr-face--circle" : (c.cat === "photo" ? " hdr-face--photo" : "")) + (c.cat === "book" ? " hdr-face--book" : "") + (c.wide ? " hdr-face--wide" : ""));
-        var img = el("img");
-        img.src = c.img;
-        img.alt = c.name || c.title || "";
-        img.loading = "lazy";
-        img.draggable = false;
-        img.onerror = function () { this.style.display = "none"; face.style.background = "#16161a"; };
-        face.appendChild(img);
-        if (c.name) {   // 名前が無い写真は純粋なポラロイド（キャプションなし）
-          var cap = el("span", "hdr-cap");
-          cap.innerHTML = "<b>" + esc(c.name) + (isLink ? '<span class="hdr-arrow">↗</span>' : "") + "</b>" +
-            (c.sub ? "<span>" + esc(c.sub) + "</span>" : "");
-          face.appendChild(cap);
-        }
+    // 拡大・復帰
+    function fit(el) {
+      var img = el.querySelector("img");
+      var baseH = parseFloat(getComputedStyle(el).getPropertyValue("--h")) || 110;
+      var ratio = (img.naturalWidth && img.naturalHeight) ? img.naturalWidth / img.naturalHeight : 1;
+      var targetH = Math.min(H * 0.66, (W * 0.8) / ratio);
+      var s = targetH / baseH;
+      el.style.transform = "translate(-50%,-50%) translate3d(0," + (-H * 0.04).toFixed(1) + "px,0) scale(" + s.toFixed(3) + ")";
+    }
+    function open(el) {
+      openEl = el; openedAt = performance.now();
+      stage.classList.add("open"); el.classList.add("active");
+      el.style.transition = reduced ? "none" : "transform .85s var(--hdr-ease)";
+      fit(el);
+      var img = el.querySelector("img");
+      if (!img.complete) img.addEventListener("load", function () { if (openEl === el) fit(el); }, { once: true });
+      capIdx.textContent = el.dataset.idx || "";
+      capName.textContent = el.dataset.name || "";
+      if (el.dataset.href) {
+        capView.classList.remove("is-soon");
+        capView.setAttribute("href", el.dataset.href);
+        var ext = /^https?:/.test(el.dataset.href);
+        if (ext) { capView.target = "_blank"; capView.rel = "noopener"; } else { capView.removeAttribute("target"); capView.removeAttribute("rel"); }
+        capView.innerHTML = 'View <span aria-hidden="true">→</span>';
       } else {
-        face = el("span", "hdr-face hdr-face--card");
-        var chip = c.chip ? '<span class="hdr-chip">' + esc(c.chip) + "</span>" : "";
-        var arrow = isLink ? '<span class="a">↗</span>' : "";
-        face.innerHTML = chip +
-          '<div class="hdr-ctitle">' + esc(c.title) + arrow + "</div>" +
-          (c.sub ? '<div class="hdr-csub">' + esc(c.sub) + "</div>" : "");
+        capView.classList.add("is-soon");
+        capView.removeAttribute("href");
+        capView.textContent = "Coming soon";
       }
-
-      floatWrap.appendChild(face);
-      card.appendChild(floatWrap);
-      collage.appendChild(card);
-      cardEls.push(card);
-    });
-
-    DECOR.forEach(function (d) {
-      var s = el("div", "hdr-decor");
-      s.setAttribute("aria-hidden", "true");
-      s.style.setProperty("--x", d.x + "%");
-      s.style.setProperty("--y", d.y + "%");
-      s.style.width = d.s + "px";
-      if (d.c) s.style.color = d.c;
-      s.style.transform = "translate(-50%,-50%) rotate(" + (d.r || 0) + "deg)";
-      s.innerHTML = decorSVG[d.kind] || "";
-      collage.appendChild(s);
-    });
-
-    /* ---------------- ホバーで他カードが外側へ散る ---------------- */
-    var mqDesktop = window.matchMedia("(min-width: 861px)");
-    var mqHover = window.matchMedia("(hover: hover) and (pointer: fine)");
-    function motionOK() { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
-
-    var centers = [];       // 各カードの基準中心(px, collage内)
-    function measure() {
-      var box = collage.getBoundingClientRect();
-      centers = cardEls.map(function (card) {
-        var r = card.getBoundingClientRect();
-        return { x: r.left - box.left + r.width / 2, y: r.top - box.top + r.height / 2 };
-      });
+      caption.setAttribute("aria-hidden", "false");
     }
-
-    function clearPush() {
-      cardEls.forEach(function (card) {
-        card.style.setProperty("--px", "0px");
-        card.style.setProperty("--py", "0px");
-      });
+    function close() {
+      if (!openEl || closing) return;
+      closing = true;
+      caption.setAttribute("aria-hidden", "true");
+      var el = openEl, p = null;
+      for (var i = 0; i < P.length; i++) if (P[i].el === el) { p = P[i]; break; }
+      stage.classList.remove("open");
+      if (p) projectEl(p);
+      var done = function () { el.style.transition = ""; el.classList.remove("active"); openEl = null; closing = false; };
+      reduced ? done() : setTimeout(done, 880);
     }
-
-    function repel(activeIdx) {
-      var a = centers[activeIdx];
-      if (!a) return;
-      var cx = 0, cy = 0;
-      centers.forEach(function (p) { cx += p.x; cy += p.y; });
-      cx /= centers.length; cy /= centers.length;
-
-      cardEls.forEach(function (card, j) {
-        if (j === activeIdx) {
-          card.style.setProperty("--px", "0px");
-          card.style.setProperty("--py", "0px");
-          return;
-        }
-        var p = centers[j];
-        // 方向：ホバーカードから離れる向き + クラスタ中心から外へ の合成
-        var dx = p.x - a.x, dy = p.y - a.y;
-        var d = Math.sqrt(dx * dx + dy * dy) || 1;
-        var ox = p.x - cx, oy = p.y - cy;
-        var od = Math.sqrt(ox * ox + oy * oy) || 1;
-        var ux = (dx / d) * 0.68 + (ox / od) * 0.32;
-        var uy = (dy / d) * 0.68 + (oy / od) * 0.32;
-        var un = Math.sqrt(ux * ux + uy * uy) || 1;
-        // 近いカードほど大きく押し出す
-        var amt = 40 + 120 * Math.exp(-d / 210);
-        card.style.setProperty("--px", ((ux / un) * amt).toFixed(1) + "px");
-        card.style.setProperty("--py", ((uy / un) * amt).toFixed(1) + "px");
-      });
-    }
-
-    function canInteract() { return mqDesktop.matches && mqHover.matches; }
-
-    function activate(card, i) {
-      if (!canInteract()) return;
-      if (!centers.length) measure();
-      card.classList.add("is-active");
-      collage.classList.add("is-dimmed");
-      if (motionOK()) repel(i);   // reduced-motion では強調のみ・散らさない
-      else clearPush();
-    }
-    function deactivate(card) {
-      card.classList.remove("is-active");
-      collage.classList.remove("is-dimmed");
-      clearPush();
-    }
-
-    cardEls.forEach(function (card, i) {
-      card.addEventListener("pointerenter", function () { activate(card, i); });
-      card.addEventListener("pointerleave", function () { deactivate(card); });
-      // キーボードフォーカスでも同じ演出
-      card.addEventListener("focus", function () { activate(card, i); });
-      card.addEventListener("blur", function () { deactivate(card); });
+    capClose.addEventListener("click", close);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    stage.addEventListener("click", function (e) {
+      if (!openEl || performance.now() - openedAt < 300) return;
+      if (!e.target.closest(".sp-item") && !e.target.closest(".sp-caption")) close();
     });
-
-    var rt;
-    window.addEventListener("resize", function () {
-      clearTimeout(rt);
-      rt = setTimeout(function () { measure(); }, 160);
-    });
-    window.addEventListener("load", measure);
-    // フォント読込後にレイアウトが動くため再計測
-    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(measure); }
-    setTimeout(measure, 400);
-
-    // 読み込み時のフェードイン（repel の transform とは干渉しない opacity のみ）
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { collage.classList.add("ready"); });
-    });
+    capView.addEventListener("click", function (e) { if (capView.classList.contains("is-soon")) e.preventDefault(); });
   })();
   </script>
 </body>
