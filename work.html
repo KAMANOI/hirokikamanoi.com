@@ -147,6 +147,9 @@
       padding: 14px clamp(18px, 4vw, 40px) calc(14px + env(safe-area-inset-bottom));
       font-family: var(--font); font-size: 12px; color: var(--hdr-muted); pointer-events: none;
     }
+    .hdr-foot { transition: opacity .4s var(--hdr-ease); }
+    /* 作品を開いている間はフッターを隠す（クリックで出るキャプションと重ならないように） */
+    body.sp-open .hdr-foot { opacity: 0; pointer-events: none; }
     .hdr-foot a { color: var(--hdr-muted); text-decoration: none; pointer-events: auto; transition: color .25s ease; }
     .hdr-foot a:hover { color: var(--hdr-ink); }
     .hdr-foot .hdr-foot-links { display: flex; align-items: center; gap: 18px; }
@@ -175,16 +178,39 @@
       .sp-stage { top: clamp(196px, 30vh, 244px); bottom: 44px; }
     }
 
-    /* スマートフォン */
+    /* 作品グリッド（スマホ用・PCは非表示。球体は狭い画面だと重なって見づらいため） */
+    .hdr-grid {
+      display: none;
+      grid-template-columns: repeat(2, 1fr); gap: 13px;
+      max-width: 640px; margin: 0 auto; padding: 26px 18px 4px;
+    }
+    .hdr-grid a, .hdr-grid .soon {
+      display: block; text-decoration: none; color: inherit;
+      background: #0e0e12; border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px; overflow: hidden; -webkit-tap-highlight-color: transparent;
+    }
+    .hdr-grid a:active { border-color: rgba(245,158,11,0.55); }
+    .hdr-grid .thumb { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: #141418; }
+    .hdr-grid .meta { padding: 10px 12px 13px; }
+    .hdr-grid .g-role { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--hdr-accent); }
+    .hdr-grid .g-name { font-size: 14.5px; font-weight: 600; margin-top: 5px; color: var(--hdr-ink); line-height: 1.35; }
+    .hdr-grid .soon { opacity: 0.82; }
+    .hdr-grid .soon .g-name { color: var(--hdr-muted); }
+    .hdr-grid .g-soon { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--hdr-faint); margin-top: 4px; }
+
+    /* スマートフォン：球体をやめ、見やすい2列グリッド＋スクロールに */
     @media (max-width: 860px) {
-      .hdr-head { position: relative; top: 0; padding: clamp(84px, 15vh, 124px) 22px 0; }
-      .hdr-kicker { font-size: 9.5px; letter-spacing: 0.16em; padding-left: 0.16em; white-space: normal; line-height: 1.6; }
-      .hdr-logo-img { width: clamp(230px, 60vw, 340px); }
-      .hdr-divider { top: clamp(214px, 32vh, 298px); }
-      body.hdr-page { overflow-x: hidden; overflow-y: hidden; }  /* スマホも球体は1画面 */
-      .hdr-stage { height: auto; min-height: 100dvh; overflow: hidden; }
-      .sp-stage { position: relative; top: 0; bottom: 0; margin-top: clamp(28px, 5vh, 48px); height: 58vh; }
-      .hdr-foot { flex-direction: column; gap: 10px; text-align: center; padding: 18px 20px calc(20px + env(safe-area-inset-bottom)); }
+      body.hdr-page { overflow-x: hidden; overflow-y: auto; }
+      .hdr-stage { height: auto; min-height: 0; overflow: visible; }
+      .hdr-head { position: relative; top: 0; padding: clamp(78px, 13vh, 116px) 22px 0; }
+      .hdr-kicker { font-size: 9px; letter-spacing: 0.18em; padding-left: 0.18em; white-space: normal; line-height: 1.6; }
+      .hdr-logo-img { width: clamp(200px, 54vw, 300px); }
+      .hdr-tagline { font-size: 13px; margin-top: 14px; }
+      .hdr-tagline span { display: none; }  /* 「回して、選んでください」は球体向けの案内のため非表示 */
+      .hdr-divider { display: none; }
+      .sp-stage { display: none; }
+      .hdr-grid { display: grid; }
+      .hdr-foot { position: static; flex-direction: column; gap: 8px; text-align: center; margin-top: 26px; padding: 20px 20px calc(26px + env(safe-area-inset-bottom)); }
     }
 
     @media (prefers-reduced-motion: reduce) { .sp-item { transition: none; } }
@@ -303,6 +329,37 @@
       { img:"images/products/tiles/ai/d-gee.jpg",   name:"GEE",       role:"In Development" },
       { img:"images/products/tiles/ai/d-nbox.jpg",  name:"N-Box RAW", role:"In Development" }
     ];
+
+    /* スマホは球体をやめ、重ならない2列グリッドで表示（見やすさ優先） */
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      var grid = document.createElement("div");
+      grid.className = "hdr-grid";
+      DATA.forEach(function (e) {
+        var card;
+        if (e.href) {
+          card = document.createElement("a");
+          card.href = e.href;
+          if (/^https?:/.test(e.href)) { card.target = "_blank"; card.rel = "noopener"; }
+        } else {
+          card = document.createElement("div");
+          card.className = "soon";
+        }
+        var img = document.createElement("img");
+        img.className = "thumb"; img.src = e.img; img.alt = e.name; img.loading = "lazy";
+        img.onerror = function () { this.style.opacity = 0.25; };
+        var meta = document.createElement("div"); meta.className = "meta";
+        var role = document.createElement("div"); role.className = "g-role"; role.textContent = e.role;
+        var name = document.createElement("div"); name.className = "g-name"; name.textContent = e.name;
+        meta.appendChild(role); meta.appendChild(name);
+        if (!e.href) { var s = document.createElement("div"); s.className = "g-soon"; s.textContent = "Coming soon"; meta.appendChild(s); }
+        card.appendChild(img); card.appendChild(meta);
+        grid.appendChild(card);
+      });
+      var main = document.querySelector(".hdr-stage");
+      var foot = document.querySelector(".hdr-foot");
+      if (main && foot) main.insertBefore(grid, foot); else if (main) main.appendChild(grid);
+      return;  /* 球体ロジックは実行しない */
+    }
 
     var HEIGHTS = [104, 88, 98, 82, 108, 92, 86, 112, 96, 90, 100];
 
@@ -445,6 +502,7 @@
     function open(el) {
       openEl = el; openedAt = performance.now();
       stage.classList.add("open"); el.classList.add("active");
+      document.body.classList.add("sp-open");
       el.style.transition = reduced ? "none" : "transform .85s var(--hdr-ease)";
       fit(el);
       var img = el.querySelector("img");
@@ -471,6 +529,7 @@
       var el = openEl, p = null;
       for (var i = 0; i < P.length; i++) if (P[i].el === el) { p = P[i]; break; }
       stage.classList.remove("open");
+      document.body.classList.remove("sp-open");
       if (p) projectEl(p);
       var done = function () { el.style.transition = ""; el.classList.remove("active"); openEl = null; closing = false; };
       reduced ? done() : setTimeout(done, 880);
