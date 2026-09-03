@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="1000" height="420" role="img" aria-label="HDR — Human Driven Reality">
+  <title>HDR — Human Driven Reality</title>
+  <rect width="1000" height="420" fill="#F2F0EA"/>
+  <text x="500" y="255" text-anchor="middle" letter-spacing="6"
+        font-family="'Helvetica Neue', Arial, sans-serif" font-weight="700"
+        font-size="230" fill="#0B0B0C">HDR</text>
+  <rect x="230" y="300" width="540" height="4" fill="#E2A23B"/>
+  <text x="500" y="352" text-anchor="middle" letter-spacing="9"
+        font-family="'Helvetica Neue', Arial, sans-serif" font-weight="400"
+        font-size="30" fill="#0B0B0C" opacity="0.72">HUMAN DRIVEN REALITY</text>
+</svg>

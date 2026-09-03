@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="HDR — Hiroki Kamanoi Development and Research. 釜野井弘規が生み出したプロダクトと研究のコレクション。">
+  <title>HDR — Hiroki Kamanoi Development & Research</title>
+  <meta property="og:title" content="HDR — Hiroki Kamanoi Development & Research">
+  <meta property="og:description" content="釜野井弘規が生み出したプロダクトと研究のコレクション。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hirokikamanoi.com/work.html">
+  <meta property="og:image" content="https://hirokikamanoi.com/images/products-bg.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d0d0d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23f0f0f0'%3Eh%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ============================================================
+       HDR 球体ギャラリー（LOCA Homepage の球体デザインを HDR に移植）
+       このページ限定・スコープ済み。他ページには影響しない。
+       ============================================================ */
+    :root {
+      --hdr-bg: #060607;
+      --hdr-ink: #f4f2ee;
+      --hdr-muted: rgba(244,242,238,0.52);
+      --hdr-faint: rgba(244,242,238,0.30);
+      --hdr-line: rgba(244,242,238,0.14);
+      --hdr-accent: #f59e0b;
+      --hdr-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body.hdr-page {
+      background: var(--hdr-bg);
+      color: var(--hdr-ink);
+      min-height: 100dvh;
+      overflow: hidden;               /* PC = ノンスクロール */
+      -webkit-font-smoothing: antialiased;
+    }
+    body.hdr-page::before {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(120% 90% at 50% 34%, rgba(60,58,70,0.30) 0%, rgba(10,10,12,0) 55%),
+        radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 60%);
+    }
+    body.hdr-page::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 40; pointer-events: none;
+      opacity: 0.05; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 140px 140px;
+    }
+
+    .hdr-stage { position: relative; z-index: 1; height: 100dvh; width: 100%; overflow: hidden; }
+
+    /* ---------- タイトル帯 ---------- */
+    .hdr-head {
+      position: absolute; top: clamp(46px, 7vh, 84px); left: 0; right: 0; z-index: 6;
+      text-align: center; pointer-events: none; padding: 0 24px;
+    }
+    .hdr-kicker {
+      font-family: var(--font); font-size: clamp(10px, 1.05vw, 12.5px);
+      letter-spacing: 0.42em; text-transform: uppercase; color: var(--hdr-faint);
+      margin: 0 0 clamp(8px, 1.4vh, 18px); padding-left: 0.42em;
+    }
+    .hdr-logo-img {
+      display: block; margin: 0 auto; width: clamp(212px, 22vw, 312px); height: auto;
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 26px rgba(184,202,235,0.18));
+    }
+    .hdr-tagline {
+      font-family: var(--font); font-size: clamp(12.5px, 1.4vw, 14.5px);
+      letter-spacing: 0.04em; color: #9aa0a8; margin: clamp(12px, 1.8vh, 19px) 0 0; line-height: 1.5;
+    }
+    .hdr-tagline span { color: var(--hdr-faint); }
+
+    /* HDRロゴとギャラリーを仕切る白のヘアライン（端はフェード） */
+    .hdr-divider {
+      position: absolute; top: clamp(222px, 33.5vh, 312px); left: 50%; transform: translateX(-50%);
+      width: min(88vw, 1120px); height: 1px; z-index: 5; pointer-events: none;
+      background: linear-gradient(90deg, transparent 0%, rgba(244,242,238,0.20) 24%, rgba(244,242,238,0.30) 50%, rgba(244,242,238,0.20) 76%, transparent 100%);
+    }
+
+    /* ---------- 球体ステージ ---------- */
+    .sp-stage {
+      position: absolute; left: 0; right: 0;
+      top: clamp(250px, 37vh, 360px); bottom: clamp(52px, 8vh, 86px);
+      z-index: 3;
+      cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+    }
+    .sp-stage.dragging { cursor: grabbing; }
+    .sp-item {
+      position: absolute; top: 50%; left: 50%; margin: 0; padding: 6px;
+      background: #0e0e12; border: 1px solid rgba(255,255,255,0.09); border-radius: 12px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+      will-change: transform, opacity; cursor: pointer;
+      opacity: 0; transition: opacity 0.6s var(--hdr-ease);
+    }
+    .sp-stage.ready .sp-item { opacity: 1; }
+    .sp-item img {
+      height: var(--h, 110px); width: auto; display: block; border-radius: 7px;
+      filter: contrast(1.03) brightness(0.98); pointer-events: none;
+    }
+    .sp-item:focus-visible { outline: 2px solid var(--hdr-accent); outline-offset: 3px; }
+    .sp-stage.open { cursor: default; }
+    .sp-stage.open .sp-item:not(.active) { opacity: 0.07; pointer-events: none; }
+    .sp-item.active { cursor: default; z-index: 60 !important; }
+    .sp-item.active { box-shadow: 0 40px 90px rgba(0,0,0,0.72), 0 0 0 1.5px rgba(245,158,11,0.5); }
+    .sp-item.active img { filter: contrast(1.05) brightness(1); }
+
+    .sp-caption {
+      position: absolute; left: 50%; bottom: 0.6rem; transform: translateX(-50%);
+      text-align: center; z-index: 50; opacity: 0; pointer-events: none; visibility: hidden;
+      transition: opacity 0.5s var(--hdr-ease) 0.25s, visibility 0s 0.8s; padding: 0 20px;
+    }
+    .sp-stage.open .sp-caption { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.5s var(--hdr-ease) 0.25s, visibility 0s; }
+    .sp-cap-idx {
+      font-family: var(--font); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase;
+      color: var(--hdr-accent); margin-bottom: 0.5rem;
+    }
+    .sp-cap-name {
+      font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 3vw, 30px);
+      letter-spacing: 0.02em; color: var(--hdr-ink); margin-bottom: 0.85rem; line-height: 1.3;
+    }
+    .sp-cap-actions { display: flex; gap: 1.8rem; justify-content: center; align-items: baseline; }
+    .sp-cap-view {
+      font-family: var(--font); font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--hdr-ink); text-decoration: none; padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--hdr-accent); transition: color .25s ease;
+    }
+    .sp-cap-view:hover { color: var(--hdr-accent); }
+    .sp-cap-view.is-soon { color: var(--hdr-faint); border-bottom-color: var(--hdr-line); pointer-events: none; }
+    .sp-cap-close {
+      font-family: var(--font); font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--hdr-muted); background: none; border: none; cursor: pointer; padding: 0; transition: color .25s ease;
+    }
+    .sp-cap-close:hover { color: var(--hdr-ink); }
+    .sp-hint {
+      position: absolute; left: 50%; bottom: 0.7rem; transform: translateX(-50%);
+      font-family: var(--font); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--hdr-faint); z-index: 5; white-space: nowrap; transition: opacity 0.4s; pointer-events: none;
+    }
+    .sp-stage.open .sp-hint { opacity: 0; }
+
+    /* ---------- 下部の細いバー ---------- */
+    .hdr-foot {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 14px clamp(18px, 4vw, 40px) calc(14px + env(safe-area-inset-bottom));
+      font-family: var(--font); font-size: 12px; color: var(--hdr-muted); pointer-events: none;
+    }
+    .hdr-foot { transition: opacity .4s var(--hdr-ease); }
+    /* 作品を開いている間はフッターを隠す（クリックで出るキャプションと重ならないように） */
+    body.sp-open .hdr-foot { opacity: 0; pointer-events: none; }
+    .hdr-foot a { color: var(--hdr-muted); text-decoration: none; pointer-events: auto; transition: color .25s ease; }
+    .hdr-foot a:hover { color: var(--hdr-ink); }
+    .hdr-foot .hdr-foot-links { display: flex; align-items: center; gap: 18px; }
+    .hdr-foot svg { width: 13px; height: 13px; vertical-align: -1px; opacity: 0.55; transition: opacity .25s ease; }
+    .hdr-foot a:hover svg { opacity: 1; }
+
+    /* ナビ：現在地(HDR)に琥珀ドット・Contactをゴーストボタン化（PCのみ） */
+    @media (min-width: 861px) {
+      body.hdr-page #nav .nav-links a.nav-active { color: var(--hdr-ink); position: relative; }
+      body.hdr-page #nav .nav-links a.nav-active::after {
+        content: ""; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%);
+        width: 5px; height: 5px; border-radius: 50%; background: var(--hdr-accent);
+      }
+      body.hdr-page #nav .nav-links li:last-child a {
+        border: 1px solid rgba(244,242,238,0.26); border-radius: 999px; padding: 6px 16px;
+        transition: background .25s ease, border-color .25s ease, color .25s ease;
+      }
+      body.hdr-page #nav .nav-links li:last-child a:hover { background: var(--hdr-accent); border-color: var(--hdr-accent); color: #14100a; }
+    }
+
+    /* 背の低いデスクトップ */
+    @media (min-width: 861px) and (max-height: 730px) {
+      .hdr-head { top: clamp(34px, 5vh, 60px); }
+      .hdr-logo-img { width: clamp(210px, 22vw, 286px); }
+      .hdr-divider, .hdr-tagline { display: none; }
+      .sp-stage { top: clamp(196px, 30vh, 244px); bottom: 44px; }
+    }
+
+    /* 作品グリッド（スマホ用・PCは非表示。球体は狭い画面だと重なって見づらいため） */
+    .hdr-grid {
+      display: none;
+      grid-template-columns: repeat(2, 1fr); gap: 13px;
+      max-width: 640px; margin: 0 auto; padding: 26px 18px 4px;
+    }
+    .hdr-grid a, .hdr-grid .soon {
+      display: block; text-decoration: none; color: inherit;
+      background: #0e0e12; border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px; overflow: hidden; -webkit-tap-highlight-color: transparent;
+    }
+    .hdr-grid a:active { border-color: rgba(245,158,11,0.55); }
+    .hdr-grid .thumb { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: #141418; }
+    .hdr-grid .meta { padding: 10px 12px 13px; }
+    .hdr-grid .g-role { font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--hdr-accent); }
+    .hdr-grid .g-name { font-size: 14.5px; font-weight: 600; margin-top: 5px; color: var(--hdr-ink); line-height: 1.35; }
+    .hdr-grid .soon { opacity: 0.82; }
+    .hdr-grid .soon .g-name { color: var(--hdr-muted); }
+    .hdr-grid .g-soon { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--hdr-faint); margin-top: 4px; }
+
+    /* スマートフォン：球体をやめ、見やすい2列グリッド＋スクロールに */
+    @media (max-width: 860px) {
+      body.hdr-page { overflow-x: hidden; overflow-y: auto; }
+      .hdr-stage { height: auto; min-height: 0; overflow: visible; }
+      .hdr-head { position: relative; top: 0; padding: clamp(78px, 13vh, 116px) 22px 0; }
+      .hdr-kicker { font-size: 9px; letter-spacing: 0.18em; padding-left: 0.18em; white-space: normal; line-height: 1.6; }
+      .hdr-logo-img { width: clamp(200px, 54vw, 300px); }
+      .hdr-tagline { font-size: 13px; margin-top: 14px; }
+      .hdr-tagline span { display: none; }  /* 「回して、選んでください」は球体向けの案内のため非表示 */
+      .hdr-divider { display: none; }
+      .sp-stage { display: none; }
+      .hdr-grid { display: grid; }
+      .hdr-foot { position: static; flex-direction: column; gap: 8px; text-align: center; margin-top: 26px; padding: 20px 20px calc(26px + env(safe-area-inset-bottom)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) { .sp-item { transition: none; } }
+  </style>
+</head>
+<body class="hdr-page">
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">hirokikamanoi.com</a>
+    <button class="nav-toggle" aria-label="メニュー" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="hair-salon.html">Salon</a></li>
+      <li><a href="photography.html">Photography</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="work.html" class="nav-active">HDR</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="hdr-stage">
+    <header class="hdr-head">
+      <p class="hdr-kicker">Hiroki Kamanoi · Development &amp; Research</p>
+      <h1 class="hdr-wordmark" style="margin:0"><img src="images/hdr-logo.png" alt="HDR" class="hdr-logo-img"></h1>
+      <p class="hdr-tagline">個人がつくる、プロダクトと研究。<span>回して、選んでください。</span></p>
+    </header>
+
+    <div class="hdr-divider" aria-hidden="true"></div>
+
+    <div class="sp-stage" id="spStage" aria-label="プロダクトと研究のコレクション（ドラッグで回転・クリックで詳細）">
+      <div class="sp-caption" id="spCaption" aria-hidden="true">
+        <p class="sp-cap-idx" id="spCapIdx"></p>
+        <h3 class="sp-cap-name" id="spCapName"></h3>
+        <div class="sp-cap-actions">
+          <a class="sp-cap-view" id="spCapView" href="#">View <span aria-hidden="true">→</span></a>
+          <button class="sp-cap-close" id="spCapClose" type="button">Close</button>
+        </div>
+      </div>
+      <p class="sp-hint" id="spHint">Drag to explore — Click to view</p>
+    </div>
+
+    <footer class="hdr-foot">
+      <span class="hdr-foot-mark">© 2026 Hiroki Kamanoi</span>
+      <span class="hdr-foot-links">
+        <a href="index.html">← hirokikamanoi.com</a>
+        <a href="https://twitter.com/HKakaGraffito" target="_blank" rel="noopener" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/kamanoi_ah/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </span>
+    </footer>
+  </main>
+
+  <script>
+  /* ナビのハンバーガー開閉 */
+  (function () {
+    var toggle = document.querySelector(".nav-toggle");
+    var links = document.querySelector(".nav-links");
+    if (!toggle || !links) return;
+    toggle.addEventListener("click", function () {
+      var open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open));
+      links.classList.toggle("open", !open);
+    });
+    links.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { toggle.setAttribute("aria-expanded", "false"); links.classList.remove("open"); });
+    });
+  })();
+  </script>
+
+  <script>
+  /* ============================================================
+     球体ギャラリー（フィボナッチ球・ドラッグで地球儀回転・クリックで拡大）
+     LOCA Homepage の実装を HDR コンテンツに移植
+     ============================================================ */
+  (function () {
+    "use strict";
+    var stage = document.getElementById("spStage");
+    if (!stage) return;
+    var capIdx = document.getElementById("spCapIdx");
+    var capName = document.getElementById("spCapName");
+    var capView = document.getElementById("spCapView");
+    var capClose = document.getElementById("spCapClose");
+    var caption = document.getElementById("spCaption");
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* HDR のコレクション。em=強調(大きめ表示) */
+    var DATA = [
+      // プロダクト（リリース済み）＝強調
+      { img:"images/products/tiles/aaru.jpg", name:"A.A.R.U.", role:"Product", href:"https://getaaru.app", em:1.32 },
+      { img:"images/products/tiles/ele.jpg",  name:"ele",      role:"Product", href:"https://ele-oq8u.onrender.com", em:1.22 },
+      { img:"images/products/tiles/dia.jpg",  name:"DIA",      role:"Product", href:"https://dia-wheat.vercel.app", em:1.22 },
+      { img:"images/products/tiles/zee.svg",  name:"Zee",      role:"Product", href:"https://github.com/KAMANOI/zee", em:1.18 },
+      // 研究
+      { img:"images/products/tiles/ai/r-collatz.jpg",   name:"Collatz Conjecture",      role:"Research", href:"https://github.com/KAMANOI?tab=repositories&q=collatz" },
+      { img:"images/products/tiles/ai/r-radiation.jpg", name:"Radiation × Remediation", role:"Research", href:"https://github.com/KAMANOI/radiation-resistance-remediation" },
+      { img:"images/products/tiles/ai/r-zee.jpg",       name:"Zee — Tripwire",          role:"Research", href:"https://github.com/KAMANOI/zee" },
+      { img:"images/products/tiles/ai/r-eros.jpg",      name:"Eros & Thanatos",         role:"Research", href:"photography.html" },
+      // 写真集
+      { img:"images/products/tiles/cover-b-loca2.jpg",     name:"LOCA vol.2",             role:"Photobook", href:"https://www.amazon.co.jp/dp/B0GXD98PV5" },
+      { img:"images/products/tiles/cover-b-loca1.jpg",     name:"LOCA vol.1",             role:"Photobook", href:"https://www.amazon.co.jp/dp/B0GGB192KW" },
+      { img:"images/products/tiles/cover-b-epicurean.jpg", name:"The Epicurean Philosophy", role:"Photobook", href:"https://www.amazon.co.jp/dp/B0FF58LDKM" },
+      { img:"images/products/tiles/cover-b-utopia.jpg",    name:"juːtóʊpiə",              role:"Photobook", href:"https://www.amazon.co.jp/dp/B0F5QRWBGR" },
+      { img:"images/products/tiles/cover-b-tsubaki.jpg",   name:"椿姫のの 写真集",         role:"Photobook", href:"https://www.amazon.co.jp/dp/B0DQFTRPRP" },
+      { img:"images/products/tiles/cover-b-kagerou.jpg",   name:"かげろう",               role:"Photobook", href:"https://www.amazon.co.jp/dp/B0CJ4CRBF1" },
+      // 写真
+      { img:"images/gallery/street-snap.jpg", name:"Photography", role:"Photography", href:"photography.html" },
+      { img:"images/gallery/portrait.jpg",    name:"Portrait",    role:"Photography", href:"photography.html" },
+      { img:"images/journey/photo-3.jpg",     name:"作品",        role:"Photography", href:"photography.html" },
+      // 開発中（リンク無し）
+      { img:"images/products/tiles/ai/d-becam.jpg", name:"be Cam",    role:"In Development" },
+      { img:"images/products/tiles/ai/d-sea.jpg",   name:"SEA",       role:"In Development" },
+      { img:"images/products/tiles/ai/d-gee.jpg",   name:"GEE",       role:"In Development" },
+      { img:"images/products/tiles/ai/d-nbox.jpg",  name:"N-Box RAW", role:"In Development" }
+    ];
+
+    /* スマホは球体をやめ、重ならない2列グリッドで表示（見やすさ優先） */
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      var grid = document.createElement("div");
+      grid.className = "hdr-grid";
+      DATA.forEach(function (e) {
+        var card;
+        if (e.href) {
+          card = document.createElement("a");
+          card.href = e.href;
+          if (/^https?:/.test(e.href)) { card.target = "_blank"; card.rel = "noopener"; }
+        } else {
+          card = document.createElement("div");
+          card.className = "soon";
+        }
+        var img = document.createElement("img");
+        img.className = "thumb"; img.src = e.img; img.alt = e.name; img.loading = "lazy";
+        img.onerror = function () { this.style.opacity = 0.25; };
+        var meta = document.createElement("div"); meta.className = "meta";
+        var role = document.createElement("div"); role.className = "g-role"; role.textContent = e.role;
+        var name = document.createElement("div"); name.className = "g-name"; name.textContent = e.name;
+        meta.appendChild(role); meta.appendChild(name);
+        if (!e.href) { var s = document.createElement("div"); s.className = "g-soon"; s.textContent = "Coming soon"; meta.appendChild(s); }
+        card.appendChild(img); card.appendChild(meta);
+        grid.appendChild(card);
+      });
+      var main = document.querySelector(".hdr-stage");
+      var foot = document.querySelector(".hdr-foot");
+      if (main && foot) main.insertBefore(grid, foot); else if (main) main.appendChild(grid);
+      return;  /* 球体ロジックは実行しない */
+    }
+
+    var HEIGHTS = [104, 88, 98, 82, 108, 92, 86, 112, 96, 90, 100];
+
+    // figure を生成
+    var items = DATA.map(function (e, i) {
+      var fig = document.createElement("figure");
+      fig.className = "sp-item";
+      fig.tabIndex = 0;
+      var base = HEIGHTS[i % HEIGHTS.length] * (e.em || 1);
+      fig.style.setProperty("--h", Math.round(base) + "px");
+      fig.dataset.idx = e.role;
+      fig.dataset.name = e.name;
+      if (e.href) fig.dataset.href = e.href;
+      var img = document.createElement("img");
+      img.src = e.img;
+      img.alt = e.name;
+      img.loading = "lazy";
+      img.draggable = false;
+      img.onerror = function () { this.style.opacity = 0; };
+      var sizeToAspect = function () {
+        var r = (img.naturalWidth && img.naturalHeight) ? img.naturalWidth / img.naturalHeight : 1;
+        var boost = Math.min(1.55, Math.max(1, 1 / Math.sqrt(r)));   // 縦ほど高さUP
+        fig.style.setProperty("--h", Math.round(base * boost) + "px");
+      };
+      if (img.complete && img.naturalWidth) sizeToAspect();
+      else img.addEventListener("load", sizeToAspect, { once: true });
+      fig.appendChild(img);
+      stage.insertBefore(fig, caption);
+      return fig;
+    });
+    if (!items.length) return;
+
+    // 固定シードの擬似乱数（毎回同じ「良い散らばり」）
+    var seed = 20260723;
+    var rand = function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+
+    // フィボナッチ球に均等配置。軸を傾けて極に居座る写真をなくす。
+    var GOLD = Math.PI * (3 - Math.sqrt(5));
+    var TILT = 0.62, cT = Math.cos(TILT), sT = Math.sin(TILT);
+    var P = items.map(function (el, i) {
+      var y0 = items.length === 1 ? 0 : 1 - (i / (items.length - 1)) * 2;
+      var r = Math.sqrt(Math.max(0, 1 - y0 * y0));
+      var th = i * GOLD;
+      var x = Math.cos(th) * r, z0 = Math.sin(th) * r;
+      return { el: el, x: x, y: y0 * cT - z0 * sT, z: y0 * sT + z0 * cT, jit: 0.9 + rand() * 0.2 };
+    });
+
+    var W = 0, H = 0, RX = 0, RY = 0, mf = 1;
+    var rotX = 0.26, rotY = 0.6, vX = 0, vY = 0;
+    var MAXPITCH = 1.15, AUTO = 0.0016, DECAY = 0.94;
+    var drag = null, openEl = null, inView = false, raf = null, closing = false, openedAt = 0;
+
+    function projectEl(p) {
+      var cosY = Math.cos(rotY), sinY = Math.sin(rotY), cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      var x1 = p.x * cosY + p.z * sinY;
+      var z1 = -p.x * sinY + p.z * cosY;
+      var y2 = p.y * cosX - z1 * sinX;
+      var z2 = p.y * sinX + z1 * cosX;
+      var persp = 0.64 + (z2 + 1) * 0.34;
+      p.el.style.transform =
+        "translate(-50%,-50%) translate3d(" + (x1 * RX * p.jit).toFixed(1) + "px," + (y2 * RY * p.jit).toFixed(1) + "px,0) scale(" + (persp * mf).toFixed(3) + ")";
+      p.el.style.zIndex = String(Math.round((z2 + 1) * 100));
+    }
+    function render() { for (var i = 0; i < P.length; i++) if (P[i].el !== openEl) projectEl(P[i]); }
+
+    function place() {
+      W = stage.clientWidth; H = stage.clientHeight;
+      if (W < 760) { mf = 0.72; RX = Math.min(W * 0.42, W / 2 - 84); RY = H * 0.33; }
+      else { mf = 1; RX = Math.min(W * 0.40, W / 2 - 130); RY = H * 0.34; }
+      render();
+    }
+    place();
+
+    function frame() {
+      if (!inView) { raf = null; return; }
+      if (!openEl) {
+        if (!drag) { rotY += vY + AUTO; rotX += vX; vY *= DECAY; vX *= DECAY; }
+        if (rotX > MAXPITCH) { rotX = MAXPITCH; vX = 0; }
+        if (rotX < -MAXPITCH) { rotX = -MAXPITCH; vX = 0; }
+        render();
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    var io = new IntersectionObserver(function (es) {
+      inView = es[0].isIntersecting;
+      if (inView && !reduced && raf === null) raf = requestAnimationFrame(frame);
+    }, { threshold: 0.02 });
+    io.observe(stage);
+    stage.classList.add("ready");
+
+    var rt = null;
+    window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { place(); if (openEl) fit(openEl); }, 150); });
+
+    // ドラッグ＆タップ
+    var SENS = 0.007;
+    stage.addEventListener("pointerdown", function (e) {
+      if (openEl || drag) return;
+      drag = { x0: e.clientX, y0: e.clientY, rx0: rotX, ry0: rotY, px: e.clientX, py: e.clientY, moved: 0, hit: e.target.closest ? e.target.closest(".sp-item") : null };
+      vX = vY = 0;
+      try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+      stage.classList.add("dragging");
+    });
+    stage.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.px, dy = e.clientY - drag.py;
+      drag.moved += Math.abs(dx) + Math.abs(dy);
+      drag.px = e.clientX; drag.py = e.clientY;
+      if (!reduced) {
+        rotY = drag.ry0 + (e.clientX - drag.x0) * SENS;
+        rotX = Math.max(-MAXPITCH, Math.min(MAXPITCH, drag.rx0 + (e.clientY - drag.y0) * SENS));
+        vY = dx * SENS; vX = dy * SENS;
+        if (!raf && inView) raf = requestAnimationFrame(frame);
+      }
+    });
+    function endDrag() {
+      if (!drag) return;
+      stage.classList.remove("dragging");
+      var wasTap = drag.moved < 8, hit = drag.hit;
+      drag = null;
+      if (wasTap && hit && !openEl) open(hit);
+    }
+    stage.addEventListener("pointerup", endDrag);
+    stage.addEventListener("pointercancel", function () { if (drag) { stage.classList.remove("dragging"); drag = null; } });
+    items.forEach(function (el) { el.addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && !openEl) { e.preventDefault(); open(el); } }); });
+
+    // 拡大・復帰
+    function fit(el) {
+      var img = el.querySelector("img");
+      var baseH = parseFloat(getComputedStyle(el).getPropertyValue("--h")) || 110;
+      var ratio = (img.naturalWidth && img.naturalHeight) ? img.naturalWidth / img.naturalHeight : 1;
+      var targetH = Math.min(H * 0.66, (W * 0.8) / ratio);
+      var s = targetH / baseH;
+      el.style.transform = "translate(-50%,-50%) translate3d(0," + (-H * 0.04).toFixed(1) + "px,0) scale(" + s.toFixed(3) + ")";
+    }
+    function open(el) {
+      openEl = el; openedAt = performance.now();
+      stage.classList.add("open"); el.classList.add("active");
+      document.body.classList.add("sp-open");
+      el.style.transition = reduced ? "none" : "transform .85s var(--hdr-ease)";
+      fit(el);
+      var img = el.querySelector("img");
+      if (!img.complete) img.addEventListener("load", function () { if (openEl === el) fit(el); }, { once: true });
+      capIdx.textContent = el.dataset.idx || "";
+      capName.textContent = el.dataset.name || "";
+      if (el.dataset.href) {
+        capView.classList.remove("is-soon");
+        capView.setAttribute("href", el.dataset.href);
+        var ext = /^https?:/.test(el.dataset.href);
+        if (ext) { capView.target = "_blank"; capView.rel = "noopener"; } else { capView.removeAttribute("target"); capView.removeAttribute("rel"); }
+        capView.innerHTML = 'View <span aria-hidden="true">→</span>';
+      } else {
+        capView.classList.add("is-soon");
+        capView.removeAttribute("href");
+        capView.textContent = "Coming soon";
+      }
+      caption.setAttribute("aria-hidden", "false");
+    }
+    function close() {
+      if (!openEl || closing) return;
+      closing = true;
+      caption.setAttribute("aria-hidden", "true");
+      var el = openEl, p = null;
+      for (var i = 0; i < P.length; i++) if (P[i].el === el) { p = P[i]; break; }
+      stage.classList.remove("open");
+      document.body.classList.remove("sp-open");
+      if (p) projectEl(p);
+      var done = function () { el.style.transition = ""; el.classList.remove("active"); openEl = null; closing = false; };
+      reduced ? done() : setTimeout(done, 880);
+    }
+    capClose.addEventListener("click", close);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    stage.addEventListener("click", function (e) {
+      if (!openEl || performance.now() - openedAt < 300) return;
+      if (!e.target.closest(".sp-item") && !e.target.closest(".sp-caption")) close();
+    });
+    capView.addEventListener("click", function (e) { if (capView.classList.contains("is-soon")) e.preventDefault(); });
+  })();
+  </script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cbc9a39b60c5427c82c77121884cc1b8"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

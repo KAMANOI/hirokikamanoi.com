@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="HDR">
+  <rect width="64" height="64" fill="#0B0B0C"/>
+  <text x="32" y="45" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif"
+        font-weight="700" font-size="40" fill="#F2F0EA">H</text>
+  <rect x="14" y="50" width="36" height="3" fill="#E2A23B"/>
+</svg>
