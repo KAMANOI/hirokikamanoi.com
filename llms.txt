@@ -1,0 +1,10 @@
+# HIROKI KAMANOI
+
+Personal portal: hair salon (Atelier ah), photography practice, and a
+portfolio of shipped software products.
+
+- Home: https://hirokikamanoi.com/
+- About: https://hirokikamanoi.com/about.html
+- Salon: https://hirokikamanoi.com/hair-salon.html
+- Photography: https://hirokikamanoi.com/photography.html
+- Products & Research: https://hirokikamanoi.com/work.html
