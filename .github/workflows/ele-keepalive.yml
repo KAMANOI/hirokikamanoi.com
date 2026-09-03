@@ -1,0 +1,24 @@
+# ele（Render 無料プラン・https://ele-oq8u.onrender.com）を眠らせないための定期ping。
+# ele リポジトリは非公開（GitHub Actions が課金対象＝月 4,300 分相当で無料枠 2,000 分を超える）ため、
+# 公開リポジトリのこちらで動かす（公開リポの Actions は無料）。秘密は使わない（叩くのは公開URLだけ）。
+# ⚠ GitHub は「リポジトリに60日間活動が無い」と定期実行を止める。Mac 側の launchd（com.ele.keepalive）は保険として残す。
+# 2026-09-03 HIROKI「4A」：ele 側の keepalive.yml は disabled_manually のまま（0回発火）だったため移設。
+name: ele-keepalive
+
+on:
+  schedule:
+    - cron: '3,13,23,33,43,53 * * * *'   # 10分おき。00分は GitHub 全体が混むのでずらす
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: ping ele /health
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 90 https://ele-oq8u.onrender.com/health || echo 000)
+          echo "ele /health -> $code"
+          test "$code" = "200"
