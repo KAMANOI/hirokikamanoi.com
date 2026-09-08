@@ -267,7 +267,7 @@
 
           <button type="submit">送信する</button>
           <p class="hdr-form-status" id="hdr-form-status" role="status"></p>
-          <p class="hdr-form-note">送信内容は開発受託フローの初期対応にのみ使用します。プライバシーポリシーは<a class="text-link" href="legal.html">こちら</a>。</p>
+          <p class="hdr-form-note">送信内容は、お問い合わせへの回答と初期対応にのみ使用します。プライバシーポリシーは<a class="text-link" href="legal.html">こちら</a>。</p>
         </form>
       </div>
     </div>
@@ -325,13 +325,22 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         }).then(function (res) {
-          if (!res.ok) throw new Error('E' + res.status);
-          status.textContent = '送信しました。折り返しご連絡します。';
+          // 本文を必ず読む。サーバのエラーコード（E601/E602/E604/E605）を画面に出すため。
+          return res.json().catch(function () { return { ok: false, code: 'E900' }; })
+            .then(function (j) { return { res: res, j: j }; });
+        }).then(function (r) {
+          if (!r.res.ok || !r.j.ok) throw (r.j && r.j.code ? r.j : { code: 'E' + r.res.status });
+          // honeypot に自動入力が入ると accepted:false で返る。成功と見せない。
+          if (r.j.data && r.j.data.accepted === false) throw { code: 'E603' };
+          var id = (r.j.data && r.j.data.inquiryId) ? '（受付ID: ' + r.j.data.inquiryId + '）' : '';
+          status.textContent = '送信しました' + id + '。折り返しご連絡します。';
           status.className = 'hdr-form-status ok';
           form.reset();
           loadedAt = Date.now();
-        }).catch(function () {
-          status.textContent = '送信に失敗しました。時間をおいて再度お試しいただくか、hirokikamanoi@gmail.com までご連絡ください。';
+        }).catch(function (e) {
+          var code = (e && e.code) ? e.code : 'E900';
+          status.textContent = '送信できませんでした（エラーコード: ' + code
+            + '）。お手数ですが work@hirokikamanoi.com までご連絡ください。';
           status.className = 'hdr-form-status err';
         }).finally(function () {
           btn.disabled = false;
