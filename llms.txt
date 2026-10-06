@@ -7,4 +7,4 @@ portfolio of shipped software products.
 - About: https://hirokikamanoi.com/about.html
 - Salon: https://hirokikamanoi.com/hair-salon.html
 - Photography: https://hirokikamanoi.com/photography.html
-- Products & Research: https://hirokikamanoi.com/work.html
+- Products & Research (HDR): https://hdr-ai.com/
